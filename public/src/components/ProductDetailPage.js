@@ -1,17 +1,35 @@
 import Component from './Component.js';
+import Header from './Header.js';
 
 class ProductDetailPage extends Component {
   constructor($target, props) {
-    super(props);
-    this.$target = $target;
+    super(
+      {
+        $target,
+        tagName: 'main',
+        className: 'product-detail-page',
+      },
+      props
+    );
+
     this.render();
   }
+
   render() {
-    const productId = this.props?.match?.params?.id;
-    this.$target.innerHTML = `
-      <h1>Product Detail Page</h1>
-      <h2>Product ID : ${productId}</h2>
-    `;
+    this.el.innerHTML = ``;
+
+    const productId = this.props.match.params.id;
+
+    new Header(this.el, { history: this.props.history });
+
+    const title = document.createElement('h1');
+    title.innerText = 'Product Detail Page';
+
+    const description = document.createElement('h2');
+    description.innerText = `Product ID : ${productId}`;
+
+    this.el.appendChild(title);
+    this.el.appendChild(description);
   }
 }
 

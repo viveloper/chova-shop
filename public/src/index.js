@@ -1,3 +1,3 @@
 import App from './App.js';
 
-new App(document.getElementById('app'));
+new App(document.querySelector('body'));
