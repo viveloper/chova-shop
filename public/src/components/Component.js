@@ -1,5 +1,6 @@
 class Component {
-  constructor() {
+  constructor(props) {
+    this.props = props;
     this.componentDidMount();
   }
   componentDidMount() {}

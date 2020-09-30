@@ -1,6 +1,6 @@
 import Component from './Component.js';
 
-class HomePage extends Component {
+class ProductsPage extends Component {
   constructor($target, props) {
     super(props);
     this.$target = $target;
@@ -8,9 +8,9 @@ class HomePage extends Component {
   }
   render() {
     this.$target.innerHTML = `
-      <h1>Home Page</h1>
+      <h1>Products Page</h1>
     `;
   }
 }
 
-export default HomePage;
+export default ProductsPage;
