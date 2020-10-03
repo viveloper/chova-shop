@@ -81,7 +81,7 @@ class HomePage extends Component {
     title.innerText = 'Home Page';
 
     const ul = document.createElement('ul');
-    data.forEach((product) => {
+    data.products.forEach((product) => {
       const li = document.createElement('li');
       li.innerText = product.name;
       ul.appendChild(li);

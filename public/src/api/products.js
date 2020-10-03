@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'http://localhost:9000/api/v1';
+const API_ENDPOINT = 'http://localhost:5000/api';
 
 const request = async (url) => {
   try {
@@ -22,7 +22,7 @@ const request = async (url) => {
 
 export const fetchProducts = async () => {
   try {
-    const result = await request(`${API_ENDPOINT}/product`);
+    const result = await request(`${API_ENDPOINT}/products`);
     return {
       isError: false,
       data: result,
