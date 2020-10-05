@@ -1,3 +1,4 @@
+import { renderComponent } from './modules/MyReact.js';
 import App from './App.js';
 
-new App(document.querySelector('body'));
+renderComponent(App, null, document.querySelector('#app'));

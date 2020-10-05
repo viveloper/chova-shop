@@ -1,38 +1,35 @@
-import Component from './Component.js';
+import { Component, renderComponent } from '../modules/MyReact.js';
 
 class Header extends Component {
-  constructor($target, props) {
-    super(
-      {
-        $target,
-        tagName: 'header',
-        className: 'header',
-      },
-      props
-    );
+  constructor(props) {
+    super(props);
 
     this.handleClick = this.handleClick.bind(this);
 
-    this.render();
+    this.container = document.createElement('header');
+    this.container.className = 'header';
+    this.container.addEventListener('click', this.handleClick);
   }
 
   handleClick(e) {
+    const { history } = this.props;
     if (e.target.className === 'nav-link') {
       const path = e.target.dataset.path;
-      this.props.history.push(path);
+      history.push(path);
     }
   }
 
   render() {
-    this.el.innerHTML = `
-      <nav>
+    this.container.innerHTML = `
+      <nav class="navigation">
         <ul>
           <li><span class="nav-link" data-path="/">Home</span></li>
           <li><span class="nav-link" data-path="/products">Products</span></li>
         </ul>
       </nav>
     `;
-    this.el.addEventListener('click', this.handleClick);
+
+    return this.container;
   }
 }
 

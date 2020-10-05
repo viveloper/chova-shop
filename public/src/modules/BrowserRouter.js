@@ -1,15 +1,8 @@
-import Component from './Component.js';
+import { Component, renderComponent } from './MyReact.js';
 
 class BrowserRouter extends Component {
-  constructor($target, props) {
-    super(
-      {
-        $target,
-        tagName: 'div',
-        className: 'browser-router',
-      },
-      props
-    );
+  constructor(props) {
+    super(props);
 
     this.state = {
       currentPath: location.pathname,
@@ -18,12 +11,13 @@ class BrowserRouter extends Component {
     this.push = this.push.bind(this);
     this.handlePopState = this.handlePopState.bind(this);
 
-    window.addEventListener('popstate', this.handlePopState);
+    this.container = document.createElement('div');
 
-    this.render();
+    window.addEventListener('popstate', this.handlePopState);
   }
 
   push(path) {
+    if (path === this.state.currentPath) return;
     history.pushState({ path }, '', path);
     this.setState({
       currentPath: path,
@@ -31,7 +25,7 @@ class BrowserRouter extends Component {
   }
 
   handlePopState(e) {
-    const { path } = e.state;
+    const path = e.state ? e.state.path : location.pathname;
     this.setState({
       currentPath: path,
     });
@@ -80,7 +74,7 @@ class BrowserRouter extends Component {
   }
 
   render() {
-    this.el.innerHTML = ``;
+    this.container.innerHTML = '';
 
     const { routes } = this.props;
     const { pathKey, params } = this.parseCurrentPath();
@@ -93,12 +87,18 @@ class BrowserRouter extends Component {
 
     const { Component, props } = route;
 
-    new Component(this.el, {
-      history: { push: this.push },
-      match: { params },
-      location: { search: location.search },
-      ...props,
-    });
+    renderComponent(
+      Component,
+      {
+        history: { push: this.push },
+        match: { params },
+        location: { search: location.search },
+        ...props,
+      },
+      this.container
+    );
+
+    return this.container;
   }
 }
 

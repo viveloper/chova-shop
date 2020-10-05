@@ -1,45 +1,43 @@
-import Component from './components/Component.js';
-import BrowserRouter from './components/BrowserRouter.js';
-import HomePage from './components/HomePage.js';
-import ProductsPage from './components/ProductsPage.js';
-import ProductDetailPage from './components/ProductDetailPage.js';
+import { Component, renderComponent } from './modules/MyReact.js';
+import BrowserRouter from './modules/BrowserRouter.js';
+import HomePage from './pages/HomePage.js';
+import ProductsPage from './pages/ProductsPage.js';
+import ProductDetailPage from './pages/ProductDetailPage.js';
 
 class App extends Component {
-  constructor($target, props) {
-    super(
-      {
-        $target,
-        tagName: 'div',
-        className: 'app',
-      },
-      props
-    );
-
-    this.render();
+  constructor(props) {
+    super(props);
+    this.container = document.createElement('div');
   }
 
   render() {
-    this.el.innerHTML = '';
+    this.container.innerHTML = '';
 
-    new BrowserRouter(this.el, {
-      routes: [
-        {
-          path: '/',
-          Component: HomePage,
-        },
-        {
-          path: '/products',
-          Component: ProductsPage,
-        },
-        {
-          path: '/products/:id',
-          Component: ProductDetailPage,
-          props: {
-            data: 'myData',
+    renderComponent(
+      BrowserRouter,
+      {
+        routes: [
+          {
+            path: '/',
+            Component: HomePage,
           },
-        },
-      ],
-    });
+          {
+            path: '/products',
+            Component: ProductsPage,
+          },
+          {
+            path: '/products/:id',
+            Component: ProductDetailPage,
+            props: {
+              data: 'myData',
+            },
+          },
+        ],
+      },
+      this.container
+    );
+
+    return this.container;
   }
 }
 
