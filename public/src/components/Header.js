@@ -5,6 +5,7 @@ class Header extends Component {
     super(props);
 
     this.handleLinkClick = this.handleLinkClick.bind(this);
+    this.handleNavToggleClick = this.handleNavToggleClick.bind(this);
 
     this.container = document.createElement('header');
     this.container.className = 'header';
@@ -13,6 +14,11 @@ class Header extends Component {
   handleLinkClick(e, path) {
     e.preventDefault();
     this.props.history.push(path);
+  }
+
+  handleNavToggleClick(toggler, navbar) {
+    toggler.classList.toggle('collapsed');
+    navbar.classList.toggle('show');
   }
 
   render() {
@@ -38,6 +44,9 @@ class Header extends Component {
     navbarToggler.type = 'button';
     navbarToggler.setAttribute('aria-controls', 'basic-navbar-nav');
     navbarToggler.setAttribute('aria-label', 'Toggle navigation');
+    navbarToggler.addEventListener('click', () =>
+      this.handleNavToggleClick(navbarToggler, navbarBasic)
+    );
     container.appendChild(navbarToggler);
 
     const navbarTogglerIcon = document.createElement('span');

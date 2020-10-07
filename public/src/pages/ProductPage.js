@@ -1,28 +1,28 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
-import ProductList from '../components/ProductList.js';
+import ProductContainer from '../containers/ProductContainer.js';
 
-class ProductsPage extends Component {
+class ProductDetailPage extends Component {
   constructor(props) {
     super(props);
-    this.container = document.createElement('main');
+
+    this.container = document.createElement('div');
   }
 
   render() {
     this.container.innerHTML = '';
 
     const { history } = this.props;
+    const productId = this.props.match.params.id;
 
     renderComponent(Header, { history }, this.container);
-
-    const title = document.createElement('h1');
-    title.innerText = 'Product List';
-    this.container.appendChild(title);
-
     renderComponent(
-      ProductList,
-      { products: [{ name: 'D850' }, { name: 'D5' }] },
+      ProductContainer,
+      {
+        history,
+        productId,
+      },
       this.container
     );
     renderComponent(Footer, null, this.container);
@@ -31,4 +31,4 @@ class ProductsPage extends Component {
   }
 }
 
-export default ProductsPage;
+export default ProductDetailPage;

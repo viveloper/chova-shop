@@ -1,8 +1,7 @@
 import { Component, renderComponent } from './modules/MyReact.js';
 import BrowserRouter from './modules/BrowserRouter.js';
 import HomePage from './pages/HomePage.js';
-import ProductsPage from './pages/ProductsPage.js';
-import ProductDetailPage from './pages/ProductDetailPage.js';
+import ProductPage from './pages/ProductPage.js';
 
 class App extends Component {
   constructor(props) {
@@ -22,15 +21,8 @@ class App extends Component {
             Component: HomePage,
           },
           {
-            path: '/products',
-            Component: ProductsPage,
-          },
-          {
             path: '/products/:id',
-            Component: ProductDetailPage,
-            props: {
-              data: 'myData',
-            },
+            Component: ProductPage,
           },
         ],
       },

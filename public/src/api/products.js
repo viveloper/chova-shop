@@ -30,3 +30,18 @@ export const fetchProducts = async () => {
     };
   }
 };
+
+export const fetchProduct = async (id) => {
+  try {
+    const result = await request(`${API_ENDPOINT}/products/${id}`);
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};
