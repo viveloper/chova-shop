@@ -17,6 +17,10 @@ class Home extends Component {
     container.className = 'container';
     this.container.appendChild(container);
 
+    const title = document.createElement('h1');
+    title.innerText = 'Latest Products';
+    container.appendChild(title);
+
     const {
       products: { loading, data, error },
       history,
