@@ -1,6 +1,5 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Loader from '../components/Loader.js';
-import Product from '../components/Product.js';
+import Home from '../components/Home.js';
 import { fetchProducts } from '../api/products.js';
 
 class HomeContainer extends Component {
@@ -15,8 +14,7 @@ class HomeContainer extends Component {
       },
     };
 
-    this.container = document.createElement('main');
-    this.container.className = 'py-3';
+    this.container = document.createElement('div');
 
     this.initState();
   }
@@ -64,43 +62,10 @@ class HomeContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const {
-      products: { loading, data, error },
-    } = this.state;
+    const { products } = this.state;
+    const { history } = this.props;
 
-    if (loading) {
-      renderComponent(
-        Loader,
-        {
-          width: '100px',
-          height: '100px',
-          margin: 'auto',
-          display: 'block',
-        },
-        this.container
-      );
-      return this.container;
-    }
-    if (error) {
-      const errorEl = document.createElement('h1');
-      errorEl.innerText = error.message;
-      this.container.appendChild(errorEl);
-
-      return this.container;
-    }
-    if (!data) return this.container;
-
-    const row = document.createElement('div');
-    row.className = 'row';
-    this.container.appendChild(row);
-
-    data.forEach((product) => {
-      const col = document.createElement('div');
-      col.className = 'col-xl-3 col-lg-4 col-md-6 col-sm-12';
-      row.appendChild(col);
-
-      renderComponent(Product, { product, history: this.props.history }, col);
-    });
+    renderComponent(Home, { products, history }, this.container);
 
     return this.container;
   }

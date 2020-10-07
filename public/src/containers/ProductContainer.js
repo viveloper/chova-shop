@@ -1,6 +1,6 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Loader from '../components/Loader.js';
-import Rating from '../components/Rating.js';
+import Product from '../components/Product.js';
 import { fetchProduct } from '../api/products.js';
 
 class ProductContainer extends Component {
@@ -15,8 +15,7 @@ class ProductContainer extends Component {
       },
     };
 
-    this.container = document.createElement('main');
-    this.container.className = 'py-3';
+    this.container = document.createElement('div');
 
     this.initState();
   }
@@ -65,39 +64,10 @@ class ProductContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const {
-      product: { loading, data, error },
-    } = this.state;
+    const { product } = this.state;
+    const { history } = this.props;
 
-    if (loading) {
-      renderComponent(
-        Loader,
-        {
-          width: '100px',
-          height: '100px',
-          margin: 'auto',
-          display: 'block',
-        },
-        this.container
-      );
-      return this.container;
-    }
-    if (error) {
-      const errorEl = document.createElement('h1');
-      errorEl.innerText = error.message;
-      this.container.appendChild(errorEl);
-
-      return this.container;
-    }
-    if (!data) return this.container;
-
-    const title = document.createElement('h1');
-    title.innerText = 'Product Detail';
-    this.container.appendChild(title);
-
-    const info1 = document.createElement('h2');
-    info1.innerText = `Product Name : ${data.name}`;
-    this.container.appendChild(info1);
+    renderComponent(Product, { product, history }, this.container);
 
     return this.container;
   }

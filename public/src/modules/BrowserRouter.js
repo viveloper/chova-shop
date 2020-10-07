@@ -1,5 +1,21 @@
 import { Component, renderComponent } from './MyReact.js';
 
+class DefaultNotFoundComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.container = document.createElement('div');
+  }
+  render() {
+    this.container.innerHTML = '';
+
+    const message = document.createElement('h3');
+    message.innerText = 'Not Found';
+    this.container.appendChild(message);
+
+    return this.container;
+  }
+}
+
 class BrowserRouter extends Component {
   constructor(props) {
     super(props);
@@ -79,11 +95,13 @@ class BrowserRouter extends Component {
     const { routes } = this.props;
     const { pathKey, params } = this.parseCurrentPath();
 
-    const route = routes.find((route) => route.path === pathKey);
-
-    if (!route) {
-      return;
-    }
+    const targetRoute = routes.find((route) => route.path === pathKey);
+    const notFoundRoute = routes.find((route) => route.path === '*');
+    const route = targetRoute
+      ? targetRoute
+      : notFoundRoute
+      ? notFoundRoute
+      : { Component: DefaultNotFoundComponent };
 
     const { Component, props } = route;
 

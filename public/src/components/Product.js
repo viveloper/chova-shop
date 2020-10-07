@@ -1,5 +1,7 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Rating from './Rating.js';
+import Loader from './Loader.js';
+import ProductInfo from './ProductInfo.js';
+import CartButtonCard from './CartButtonCard.js';
 
 class Product extends Component {
   constructor(props) {
@@ -7,8 +9,8 @@ class Product extends Component {
 
     this.handleLinkClick = this.handleLinkClick.bind(this);
 
-    this.container = document.createElement('div');
-    this.container.className = 'my-3 p-3 rounded card';
+    this.container = document.createElement('main');
+    this.container.className = 'py-3';
   }
 
   handleLinkClick(e, path) {
@@ -19,48 +21,73 @@ class Product extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { product } = this.props;
+    const container = document.createElement('div');
+    container.className = 'container';
+    this.container.appendChild(container);
 
-    const imageLink = document.createElement('a');
-    imageLink.setAttribute('href', `/products/${product._id}`);
-    imageLink.addEventListener('click', (e) =>
-      this.handleLinkClick(e, `/products/${product._id}`)
-    );
-    this.container.appendChild(imageLink);
+    const {
+      product: { loading, data, error },
+      history,
+    } = this.props;
 
-    const image = document.createElement('img');
-    image.className = 'card-img-top';
-    image.src = product.image;
-    imageLink.appendChild(image);
+    if (loading) {
+      renderComponent(
+        Loader,
+        {
+          width: '100px',
+          height: '100px',
+          margin: 'auto',
+          display: 'block',
+        },
+        container
+      );
+      return this.container;
+    }
+    if (error) {
+      const errorEl = document.createElement('h1');
+      errorEl.innerText = error.message;
+      container.appendChild(errorEl);
 
-    const cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
-    this.container.appendChild(cardBody);
+      return this.container;
+    }
+    if (!data) return this.container;
 
-    const titleLink = document.createElement('a');
-    titleLink.setAttribute('href', `/products/${product._id}`);
-    titleLink.addEventListener('click', (e) =>
-      this.handleLinkClick(e, `/products/${product._id}`)
-    );
-    cardBody.appendChild(titleLink);
+    const goBackBtn = document.createElement('a');
+    goBackBtn.className = 'btn btn-light my-3';
+    goBackBtn.setAttribute('href', '/');
+    goBackBtn.innerText = 'Go Back';
+    goBackBtn.addEventListener('click', (e) => this.handleLinkClick(e, `/`));
+    container.appendChild(goBackBtn);
 
-    const title = document.createElement('strong');
-    title.innerText = product.name;
-    titleLink.appendChild(title);
+    const productDetailRow = document.createElement('div');
+    productDetailRow.className = 'row';
+    container.appendChild(productDetailRow);
 
-    const cardText = document.createElement('div');
-    cardBody.appendChild(cardText);
+    const imageCol = document.createElement('div');
+    imageCol.className = 'col-md-6';
+    productDetailRow.appendChild(imageCol);
 
-    renderComponent(
-      Rating,
-      { value: product.rating, text: `${product.numReviews} reviews` },
-      cardText
-    );
+    const productImg = document.createElement('img');
+    productImg.className = 'img-fluid';
+    productImg.alt = data.name;
+    productImg.src = data.image;
+    imageCol.appendChild(productImg);
 
-    const price = document.createElement('h3');
-    price.className = 'card-text';
-    price.innerText = `$${product.price}`;
-    cardBody.appendChild(price);
+    const infoCol = document.createElement('div');
+    infoCol.className = 'col-md-3';
+    productDetailRow.appendChild(infoCol);
+
+    renderComponent(ProductInfo, { product: data }, infoCol);
+
+    const cardCol = document.createElement('div');
+    cardCol.className = 'col-md-3';
+    productDetailRow.appendChild(cardCol);
+
+    renderComponent(CartButtonCard, { product: data }, cardCol);
+
+    const reviewsRow = document.createElement('div');
+    reviewsRow.className = 'row';
+    container.appendChild(reviewsRow);
 
     return this.container;
   }

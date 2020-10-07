@@ -9,7 +9,7 @@ const request = async (url) => {
       const data = await response.json();
       return data;
     } else {
-      throw new Error('Network response was not ok.');
+      throw new Error(response.statusText);
     }
   } catch (e) {
     throw e;

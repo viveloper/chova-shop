@@ -2,6 +2,7 @@ import { Component, renderComponent } from './modules/MyReact.js';
 import BrowserRouter from './modules/BrowserRouter.js';
 import HomePage from './pages/HomePage.js';
 import ProductPage from './pages/ProductPage.js';
+import NotFoundPage from './pages/NotFoundPage.js';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +24,10 @@ class App extends Component {
           {
             path: '/products/:id',
             Component: ProductPage,
+          },
+          {
+            path: '*',
+            Component: NotFoundPage,
           },
         ],
       },
