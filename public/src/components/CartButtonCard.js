@@ -8,18 +8,24 @@ class CartButtonCard extends Component {
       qty: 1,
     };
 
-    this.handleQtySelect = this.handleQtySelect.bind(this);
-
     this.container = document.createElement('div');
     this.container.className = 'card';
   }
 
-  handleQtySelect(e) {
+  handleQtySelect = (e) => {
     const selectedQty = Number(e.target.value);
     this.setState({
       qty: selectedQty,
     });
-  }
+  };
+
+  handleAddToCart = () => {
+    const { product, addCartItem, history } = this.props;
+    const { qty } = this.state;
+
+    addCartItem(product, qty);
+    history.push(`/cart`);
+  };
 
   render() {
     this.container.innerHTML = '';
@@ -105,6 +111,7 @@ class CartButtonCard extends Component {
     addToCartBtn.type = 'button';
     addToCartBtn.disabled = product.countInStock === 0;
     addToCartBtn.innerText = 'Add To Cart';
+    addToCartBtn.addEventListener('click', this.handleAddToCart);
     listGroupItem4.appendChild(addToCartBtn);
 
     return this.container;

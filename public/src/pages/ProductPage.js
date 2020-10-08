@@ -13,7 +13,7 @@ class ProductDetailPage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history } = this.props;
+    const { history, addCartItem } = this.props;
     const productId = this.props.match.params.id;
 
     renderComponent(Header, { history }, this.container);
@@ -22,6 +22,7 @@ class ProductDetailPage extends Component {
       {
         history,
         productId,
+        addCartItem,
       },
       this.container
     );

@@ -7,15 +7,13 @@ class Product extends Component {
   constructor(props) {
     super(props);
 
-    this.handleLinkClick = this.handleLinkClick.bind(this);
-
     this.container = document.createElement('main');
     this.container.className = 'py-3';
   }
 
-  handleLinkClick(e, path) {
+  goBack(e) {
     e.preventDefault();
-    this.props.history.push(path);
+    history.back();
   }
 
   render() {
@@ -27,6 +25,7 @@ class Product extends Component {
 
     const {
       product: { loading, data, error },
+      addCartItem,
       history,
     } = this.props;
 
@@ -56,7 +55,7 @@ class Product extends Component {
     goBackBtn.className = 'btn btn-light my-3';
     goBackBtn.setAttribute('href', '/');
     goBackBtn.innerText = 'Go Back';
-    goBackBtn.addEventListener('click', (e) => this.handleLinkClick(e, `/`));
+    goBackBtn.addEventListener('click', this.goBack);
     container.appendChild(goBackBtn);
 
     const productDetailRow = document.createElement('div');
@@ -83,7 +82,11 @@ class Product extends Component {
     cardCol.className = 'col-md-3';
     productDetailRow.appendChild(cardCol);
 
-    renderComponent(CartButtonCard, { product: data }, cardCol);
+    renderComponent(
+      CartButtonCard,
+      { product: data, addCartItem, history },
+      cardCol
+    );
 
     const reviewsRow = document.createElement('div');
     reviewsRow.className = 'row';

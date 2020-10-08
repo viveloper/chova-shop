@@ -65,9 +65,9 @@ class ProductContainer extends Component {
     this.container.innerHTML = '';
 
     const { product } = this.state;
-    const { history } = this.props;
+    const { history, addCartItem } = this.props;
 
-    renderComponent(Product, { product, history }, this.container);
+    renderComponent(Product, { product, addCartItem, history }, this.container);
 
     return this.container;
   }

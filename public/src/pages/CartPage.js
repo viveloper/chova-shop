@@ -1,9 +1,10 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
-import HomeContainer from '../containers/HomeContainer.js';
+import CartContainer from '../containers/CartContainer.js';
+import queryString from '../modules/queryString.js';
 
-class HomePage extends Component {
+class CartPage extends Component {
   constructor(props) {
     super(props);
     this.container = document.createElement('div');
@@ -12,14 +13,14 @@ class HomePage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history } = this.props;
+    const { history, cart } = this.props;
 
     renderComponent(Header, { history }, this.container);
-    renderComponent(HomeContainer, { history }, this.container);
+    renderComponent(CartContainer, { cart, history }, this.container);
     renderComponent(Footer, null, this.container);
 
     return this.container;
   }
 }
 
-export default HomePage;
+export default CartPage;
