@@ -22,9 +22,7 @@ class CartButtonCard extends Component {
   handleAddToCart = () => {
     const { product, addCartItem, history } = this.props;
     const { qty } = this.state;
-
     addCartItem(product, qty);
-    history.push(`/cart`);
   };
 
   render() {

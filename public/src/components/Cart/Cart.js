@@ -1,4 +1,6 @@
 import { Component, renderComponent } from '../../modules/MyReact.js';
+import CartItems from './CartItems.js';
+import CheckoutCard from './CheckoutCard.js';
 
 class Cart extends Component {
   constructor(props) {
@@ -9,19 +11,28 @@ class Cart extends Component {
   }
 
   render() {
-    this.container.innerHTML = '';
+    const { cartItems, totalItems, totalPrice } = this.props;
 
-    const { cart } = this.props;
+    console.log(cartItems);
 
-    const container = document.createElement('div');
-    container.className = 'container';
-    this.container.appendChild(container);
-
-    const title = document.createElement('h1');
-    title.innerText = 'Shopping Cart';
-    container.appendChild(title);
-
-    // console.log(cart);
+    this.container.innerHTML = `
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <h1>Shopping Cart</h1>
+            ${renderComponent(CartItems, { items: cartItems }, null, 'HTML')}
+          </div>
+          <div class="col-md-4">
+            ${renderComponent(
+              CheckoutCard,
+              { totalItems, totalPrice },
+              null,
+              'HTML'
+            )}
+          </div>
+        </div>
+      </div>
+    `;
 
     return this.container;
   }

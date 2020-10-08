@@ -9,12 +9,12 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    // let initCartItems = JSON.parse(localStorage.getItem('cartItems'));
-    // initCartItems = initCartItems ? initCartItems : [];
+    let initCartItems = JSON.parse(localStorage.getItem('cartItems'));
+    initCartItems = initCartItems ? initCartItems : [];
 
     this.state = {
       cart: {
-        items: [],
+        items: initCartItems,
       },
     };
 
@@ -22,6 +22,8 @@ class App extends Component {
   }
 
   addCartItem = (product, qty) => {
+    history.pushState({ path: '/cart' }, '', '/cart');
+
     const existItem = this.state.cart.items.find(
       (item) => item._id === product._id
     );
@@ -44,14 +46,13 @@ class App extends Component {
       });
     }
 
-    // localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
+    localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
   };
 
   render() {
     this.container.innerHTML = '';
 
     const { cart } = this.state;
-    console.log(cart);
 
     renderComponent(
       BrowserRouter,

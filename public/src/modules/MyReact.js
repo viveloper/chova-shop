@@ -11,7 +11,13 @@ export class Component {
   }
 }
 
-export const renderComponent = (Component, props, container) => {
+export const renderComponent = (Component, props, container, type = 'DOM') => {
   const component = new Component(props);
-  container.appendChild(component.render());
+  if (type === 'DOM') {
+    container.appendChild(component.render());
+  } else if (type === 'HTML') {
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(component.render());
+    return wrapper.innerHTML;
+  }
 };

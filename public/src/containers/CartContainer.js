@@ -9,9 +9,22 @@ class CartContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { cart, history } = this.props;
+    const {
+      cart: { items },
+      history,
+    } = this.props;
 
-    renderComponent(Cart, { cart, history }, this.container);
+    const totalItems = items.reduce((acc, item) => acc + item.qty, 0);
+    const totalPrice = items.reduce(
+      (acc, item) => acc + item.qty * item.price,
+      0
+    );
+
+    renderComponent(
+      Cart,
+      { cartItems: items, totalItems, totalPrice, history },
+      this.container
+    );
 
     return this.container;
   }
