@@ -13,13 +13,11 @@ class Cart extends Component {
   render() {
     const { cartItems, totalItems, totalPrice } = this.props;
 
-    console.log(cartItems);
-
     this.container.innerHTML = `
       <div class="container">
-        <div class="row">
-          <div class="col-md-8">
-            <h1>Shopping Cart</h1>
+        <h1>Shopping Cart</h1>
+        <div class="row">          
+          <div class="col-md-8">            
             ${renderComponent(CartItems, { items: cartItems }, null, 'HTML')}
           </div>
           <div class="col-md-4">

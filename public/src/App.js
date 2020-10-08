@@ -49,6 +49,30 @@ class App extends Component {
     localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
   };
 
+  editCartItemQty = (id, qty) => {
+    this.setState({
+      cart: {
+        ...this.state.cart,
+        items: this.state.cart.items.map((item) =>
+          item._id === id ? { ...item, qty } : item
+        ),
+      },
+    });
+
+    localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
+  };
+
+  removeCartItem = (id) => {
+    this.setState({
+      cart: {
+        ...this.state.cart,
+        items: this.state.cart.items.filter((item) => item._id !== id),
+      },
+    });
+
+    localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
+  };
+
   render() {
     this.container.innerHTML = '';
 
@@ -70,7 +94,11 @@ class App extends Component {
           {
             path: '/cart',
             Component: CartPage,
-            props: { cart },
+            props: {
+              cart,
+              editCartItemQty: this.editCartItemQty,
+              removeCartItem: this.removeCartItem,
+            },
           },
           {
             path: '*',

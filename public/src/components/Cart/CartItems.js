@@ -20,11 +20,11 @@ class CartItems extends Component {
                 <img src="${image}" alt="${name}" class="img-fluid rounded">
               </div>
               <div class="col-md-3">
-                <a href="/product/${_id}">${name}</a>
+                <a href="/products/${_id}">${name}</a>
               </div>
               <div class="col-md-2">$${price}</div>
               <div class="col-md-2">
-                <select class="form-control">
+                <select class="form-control select-cart-item-qty" data-item-id="${_id}">
                 ${Array(countInStock)
                   .fill('')
                   .map(
@@ -38,7 +38,7 @@ class CartItems extends Component {
                 </select>
               </div>
               <div class="col-md-2">
-                <button type="button" class="btn btn-light"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-light btn-cart-item-remove" data-item-id="${_id}"><i class="fas fa-trash"></i></button>
               </div>
             </div>
           </div>
