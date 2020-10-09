@@ -16,4 +16,14 @@ router.get('/cart', function (req, res, next) {
   res.sendFile(filepath);
 });
 
+router.get('/login', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
+router.get('/profile', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
 module.exports = router;

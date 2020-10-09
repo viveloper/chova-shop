@@ -13,10 +13,10 @@ class ProductDetailPage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history, addCartItem } = this.props;
+    const { history, user, addCartItem, logout } = this.props;
     const productId = this.props.match.params.id;
 
-    renderComponent(Header, { history }, this.container);
+    renderComponent(Header, { history, user, logout }, this.container);
     renderComponent(
       ProductContainer,
       {

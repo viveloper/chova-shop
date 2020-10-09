@@ -4,25 +4,51 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
-    this.handleLinkClick = this.handleLinkClick.bind(this);
-    this.handleNavToggleClick = this.handleNavToggleClick.bind(this);
-
     this.container = document.createElement('header');
     this.container.className = 'header';
+    this.container.addEventListener('click', this.handleClick);
   }
 
-  handleLinkClick(e, path) {
+  handleClick = (e) => {
     e.preventDefault();
-    this.props.history.push(path);
-  }
+    if (e.target.id === 'username') return;
+    if (e.target.id === 'btnLogout') {
+      this.props.logout();
+      return;
+    }
+    if (e.target.tagName.toLowerCase() === 'a') {
+      const path = e.target.getAttribute('href');
+      this.props.history.push(path);
+      return;
+    }
+  };
 
-  handleNavToggleClick(toggler, navbar) {
+  handleNavToggleClick = (toggler, navbar) => {
     toggler.classList.toggle('collapsed');
     navbar.classList.toggle('show');
-  }
+  };
+
+  handleDropdownToggleClick = (
+    e,
+    dropdwonNavItem,
+    dropdownToggler,
+    dropdownMenu
+  ) => {
+    e.preventDefault();
+    dropdwonNavItem.classList.toggle('show');
+    dropdownToggler.setAttribute(
+      'aria-expanded',
+      dropdownToggler.getAttribute('aria-expanded') === 'false'
+        ? 'true'
+        : 'false'
+    );
+    dropdownMenu.classList.toggle('show');
+  };
 
   render() {
     this.container.innerHTML = '';
+
+    const user = this.props.user.data;
 
     const navbar = document.createElement('nav');
     navbar.className = 'navbar navbar-expand-lg navbar-dark bg-dark';
@@ -36,7 +62,6 @@ class Header extends Component {
     logo.className = 'active navbar-brand';
     logo.setAttribute('href', '/');
     logo.innerText = 'ChovaShop';
-    logo.addEventListener('click', (e) => this.handleLinkClick(e, '/'));
     container.appendChild(logo);
 
     const navbarToggler = document.createElement('button');
@@ -83,7 +108,6 @@ class Header extends Component {
     cartLink.className = 'nav-link active';
     cartLink.setAttribute('href', '/cart');
     cartLink.setAttribute('data-rb-event-key', '/cart');
-    cartLink.addEventListener('click', (e) => this.handleLinkClick(e, '/cart'));
     navigation.appendChild(cartLink);
 
     const cartIcon = document.createElement('i');
@@ -91,19 +115,60 @@ class Header extends Component {
     cartLink.appendChild(cartIcon);
     cartLink.appendChild(document.createTextNode(' Cart'));
 
-    const signinLink = document.createElement('a');
-    signinLink.className = 'nav-link';
-    signinLink.setAttribute('href', '/login');
-    signinLink.setAttribute('data-rb-event-key', '/login');
-    signinLink.addEventListener('click', (e) =>
-      this.handleLinkClick(e, '/login')
-    );
-    navigation.appendChild(signinLink);
+    if (!user) {
+      const signinLink = document.createElement('a');
+      signinLink.className = 'nav-link';
+      signinLink.setAttribute('href', '/login');
+      signinLink.setAttribute('data-rb-event-key', '/login');
+      navigation.appendChild(signinLink);
 
-    const signinIcon = document.createElement('i');
-    signinIcon.className = 'fas fa-user';
-    signinLink.appendChild(signinIcon);
-    signinLink.appendChild(document.createTextNode(' Sign In'));
+      const signinIcon = document.createElement('i');
+      signinIcon.className = 'fas fa-user';
+      signinLink.appendChild(signinIcon);
+      signinLink.appendChild(document.createTextNode(' Sign In'));
+    } else {
+      const dropdwonNavItem = document.createElement('div');
+      dropdwonNavItem.className = 'dropdown nav-item';
+      navigation.appendChild(dropdwonNavItem);
+
+      const dropdownToggler = document.createElement('a');
+      dropdownToggler.className = 'dropdown-toggle nav-link';
+      dropdownToggler.id = 'username';
+      dropdownToggler.setAttribute('href', '#');
+      dropdownToggler.setAttribute('role', 'button');
+      dropdownToggler.setAttribute('aria-haspopup', 'true');
+      dropdownToggler.setAttribute('aria-expanded', 'false');
+      dropdownToggler.innerText = user.name;
+      dropdownToggler.addEventListener('click', (e) =>
+        this.handleDropdownToggleClick(
+          e,
+          dropdwonNavItem,
+          dropdownToggler,
+          dropdownMenu
+        )
+      );
+      dropdwonNavItem.appendChild(dropdownToggler);
+
+      const dropdownMenu = document.createElement('div');
+      dropdownMenu.className = 'dropdown-menu';
+      dropdownMenu.style.margin = '0px';
+      dropdownMenu.setAttribute('aria-labelledby', 'username');
+      dropdwonNavItem.appendChild(dropdownMenu);
+
+      const profileLink = document.createElement('a');
+      profileLink.className = 'dropdown-item';
+      profileLink.setAttribute('href', '/profile');
+      profileLink.innerText = 'Profile';
+      dropdownMenu.appendChild(profileLink);
+
+      const logoutLink = document.createElement('a');
+      logoutLink.className = 'dropdown-item';
+      logoutLink.id = 'btnLogout';
+      logoutLink.setAttribute('role', 'button');
+      logoutLink.setAttribute('href', '#');
+      logoutLink.innerText = 'Logout';
+      dropdownMenu.appendChild(logoutLink);
+    }
 
     return this.container;
   }

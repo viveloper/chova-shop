@@ -20,9 +20,9 @@ class NotFoundPage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history } = this.props;
+    const { history, user, logout } = this.props;
 
-    renderComponent(Header, { history }, this.container);
+    renderComponent(Header, { history, user, logout }, this.container);
 
     const goBackBtn = document.createElement('a');
     goBackBtn.className = 'btn btn-light my-3';

@@ -25,6 +25,7 @@ class BrowserRouter extends Component {
     };
 
     this.push = this.push.bind(this);
+    this.goBack = this.goBack.bind(this);
     this.handlePopState = this.handlePopState.bind(this);
 
     this.container = document.createElement('div');
@@ -38,6 +39,10 @@ class BrowserRouter extends Component {
     this.setState({
       currentPath: path,
     });
+  }
+
+  goBack() {
+    history.back();
   }
 
   handlePopState(e) {
@@ -108,7 +113,7 @@ class BrowserRouter extends Component {
     renderComponent(
       Component,
       {
-        history: { push: this.push },
+        history: { push: this.push, goBack: this.goBack },
         match: { params },
         location: { search: location.search },
         ...props,

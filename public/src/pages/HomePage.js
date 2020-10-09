@@ -12,9 +12,9 @@ class HomePage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history } = this.props;
+    const { history, user, logout } = this.props;
 
-    renderComponent(Header, { history }, this.container);
+    renderComponent(Header, { history, user, logout }, this.container);
     renderComponent(HomeContainer, { history }, this.container);
     renderComponent(Footer, null, this.container);
 

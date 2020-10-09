@@ -1,10 +1,9 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
-import CartContainer from '../containers/CartContainer.js';
-import queryString from '../modules/queryString.js';
+import LoginContainer from '../containers/LoginContainer.js';
 
-class CartPage extends Component {
+class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.container = document.createElement('div');
@@ -16,16 +15,22 @@ class CartPage extends Component {
     const {
       history,
       user,
-      cart,
-      editCartItemQty,
-      removeCartItem,
+      inputs,
+      login,
       logout,
+      setLoginError,
+      onLoginInputsChange,
     } = this.props;
+
+    if (user.data) {
+      history.push('/');
+      return this.container;
+    }
 
     renderComponent(Header, { history, user, logout }, this.container);
     renderComponent(
-      CartContainer,
-      { cart, editCartItemQty, removeCartItem, history },
+      LoginContainer,
+      { history, user, inputs, login, setLoginError, onLoginInputsChange },
       this.container
     );
     renderComponent(Footer, null, this.container);
@@ -34,4 +39,4 @@ class CartPage extends Component {
   }
 }
 
-export default CartPage;
+export default LoginPage;

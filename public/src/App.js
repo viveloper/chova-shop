@@ -3,6 +3,7 @@ import BrowserRouter from './modules/BrowserRouter.js';
 import HomePage from './pages/HomePage.js';
 import ProductPage from './pages/ProductPage.js';
 import CartPage from './pages/CartPage.js';
+import LoginPage from './pages/LoginPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as userApi from './api/user.js';
 import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
@@ -23,7 +24,11 @@ class App extends Component {
     this.state = {
       cart: {
         items: initCartItems,
-        user: initUser,
+      },
+      user: initUser,
+      loginInputs: {
+        email: '',
+        password: '',
       },
     };
 
@@ -35,11 +40,55 @@ class App extends Component {
     const { isError, data } = await userApi.login({ email, password });
     if (!isError) {
       asyncHandler.setData.call(this, 'user', data);
+      this.setState({
+        ...this.state,
+        loginInputs: {
+          email: '',
+          password: '',
+        },
+      });
+      history.back();
     } else {
       asyncHandler.setError.call(this, 'user', data);
     }
 
     localStorage.setItem('user', JSON.stringify(this.state.user.data));
+  };
+
+  logout = () => {
+    history.pushState({ path: '/' }, '', '/');
+
+    this.setState({
+      ...this.state,
+      user: asyncInitState,
+    });
+    localStorage.removeItem('user');
+  };
+
+  changeLoginInputs = (key, value) => {
+    this.setState({
+      ...this.state,
+      loginInputs: {
+        ...this.state.loginInputs,
+        [key]: value,
+      },
+    });
+
+    const inputEl = this.container.querySelector(`#${key}`);
+    inputEl.focus();
+    inputEl.setSelectionRange(value.length, value.length);
+  };
+
+  setLoginError = (message) => {
+    this.setState({
+      ...this.state,
+      user: {
+        ...asyncInitState,
+        error: {
+          message,
+        },
+      },
+    });
   };
 
   addCartItem = (product, qty) => {
@@ -97,7 +146,7 @@ class App extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { cart } = this.state;
+    const { cart, user, loginInputs } = this.state;
 
     renderComponent(
       BrowserRouter,
@@ -106,11 +155,12 @@ class App extends Component {
           {
             path: '/',
             Component: HomePage,
+            props: { user, logout: this.logout },
           },
           {
             path: '/products/:id',
             Component: ProductPage,
-            props: { addCartItem: this.addCartItem },
+            props: { addCartItem: this.addCartItem, user, logout: this.logout },
           },
           {
             path: '/cart',
@@ -119,11 +169,26 @@ class App extends Component {
               cart,
               editCartItemQty: this.editCartItemQty,
               removeCartItem: this.removeCartItem,
+              user,
+              logout: this.logout,
+            },
+          },
+          {
+            path: '/login',
+            Component: LoginPage,
+            props: {
+              user,
+              inputs: loginInputs,
+              login: this.login,
+              setLoginError: this.setLoginError,
+              onLoginInputsChange: this.changeLoginInputs,
+              logout: this.logout,
             },
           },
           {
             path: '*',
             Component: NotFoundPage,
+            props: { user, logout: this.logout },
           },
         ],
       },
