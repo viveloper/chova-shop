@@ -4,22 +4,43 @@ import HomePage from './pages/HomePage.js';
 import ProductPage from './pages/ProductPage.js';
 import CartPage from './pages/CartPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
+import * as userApi from './api/user.js';
+import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    let initCartItems = JSON.parse(localStorage.getItem('cartItems'));
-    initCartItems = initCartItems ? initCartItems : [];
+    const localCartItems = JSON.parse(localStorage.getItem('cartItems'));
+    const initCartItems = localCartItems ? localCartItems : [];
+
+    const localUser = JSON.parse(localStorage.getItem('user'));
+    const initUser = {
+      ...asyncInitState,
+      data: localUser,
+    };
 
     this.state = {
       cart: {
         items: initCartItems,
+        user: initUser,
       },
     };
 
     this.container = document.createElement('div');
   }
+
+  login = async ({ email, password }) => {
+    asyncHandler.setLoading.call(this, 'user');
+    const { isError, data } = await userApi.login({ email, password });
+    if (!isError) {
+      asyncHandler.setData.call(this, 'user', data);
+    } else {
+      asyncHandler.setError.call(this, 'user', data);
+    }
+
+    localStorage.setItem('user', JSON.stringify(this.state.user.data));
+  };
 
   addCartItem = (product, qty) => {
     history.pushState({ path: '/cart' }, '', '/cart');

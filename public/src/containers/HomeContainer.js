@@ -1,17 +1,14 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Home from '../components/Home.js';
 import { fetchProducts } from '../api/products.js';
+import { asyncHandler, asyncInitState } from '../modules/asyncHandler.js';
 
 class HomeContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      products: {
-        loading: false,
-        data: null,
-        error: null,
-      },
+      products: asyncInitState,
     };
 
     this.container = document.createElement('div');
@@ -20,43 +17,14 @@ class HomeContainer extends Component {
   }
 
   async initState() {
-    this.setLoading('products');
+    asyncHandler.setLoading.call(this, 'products');
     const { isError, data } = await fetchProducts();
     if (!isError) {
-      this.setData('products', data.products);
+      asyncHandler.setData.call(this, 'products', data.products);
     } else {
       this.setError('products', data);
+      asyncHandler.setError.call(this, 'products', data);
     }
-  }
-
-  setLoading(key) {
-    this.setState({
-      [key]: {
-        loading: true,
-        data: null,
-        error: null,
-      },
-    });
-  }
-
-  setError(key, error) {
-    this.setState({
-      [key]: {
-        loading: false,
-        data: null,
-        error,
-      },
-    });
-  }
-
-  setData(key, data) {
-    this.setState({
-      [key]: {
-        loading: false,
-        data,
-        error: null,
-      },
-    });
   }
 
   render() {
