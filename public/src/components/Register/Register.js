@@ -1,8 +1,8 @@
 import { Component, renderComponent } from '../../modules/MyReact.js';
-import LoginForm from './LoginForm.js';
+import RegisterForm from './RegisterForm.js';
 import Loader from '../Loader.js';
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
 
@@ -18,8 +18,10 @@ class Login extends Component {
     this.container.appendChild(container);
 
     const {
+      name,
       email,
       password,
+      confirmPassword,
       user: { loading, error },
     } = this.props;
 
@@ -42,8 +44,8 @@ class Login extends Component {
         <div class="col-md-6 col-12">
           <h1>Sign In</h1>
           ${renderComponent(
-            LoginForm,
-            { email, password, error },
+            RegisterForm,
+            { name, email, password, confirmPassword, error },
             null,
             'HTML'
           )}
@@ -60,4 +62,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Register;

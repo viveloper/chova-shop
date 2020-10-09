@@ -1,8 +1,8 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Login from '../components/Login/Login.js';
+import Register from '../components/Register/Register.js';
 import { validateEmail } from '../modules/inputValidator.js';
 
-class LoginContainer extends Component {
+class RegisterContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -29,11 +29,15 @@ class LoginContainer extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const {
-      inputs: { email, password },
-      login,
+      inputs: { name, email, password, confirmPassword },
+      register,
       setError,
     } = this.props;
 
+    if (!name) {
+      setError('Name is requried');
+      return;
+    }
     if (!email) {
       setError('Email is requried');
       return;
@@ -46,8 +50,12 @@ class LoginContainer extends Component {
       setError('Email is not valid');
       return;
     }
+    if (password !== confirmPassword) {
+      setError('Password do not match');
+      return;
+    }
 
-    login({ email, password });
+    register({ name, email, password, confirmPassword });
   };
 
   render() {
@@ -56,13 +64,17 @@ class LoginContainer extends Component {
     const {
       history,
       user,
-      inputs: { email, password },
+      inputs: { name, email, password, confirmPassword },
     } = this.props;
 
-    renderComponent(Login, { history, email, password, user }, this.container);
+    renderComponent(
+      Register,
+      { history, name, email, password, confirmPassword, user },
+      this.container
+    );
 
     return this.container;
   }
 }
 
-export default LoginContainer;
+export default RegisterContainer;

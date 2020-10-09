@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage.js';
 import ProductPage from './pages/ProductPage.js';
 import CartPage from './pages/CartPage.js';
 import LoginPage from './pages/LoginPage.js';
+import RegisterPage from './pages/RegisterPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as userApi from './api/user.js';
 import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
@@ -29,6 +30,12 @@ class App extends Component {
       loginInputs: {
         email: '',
         password: '',
+      },
+      registerInputs: {
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
       },
     };
 
@@ -146,7 +153,7 @@ class App extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { cart, user, loginInputs } = this.state;
+    const { cart, user, loginInputs, registerInputs } = this.state;
 
     renderComponent(
       BrowserRouter,
@@ -180,8 +187,20 @@ class App extends Component {
               user,
               inputs: loginInputs,
               login: this.login,
-              setLoginError: this.setLoginError,
-              onLoginInputsChange: this.changeLoginInputs,
+              setError: this.setLoginError,
+              onInputsChange: this.changeLoginInputs,
+              logout: this.logout,
+            },
+          },
+          {
+            path: '/register',
+            Component: RegisterPage,
+            props: {
+              user,
+              inputs: registerInputs,
+              register: this.register,
+              setError: this.setRegisterError,
+              onInputsChange: this.changeRegisterInputs,
               logout: this.logout,
             },
           },

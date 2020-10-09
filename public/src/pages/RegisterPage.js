@@ -1,9 +1,9 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
-import LoginContainer from '../containers/LoginContainer.js';
+import RegisterContainer from '../containers/RegisterContainer.js';
 
-class LoginPage extends Component {
+class RegisterPage extends Component {
   constructor(props) {
     super(props);
     this.container = document.createElement('div');
@@ -16,7 +16,7 @@ class LoginPage extends Component {
       history,
       user,
       inputs,
-      login,
+      register,
       logout,
       setError,
       onInputsChange,
@@ -29,8 +29,8 @@ class LoginPage extends Component {
 
     renderComponent(Header, { history, user, logout }, this.container);
     renderComponent(
-      LoginContainer,
-      { history, user, inputs, login, setError, onInputsChange },
+      RegisterContainer,
+      { history, user, inputs, register, setError, onInputsChange },
       this.container
     );
     renderComponent(Footer, null, this.container);
@@ -39,4 +39,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+export default RegisterPage;
