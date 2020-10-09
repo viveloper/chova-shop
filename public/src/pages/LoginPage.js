@@ -19,7 +19,7 @@ class LoginPage extends Component {
       login,
       logout,
       setError,
-      onInputsChange,
+      setInputs,
     } = this.props;
 
     if (user.data) {
@@ -30,7 +30,7 @@ class LoginPage extends Component {
     renderComponent(Header, { history, user, logout }, this.container);
     renderComponent(
       LoginContainer,
-      { history, user, inputs, login, setError, onInputsChange },
+      { history, user, inputs, login, setError, setInputs },
       this.container
     );
     renderComponent(Footer, null, this.container);

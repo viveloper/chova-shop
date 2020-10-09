@@ -7,7 +7,6 @@ class RegisterContainer extends Component {
     super(props);
 
     this.container = document.createElement('div');
-    this.container.addEventListener('keyup', this.handleInputChange);
     this.container.addEventListener('submit', this.handleSubmit);
     this.container.addEventListener('click', this.handleClick);
   }
@@ -19,20 +18,16 @@ class RegisterContainer extends Component {
     }
   };
 
-  handleInputChange = (e) => {
-    const key = e.target.id;
-    const value = e.target.value;
-
-    this.props.onInputsChange(key, value);
-  };
-
   handleSubmit = (e) => {
     e.preventDefault();
-    const {
-      inputs: { name, email, password, confirmPassword },
-      register,
-      setError,
-    } = this.props;
+    const { register, setError, setInputs } = this.props;
+
+    const name = e.target.querySelector('#name').value;
+    const email = e.target.querySelector('#email').value;
+    const password = e.target.querySelector('#password').value;
+    const confirmPassword = e.target.querySelector('#confirmPassword').value;
+
+    setInputs({ name, email, password, confirmPassword });
 
     if (!name) {
       setError('Name is requried');
@@ -55,7 +50,7 @@ class RegisterContainer extends Component {
       return;
     }
 
-    register({ name, email, password, confirmPassword });
+    register({ name, email, password });
   };
 
   render() {

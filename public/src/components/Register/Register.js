@@ -42,17 +42,15 @@ class Register extends Component {
     container.innerHTML = `
       <div class="justify-content-md-center row">
         <div class="col-md-6 col-12">
-          <h1>Sign In</h1>
+          <h1>Sign Up</h1>
           ${renderComponent(
             RegisterForm,
             { name, email, password, confirmPassword, error },
             null,
             'HTML'
-          )}
+          )}          
           <div class="py-3 row">
-            <div class="col">
-              New Customer? <a href="/register">Register</a>
-            </div>
+            <div class="col">Have an Account? <a href="/login">Login</a></div>
           </div>
         </div>
       </div>

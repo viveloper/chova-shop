@@ -19,7 +19,7 @@ class RegisterPage extends Component {
       register,
       logout,
       setError,
-      onInputsChange,
+      setInputs,
     } = this.props;
 
     if (user.data) {
@@ -30,7 +30,7 @@ class RegisterPage extends Component {
     renderComponent(Header, { history, user, logout }, this.container);
     renderComponent(
       RegisterContainer,
-      { history, user, inputs, register, setError, onInputsChange },
+      { history, user, inputs, register, setError, setInputs },
       this.container
     );
     renderComponent(Footer, null, this.container);

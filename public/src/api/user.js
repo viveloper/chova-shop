@@ -18,3 +18,22 @@ export const login = async ({ email, password }) => {
     };
   }
 };
+
+export const register = async ({ name, email, password }) => {
+  try {
+    const result = await request(`${API_ENDPOINT}/users`, 'POST', {
+      name,
+      email,
+      password,
+    });
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};

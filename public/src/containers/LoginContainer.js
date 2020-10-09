@@ -7,7 +7,6 @@ class LoginContainer extends Component {
     super(props);
 
     this.container = document.createElement('div');
-    this.container.addEventListener('keyup', this.handleInputChange);
     this.container.addEventListener('submit', this.handleSubmit);
     this.container.addEventListener('click', this.handleClick);
   }
@@ -19,20 +18,14 @@ class LoginContainer extends Component {
     }
   };
 
-  handleInputChange = (e) => {
-    const key = e.target.id;
-    const value = e.target.value;
-
-    this.props.onInputsChange(key, value);
-  };
-
   handleSubmit = (e) => {
     e.preventDefault();
-    const {
-      inputs: { email, password },
-      login,
-      setError,
-    } = this.props;
+    const { login, setError, setInputs } = this.props;
+
+    const email = e.target.querySelector('#email').value;
+    const password = e.target.querySelector('#password').value;
+
+    setInputs({ email, password });
 
     if (!email) {
       setError('Email is requried');

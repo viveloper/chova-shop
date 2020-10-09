@@ -72,21 +72,51 @@ class App extends Component {
     localStorage.removeItem('user');
   };
 
-  changeLoginInputs = (key, value) => {
+  register = async ({ name, email, password }) => {
+    asyncHandler.setLoading.call(this, 'user');
+    const { isError, data } = await userApi.register({ name, email, password });
+    if (!isError) {
+      asyncHandler.setData.call(this, 'user', data);
+      this.setState({
+        ...this.state,
+        registerInputs: {
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+        },
+      });
+      history.back();
+    } else {
+      asyncHandler.setError.call(this, 'user', data);
+    }
+
+    localStorage.setItem('user', JSON.stringify(this.state.user.data));
+  };
+
+  setLoginInputs = ({ email, password }) => {
     this.setState({
       ...this.state,
       loginInputs: {
-        ...this.state.loginInputs,
-        [key]: value,
+        email,
+        password,
       },
     });
-
-    const inputEl = this.container.querySelector(`#${key}`);
-    inputEl.focus();
-    inputEl.setSelectionRange(value.length, value.length);
   };
 
-  setLoginError = (message) => {
+  setRegisterInputs = ({ name, email, password, confirmPassword }) => {
+    this.setState({
+      ...this.state,
+      registerInputs: {
+        name,
+        email,
+        password,
+        confirmPassword,
+      },
+    });
+  };
+
+  setUserError = (message) => {
     this.setState({
       ...this.state,
       user: {
@@ -187,8 +217,8 @@ class App extends Component {
               user,
               inputs: loginInputs,
               login: this.login,
-              setError: this.setLoginError,
-              onInputsChange: this.changeLoginInputs,
+              setError: this.setUserError,
+              setInputs: this.setLoginInputs,
               logout: this.logout,
             },
           },
@@ -199,8 +229,8 @@ class App extends Component {
               user,
               inputs: registerInputs,
               register: this.register,
-              setError: this.setRegisterError,
-              onInputsChange: this.changeRegisterInputs,
+              setError: this.setUserError,
+              setInputs: this.setRegisterInputs,
               logout: this.logout,
             },
           },
