@@ -1,4 +1,4 @@
-import { Component, renderComponent } from '../modules/MyReact.js';
+import { Component, renderComponent } from '../../modules/MyReact.js';
 
 class CartButtonCard extends Component {
   constructor(props) {

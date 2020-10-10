@@ -1,6 +1,4 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
 import ProductContainer from '../containers/ProductContainer.js';
 
 class ProductDetailPage extends Component {
@@ -13,10 +11,9 @@ class ProductDetailPage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history, user, addCartItem, logout } = this.props;
+    const { history, addCartItem } = this.props;
     const productId = this.props.match.params.id;
-
-    renderComponent(Header, { history, user, logout }, this.container);
+    
     renderComponent(
       ProductContainer,
       {
@@ -25,8 +22,7 @@ class ProductDetailPage extends Component {
         addCartItem,
       },
       this.container
-    );
-    renderComponent(Footer, null, this.container);
+    );    
 
     return this.container;
   }

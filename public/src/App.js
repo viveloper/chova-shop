@@ -1,5 +1,7 @@
 import { Component, renderComponent } from './modules/MyReact.js';
 import BrowserRouter from './modules/BrowserRouter.js';
+import Header from './components/Header.js';
+import Footer from './components/Footer.js';
 import HomePage from './pages/HomePage.js';
 import ProductPage from './pages/ProductPage.js';
 import CartPage from './pages/CartPage.js';
@@ -8,6 +10,7 @@ import RegisterPage from './pages/RegisterPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as userApi from './api/user.js';
 import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
+import ProfilePage from './pages/ProfilePage.js';
 
 class App extends Component {
   constructor(props) {
@@ -22,8 +25,8 @@ class App extends Component {
       data: localUser,
     };
 
-    this.state = {
-      cart: {
+    this.state = {      
+      cart: { 
         items: initCartItems,
       },
       user: initUser,
@@ -40,6 +43,18 @@ class App extends Component {
     };
 
     this.container = document.createElement('div');
+
+    window.addEventListener('popstate', this.handlePopState);
+  }
+
+  push = (path) => {    
+    if (path === location.pathname) return;    
+    history.pushState({ path }, '', path);
+    this.render();
+  }
+
+  goBack = () => {
+    history.back();
   }
 
   login = async ({ email, password }) => {
@@ -113,7 +128,7 @@ class App extends Component {
         password,
         confirmPassword,
       },
-    });
+    });  
   };
 
   setUserError = (message) => {
@@ -184,6 +199,19 @@ class App extends Component {
     this.container.innerHTML = '';
 
     const { cart, user, loginInputs, registerInputs } = this.state;
+    
+    renderComponent(
+      Header, 
+      { 
+        history: {
+          push: this.push,
+          goBack: this.goBack,
+        }, 
+        user, 
+        logout: this.logout
+      }, 
+      this.container
+    );        
 
     renderComponent(
       BrowserRouter,
@@ -191,13 +219,12 @@ class App extends Component {
         routes: [
           {
             path: '/',
-            Component: HomePage,
-            props: { user, logout: this.logout },
+            Component: HomePage,            
           },
           {
             path: '/products/:id',
             Component: ProductPage,
-            props: { addCartItem: this.addCartItem, user, logout: this.logout },
+            props: { addCartItem: this.addCartItem },
           },
           {
             path: '/cart',
@@ -205,9 +232,7 @@ class App extends Component {
             props: {
               cart,
               editCartItemQty: this.editCartItemQty,
-              removeCartItem: this.removeCartItem,
-              user,
-              logout: this.logout,
+              removeCartItem: this.removeCartItem,              
             },
           },
           {
@@ -218,8 +243,7 @@ class App extends Component {
               inputs: loginInputs,
               login: this.login,
               setError: this.setUserError,
-              setInputs: this.setLoginInputs,
-              logout: this.logout,
+              setInputs: this.setLoginInputs,              
             },
           },
           {
@@ -230,19 +254,23 @@ class App extends Component {
               inputs: registerInputs,
               register: this.register,
               setError: this.setUserError,
-              setInputs: this.setRegisterInputs,
-              logout: this.logout,
+              setInputs: this.setRegisterInputs,              
             },
           },
           {
+            path: '/profile',
+            Component: ProfilePage,            
+          },
+          {
             path: '*',
-            Component: NotFoundPage,
-            props: { user, logout: this.logout },
+            Component: NotFoundPage,            
           },
         ],
       },
       this.container
     );
+
+    renderComponent(Footer, null, this.container);
 
     return this.container;
   }

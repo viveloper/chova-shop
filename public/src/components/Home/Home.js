@@ -1,5 +1,5 @@
-import { Component, renderComponent } from '../modules/MyReact.js';
-import Loader from './Loader.js';
+import { Component, renderComponent } from '../../modules/MyReact.js';
+import Loader from '../Loader.js';
 import ProductCard from './ProductCard.js';
 
 class Home extends Component {

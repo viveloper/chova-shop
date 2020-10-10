@@ -1,8 +1,5 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
 import CartContainer from '../containers/CartContainer.js';
-import queryString from '../modules/queryString.js';
 
 class CartPage extends Component {
   constructor(props) {
@@ -14,21 +11,17 @@ class CartPage extends Component {
     this.container.innerHTML = '';
 
     const {
-      history,
-      user,
+      history,      
       cart,
       editCartItemQty,
-      removeCartItem,
-      logout,
+      removeCartItem,      
     } = this.props;
-
-    renderComponent(Header, { history, user, logout }, this.container);
+    
     renderComponent(
       CartContainer,
       { cart, editCartItemQty, removeCartItem, history },
       this.container
-    );
-    renderComponent(Footer, null, this.container);
+    );    
 
     return this.container;
   }

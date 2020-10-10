@@ -1,5 +1,5 @@
-import { Component, renderComponent } from '../modules/MyReact.js';
-import Loader from './Loader.js';
+import { Component, renderComponent } from '../../modules/MyReact.js';
+import Loader from '../Loader.js';
 import ProductInfo from './ProductInfo.js';
 import CartButtonCard from './CartButtonCard.js';
 

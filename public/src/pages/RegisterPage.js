@@ -1,6 +1,4 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
 import RegisterContainer from '../containers/RegisterContainer.js';
 
 class RegisterPage extends Component {
@@ -16,8 +14,7 @@ class RegisterPage extends Component {
       history,
       user,
       inputs,
-      register,
-      logout,
+      register,      
       setError,
       setInputs,
     } = this.props;
@@ -26,14 +23,12 @@ class RegisterPage extends Component {
       history.push('/');
       return this.container;
     }
-
-    renderComponent(Header, { history, user, logout }, this.container);
+    
     renderComponent(
       RegisterContainer,
       { history, user, inputs, register, setError, setInputs },
       this.container
-    );
-    renderComponent(Footer, null, this.container);
+    );    
 
     return this.container;
   }

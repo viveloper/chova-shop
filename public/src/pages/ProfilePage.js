@@ -1,7 +1,7 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import HomeContainer from '../containers/HomeContainer.js';
+import ProfileContainer from '../containers/ProfileContainer.js';
 
-class HomePage extends Component {
+class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.container = document.createElement('div');
@@ -10,12 +10,10 @@ class HomePage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history } = this.props;
-    
-    renderComponent(HomeContainer, { history }, this.container);    
+    renderComponent(ProfileContainer, null, this.container);
 
     return this.container;
   }
 }
 
-export default HomePage;
+export default ProfilePage;

@@ -1,6 +1,4 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
 import LoginContainer from '../containers/LoginContainer.js';
 
 class LoginPage extends Component {
@@ -16,8 +14,7 @@ class LoginPage extends Component {
       history,
       user,
       inputs,
-      login,
-      logout,
+      login,      
       setError,
       setInputs,
     } = this.props;
@@ -26,14 +23,12 @@ class LoginPage extends Component {
       history.push('/');
       return this.container;
     }
-
-    renderComponent(Header, { history, user, logout }, this.container);
+    
     renderComponent(
       LoginContainer,
       { history, user, inputs, login, setError, setInputs },
       this.container
     );
-    renderComponent(Footer, null, this.container);
 
     return this.container;
   }

@@ -1,5 +1,5 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Home from '../components/Home.js';
+import Home from '../components/Home/Home.js';
 import { fetchProducts } from '../api/products.js';
 import { asyncHandler, asyncInitState } from '../modules/asyncHandler.js';
 

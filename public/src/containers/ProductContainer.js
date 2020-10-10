@@ -1,6 +1,6 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Loader from '../components/Loader.js';
-import Product from '../components/Product.js';
+import Product from '../components/Product/Product.js';
 import { fetchProduct } from '../api/products.js';
 import { asyncHandler, asyncInitState } from '../modules/asyncHandler.js';
 

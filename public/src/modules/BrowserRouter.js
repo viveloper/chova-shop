@@ -46,9 +46,13 @@ class BrowserRouter extends Component {
   }
 
   handlePopState(e) {
-    const path = e.state ? e.state.path : location.pathname;
+    // const path = e.state ? e.state.path : location.pathname;
+    // this.setState({
+    //   currentPath: path,
+    // });
+    
     this.setState({
-      currentPath: path,
+      currentPath: location.pathname,
     });
   }
 
@@ -105,8 +109,8 @@ class BrowserRouter extends Component {
     const route = targetRoute
       ? targetRoute
       : notFoundRoute
-      ? notFoundRoute
-      : { Component: DefaultNotFoundComponent };
+        ? notFoundRoute
+        : { Component: DefaultNotFoundComponent };
 
     const { Component, props } = route;
 

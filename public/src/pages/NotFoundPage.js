@@ -1,6 +1,4 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
 
 class NotFoundPage extends Component {
   constructor(props) {
@@ -18,11 +16,7 @@ class NotFoundPage extends Component {
   }
 
   render() {
-    this.container.innerHTML = '';
-
-    const { history, user, logout } = this.props;
-
-    renderComponent(Header, { history, user, logout }, this.container);
+    this.container.innerHTML = '';    
 
     const goBackBtn = document.createElement('a');
     goBackBtn.className = 'btn btn-light my-3';
@@ -34,9 +28,7 @@ class NotFoundPage extends Component {
     const message = document.createElement('h1');
     message.className = 'text-center';
     message.innerText = 'Page Not Found';
-    this.container.appendChild(message);
-
-    renderComponent(Footer, null, this.container);
+    this.container.appendChild(message);    
 
     return this.container;
   }
