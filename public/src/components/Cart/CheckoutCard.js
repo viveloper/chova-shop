@@ -5,7 +5,7 @@ class CheckoutCard extends Component {
     super(props);
 
     this.container = document.createElement('div');
-    this.container.className = 'card';
+    this.container.className = 'card';    
   }
 
   render() {
@@ -18,7 +18,7 @@ class CheckoutCard extends Component {
           $${totalPrice}
         </div>
         <div class="list-group-item">
-          <button ${totalItems === 0 ? 'disabled' : ''} type="button" class="btn-block btn btn-primary">Proceed To Checkout</button>
+          <button ${totalItems === 0 ? 'disabled' : ''} type="button" class="btn-block btn btn-primary btn-checkout">Proceed To Checkout</button>
         </div>
       </div>
     `;

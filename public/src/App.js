@@ -7,6 +7,7 @@ import ProductPage from './pages/ProductPage.js';
 import CartPage from './pages/CartPage.js';
 import LoginPage from './pages/LoginPage.js';
 import RegisterPage from './pages/RegisterPage.js';
+import ShippingPage from './pages/ShippingPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as userApi from './api/user.js';
 import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
@@ -300,6 +301,13 @@ class App extends Component {
               onProfileSubmit: this.updateUserProfile,
               setError: this.setUserError,
             }
+          },
+          {
+            path: '/shipping',
+            Component: ShippingPage,
+            props: {
+              user,
+            }            
           },
           {
             path: '*',

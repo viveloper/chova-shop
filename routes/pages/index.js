@@ -31,4 +31,9 @@ router.get('/register', function (req, res, next) {
   res.sendFile(filepath);
 });
 
+router.get('/shipping', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
 module.exports = router;

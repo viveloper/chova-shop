@@ -36,6 +36,8 @@ class CartContainer extends Component {
     ) {
       const id = e.target.parentElement.dataset.itemId;
       removeCartItem(id);
+    } else if (e.target.classList.contains('btn-checkout')) {
+      history.push('/shipping');
     }
   };
 
