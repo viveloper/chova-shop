@@ -26,9 +26,13 @@ class App extends Component {
       data: localUser,
     };
 
+    const localShippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
+    const initShippingAddress = localShippingAddress ? localShippingAddress : {address: '', city: '', postalCode: '', country: ''};
+
     this.state = {      
       cart: { 
         items: initCartItems,
+        shippingAddress: initShippingAddress,
       },
       user: initUser,
       loginInputs: {
@@ -231,6 +235,22 @@ class App extends Component {
     localStorage.setItem('user', JSON.stringify(this.state.user.data));
   }
 
+  handleShippingAddressSubmit = ({address, city, postalCode, country}) => {    
+    this.setState({
+      cart: {
+        ...this.state.cart,
+        shippingAddress: {
+          address, 
+          city, 
+          postalCode, 
+          country,
+        }
+      }
+    });
+    
+    localStorage.setItem('shippingAddress', JSON.stringify(this.state.cart.shippingAddress));
+  }
+
   render() {
     this.container.innerHTML = '';
 
@@ -266,7 +286,7 @@ class App extends Component {
             path: '/cart',
             Component: CartPage,
             props: {
-              cart,
+              items: cart.items,
               editCartItemQty: this.editCartItemQty,
               removeCartItem: this.removeCartItem,              
             },
@@ -307,6 +327,8 @@ class App extends Component {
             Component: ShippingPage,
             props: {
               user,
+              shippingAddress: cart.shippingAddress,
+              onSubmit: this.handleShippingAddressSubmit,
             }            
           },
           {

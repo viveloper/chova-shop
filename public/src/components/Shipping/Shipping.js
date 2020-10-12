@@ -13,6 +13,8 @@ class Shipping extends Component {
   render() {
     this.container.innerHTML = '';    
 
+    const {shippingAddress, onSubmit} = this.props;
+
     const container = document.createElement('div');
     container.className = 'container';
     this.container.appendChild(container);
@@ -31,7 +33,14 @@ class Shipping extends Component {
     title.innerText = 'Shipping';
     col.appendChild(title);
 
-    renderComponent(ShippingForm, null, col);    
+    renderComponent(
+      ShippingForm, 
+      {
+        shippingAddress,
+        onSubmit,
+      },         
+      col
+    );    
 
     return this.container;
   }

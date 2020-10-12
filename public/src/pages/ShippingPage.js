@@ -10,7 +10,12 @@ class ShippingPage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history, user } = this.props;
+    const { 
+      history, 
+      user, 
+      shippingAddress,
+      onSubmit,
+    } = this.props;
 
     if(!user.data) {
       history.push('/login');
@@ -19,7 +24,11 @@ class ShippingPage extends Component {
     
     renderComponent(
       ShippingContainer,
-      { history },
+      { 
+        history,
+        shippingAddress,
+        onSubmit,
+      },
       this.container
     );
 

@@ -45,7 +45,7 @@ class CartContainer extends Component {
     this.container.innerHTML = '';
 
     const {
-      cart: { items },
+      items,
       history,
     } = this.props;
 

@@ -8,9 +8,18 @@ class ShippingContainer extends Component {
   }
 
   render() {
-    this.container.innerHTML = '';    
+    this.container.innerHTML = '';
 
-    renderComponent(Shipping, null, this.container);
+    const {shippingAddress, onSubmit} = this.props;
+
+    renderComponent(
+      Shipping, 
+      {        
+        shippingAddress,
+        onSubmit,
+      }, 
+      this.container
+    );
 
     return this.container;
   }
