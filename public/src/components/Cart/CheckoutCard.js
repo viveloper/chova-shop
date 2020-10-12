@@ -18,7 +18,7 @@ class CheckoutCard extends Component {
           $${totalPrice}
         </div>
         <div class="list-group-item">
-          <button type="button" class="btn-block btn btn-primary">Proceed To Checkout</button>
+          <button ${totalItems === 0 ? 'disabled' : ''} type="button" class="btn-block btn btn-primary">Proceed To Checkout</button>
         </div>
       </div>
     `;

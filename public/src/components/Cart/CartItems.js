@@ -11,6 +11,13 @@ class CartItems extends Component {
   render() {
     const { items } = this.props;
 
+    if(items.length === 0) {
+      this.container.innerHTML = `
+        <div role="alert" class="fade alert alert-info show">Your cart is empty <a href="/">Go Back</a></div>
+      `;
+      return this.container;
+    }
+
     this.container.innerHTML = items
       .map(
         ({ _id, name, image, price, qty, countInStock }) => `
