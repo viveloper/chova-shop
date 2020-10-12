@@ -37,3 +37,27 @@ export const register = async ({ name, email, password }) => {
     };
   }
 };
+
+export const updateUser = async (token, { name, email, password }) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/users/profile`, 
+      'PUT', 
+      {
+        name,
+        email,
+        password,
+      },
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};

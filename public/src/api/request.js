@@ -1,12 +1,11 @@
-export const request = async (url, method = 'GET', data) => {
+export const request = async (url, method = 'GET', data, token) => {
   try {
     const response = await fetch(url, {
       method,
       headers: {
         Accept: 'application/json',
-        'Content-Type': `${
-          method === 'POST' || method === 'PUT' ? 'application/json' : undefined
-        }`,
+        'Content-Type': method === 'POST' || method === 'PUT' ? 'application/json' : undefined,
+        Authorization: token ? `Bearer ${token}` : undefined,
       },
       body: JSON.stringify(data),
     });

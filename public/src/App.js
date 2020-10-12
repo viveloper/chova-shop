@@ -128,14 +128,14 @@ class App extends Component {
         password,
         confirmPassword,
       },
-    });  
+    });
   };
 
   setUserError = (message) => {
     this.setState({
       ...this.state,
       user: {
-        ...asyncInitState,
+        ...this.state.user,
         error: {
           message,
         },
@@ -194,6 +194,41 @@ class App extends Component {
 
     localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
   };
+
+  updateUserProfile = async ({name, email, password}) => {
+    const { token } = this.state.user.data;
+
+    this.setState({
+      ...this.state,
+      user: {
+        ...this.state.user,
+        loading: true,
+        error: null,
+      }
+    })
+    const { isError, data } = await userApi.updateUser(token, { name, email, password });
+    if (!isError) {
+      this.setState({
+        ...this.state,
+        user: {
+          ...this.state.user,
+          loading: false,
+          data,
+        }
+      })
+    } else {
+      this.setState({
+        ...this.state,
+        user: {
+          ...this.state.user,
+          loading: false,
+          error: data,
+        }
+      })
+    }
+
+    localStorage.setItem('user', JSON.stringify(this.state.user.data));
+  }
 
   render() {
     this.container.innerHTML = '';
@@ -259,7 +294,12 @@ class App extends Component {
           },
           {
             path: '/profile',
-            Component: ProfilePage,            
+            Component: ProfilePage,
+            props: {
+              user,
+              onProfileSubmit: this.updateUserProfile,
+              setError: this.setUserError,
+            }
           },
           {
             path: '*',
