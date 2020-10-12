@@ -13,7 +13,7 @@ class CartItems extends Component {
 
     if(items.length === 0) {
       this.container.innerHTML = `
-        <div role="alert" class="fade alert alert-info show">Your cart is empty <a href="/">Go Back</a></div>
+        <div role="alert" class="fade alert alert-info show">Your cart is empty</div>
       `;
       return this.container;
     }
