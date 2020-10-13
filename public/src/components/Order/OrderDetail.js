@@ -17,6 +17,7 @@ class OrderDetail extends Component {
         isPaid,
         paidAt,
         isDelivered,
+        deliveredAt,
       } 
     } = this.props;        
 
@@ -28,7 +29,7 @@ class OrderDetail extends Component {
         <p><strong>Address:</strong>${shippingAddress.address}, ${shippingAddress.city} ${shippingAddress.postalCode}, ${shippingAddress.country}</p>
         ${
           isDelivered ? `
-          <div role="alert" class="fade alert alert-success show">Delivered</div>
+          <div role="alert" class="fade alert alert-success show">Delivered on ${new Date(deliveredAt).toLocaleString()}</div>
           ` : `
           <div role="alert" class="fade alert alert-danger show">Not Delivered</div>
           `
