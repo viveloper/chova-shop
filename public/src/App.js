@@ -8,6 +8,8 @@ import CartPage from './pages/CartPage.js';
 import LoginPage from './pages/LoginPage.js';
 import RegisterPage from './pages/RegisterPage.js';
 import ShippingPage from './pages/ShippingPage.js';
+import PaymentPage from './pages/PaymentPage.js';
+import PlaceOrderPage from './pages/PlaceOrderPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as userApi from './api/user.js';
 import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
@@ -33,6 +35,7 @@ class App extends Component {
       cart: { 
         items: initCartItems,
         shippingAddress: initShippingAddress,
+        paymentMethod: '',
       },
       user: initUser,
       loginInputs: {
@@ -235,7 +238,9 @@ class App extends Component {
     localStorage.setItem('user', JSON.stringify(this.state.user.data));
   }
 
-  handleShippingAddressSubmit = ({address, city, postalCode, country}) => {    
+  handleShippingAddressSubmit = ({address, city, postalCode, country}) => {   
+    history.pushState({ path: '/payment' }, '', '/payment');
+    
     this.setState({
       cart: {
         ...this.state.cart,
@@ -249,6 +254,21 @@ class App extends Component {
     });
     
     localStorage.setItem('shippingAddress', JSON.stringify(this.state.cart.shippingAddress));
+  }
+
+  handlePaymentSubmit = ({paymentMethod}) => {
+    history.pushState({ path: '/placeorder' }, '', '/placeorder');
+
+    this.setState({
+      cart: {
+        ...this.state.cart,
+        paymentMethod,
+      }
+    });
+  }
+
+  handlePlaceOrderSubmit = () => {
+    
   }
 
   render() {
@@ -329,6 +349,22 @@ class App extends Component {
               user,
               shippingAddress: cart.shippingAddress,
               onSubmit: this.handleShippingAddressSubmit,
+            }            
+          },
+          {
+            path: '/payment',
+            Component: PaymentPage,
+            props: {
+              user,
+              onSubmit: this.handlePaymentSubmit,
+            }            
+          },
+          {
+            path: '/placeorder',
+            Component: PlaceOrderPage,
+            props: {
+              user,
+              onSubmit: this.handlePlaceOrderSubmit,
             }            
           },
           {

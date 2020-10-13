@@ -1,7 +1,7 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Shipping from '../components/Shipping/Shipping.js';
+import Payment from '../components/Payment/Payment.js';
 
-class ShippingContainer extends Component {
+class PaymentContainer extends Component {
   constructor(props) {
     super(props);
     this.container = document.createElement('div');
@@ -10,14 +10,13 @@ class ShippingContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const {history, shippingAddress, onSubmit} = this.props;
+    const {history, onSubmit} = this.props;
 
     renderComponent(
-      Shipping, 
+      Payment, 
       {        
         history,
-        step: 2,
-        shippingAddress,
+        step: 3,
         onSubmit,
       }, 
       this.container
@@ -27,4 +26,4 @@ class ShippingContainer extends Component {
   }
 }
 
-export default ShippingContainer;
+export default PaymentContainer;
