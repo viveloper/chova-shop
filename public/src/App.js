@@ -12,6 +12,7 @@ import PaymentPage from './pages/PaymentPage.js';
 import PlaceOrderPage from './pages/PlaceOrderPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as userApi from './api/user.js';
+import * as ordersApi from './api/orders.js';
 import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
 import ProfilePage from './pages/ProfilePage.js';
 
@@ -51,6 +52,7 @@ class App extends Component {
         password: '',
         confirmPassword: '',
       },
+      orderCreationInfo: asyncInitState,
     };
 
     this.container = document.createElement('div');
@@ -206,6 +208,17 @@ class App extends Component {
     localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
   };
 
+  clearCartItems = () => {
+    this.setState({
+      cart: {
+        ...this.state.cart,
+        items: [],
+      }
+    });
+
+    localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
+  }
+
   updateUserProfile = async ({name, email, password}) => {
     const { token } = this.state.user.data;
 
@@ -272,14 +285,29 @@ class App extends Component {
     localStorage.setItem('paymentMethod', JSON.stringify(this.state.cart.paymentMethod));
   }
 
-  handlePlaceOrderSubmit = () => {
-
+  createOrder = async (order) => {
+    const { token } = this.state.user.data;
+    asyncHandler.setLoading.call(this, 'orderCreationInfo');
+    const { isError, data } = await ordersApi.createOrder(token, order);
+    if (!isError) {
+      asyncHandler.setData.call(this, 'orderCreationInfo', data);
+      this.clearCartItems();
+      this.push(`/orders/${data._id}`);
+    } else {
+      asyncHandler.setError.call(this, 'orderCreationInfo', data);
+    }
   }
 
   render() {
     this.container.innerHTML = '';
 
-    const { cart, user, loginInputs, registerInputs } = this.state;
+    const { 
+      cart, 
+      user, 
+      loginInputs, 
+      registerInputs, 
+      orderCreationInfo,
+    } = this.state;
     
     renderComponent(
       Header, 
@@ -370,7 +398,8 @@ class App extends Component {
             props: {
               user,
               cart,
-              onSubmit: this.handlePlaceOrderSubmit,
+              orderCreationInfo, 
+              onSubmit: this.createOrder,
             }            
           },
           {

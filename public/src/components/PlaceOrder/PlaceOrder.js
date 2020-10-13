@@ -14,7 +14,7 @@ class PlaceOrder extends Component {
   render() {
     this.container.innerHTML = '';    
 
-    const {history, step, cart, onSubmit} = this.props;
+    const {history, step, cart, orderCreationInfo, onSubmit} = this.props;
 
     const container = document.createElement('div');
     container.className = 'container';
@@ -36,7 +36,7 @@ class PlaceOrder extends Component {
     col2.className = 'col-md-4';
     row.appendChild(col2);
 
-    renderComponent(OrderSummary, {cart, onSubmit}, col2);
+    renderComponent(OrderSummary, {cart, orderCreationInfo, onSubmit}, col2);
 
     return this.container;
   }

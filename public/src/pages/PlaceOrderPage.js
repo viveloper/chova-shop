@@ -14,6 +14,7 @@ class PlaceOrderPage extends Component {
       history, 
       user,
       cart,
+      orderCreationInfo,
       onSubmit,
     } = this.props;
 
@@ -27,6 +28,7 @@ class PlaceOrderPage extends Component {
       { 
         history,
         cart,
+        orderCreationInfo,
         onSubmit,
       },
       this.container

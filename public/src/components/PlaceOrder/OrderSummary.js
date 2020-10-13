@@ -1,4 +1,5 @@
 import {Component, renderComponent} from '../../modules/MyReact.js';
+import Loader from '../Loader.js';
 
 class OrderSummary extends Component {
   constructor(props) {
@@ -12,7 +13,16 @@ class OrderSummary extends Component {
     e.preventDefault();
     
     if(e.target.tagName.toLowerCase() === 'button') {
-      console.log('submit');
+      const { cart } = this.props;
+
+      const order = {
+        orderItems: cart.items.map((item) => ({...item, product: item._id})),
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        ...this.getSummary(),
+      }
+
+      this.props.onSubmit(order);
     }
   }
 
@@ -33,12 +43,8 @@ class OrderSummary extends Component {
   }
 
   render() {
-    const {
-      itemsPrice,
-      shippingPrice,
-      taxPrice,
-      totalPrice,
-    } = this.getSummary();
+    const {orderCreationInfo} = this.props;
+    const prices = this.getSummary();
 
     this.container.innerHTML = `
       <div class="list-group list-group-flush">
@@ -48,27 +54,51 @@ class OrderSummary extends Component {
         <div class="list-group-item">
           <div class="row">
             <div class="col">Items</div>
-            <div class="col">$${itemsPrice}</div>
+            <div class="col">$${prices.itemsPrice}</div>
           </div>
         </div>
         <div class="list-group-item">
           <div class="row">
             <div class="col">Shipping</div>
-            <div class="col">$${shippingPrice}</div>
+            <div class="col">$${prices.shippingPrice}</div>
           </div>
         </div>
         <div class="list-group-item">
           <div class="row">
             <div class="col">Tax</div>
-            <div class="col">$${taxPrice}</div>
+            <div class="col">$${prices.taxPrice}</div>
           </div>
         </div>
         <div class="list-group-item">
           <div class="row">
             <div class="col">Total</div>
-            <div class="col">$${totalPrice}</div>
+            <div class="col">$${prices.totalPrice}</div>
           </div>
         </div>
+        ${
+          orderCreationInfo.loading ? `
+            <div class="list-group-item">
+              ${renderComponent(
+                Loader,
+                {
+                  width: '100px',
+                  height: '100px',
+                  margin: 'auto',
+                  display: 'block',
+                },
+                null,
+                'HTML'
+              )}
+            </div>
+          ` : ''
+        }
+        ${
+          orderCreationInfo.error ? `
+            <div class="list-group-item">
+              <span style="color:red">${orderCreationInfo.error.message}</span>
+            </div>
+          ` : ''
+        }
         <div class="list-group-item">
           <button type="button" class="btn-block btn btn-primary">Place Order</button>
         </div>
