@@ -1,4 +1,5 @@
 import {Component, renderComponent} from '../../modules/MyReact.js';
+import Loader from '../Loader.js';
 
 class OrdersTable extends Component {
   constructor(props) {
@@ -8,6 +9,35 @@ class OrdersTable extends Component {
   }
 
   render() {
+    this.container.innerHTML = '';
+
+    const { orders: { loading, data, error } } = this.props;
+
+    console.log(data);
+
+    if (loading) {
+      renderComponent(
+        Loader,
+        {
+          width: '100px',
+          height: '100px',
+          margin: 'auto',
+          display: 'block',
+        },
+        this.container
+      );
+      this.container.className = '';
+      return this.container;
+    }
+    if (error) {
+      const errorEl = document.createElement('h1');
+      errorEl.innerText = error.message;
+      this.container.appendChild(errorEl);
+
+      return this.container;
+    }
+    if (!data) return this.container;
+
     this.container.innerHTML = `
       <table class="table-sm table table-striped table-bordered table-hover">
         <thead>
@@ -21,22 +51,18 @@ class OrdersTable extends Component {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>5f74c8d823d9100004671c1b</td>
-            <td>2020-09-30</td>
-            <td>214.98</td>
-            <td>2020-10-04</td>
-            <td><i class="fas fa-times" style="color: red;"></i></td>
-            <td><a href="/order/5f74c8d823d9100004671c1b" class="btn-sm btn btn-light">Details</a></td>
-          </tr>
-          <tr>
-            <td>5f77b5c3ed2ad3000410fb5f</td>
-            <td>2020-10-02</td>
-            <td>203.49</td>
-            <td><i class="fas fa-times" style="color: red;"></i></td>
-            <td><i class="fas fa-times" style="color: red;"></i></td>
-            <td><a href="/order/5f77b5c3ed2ad3000410fb5f" class="btn-sm btn btn-light">Details</a></td>
-          </tr>
+        ${
+          data.map((order) => `
+            <tr>
+              <td>${order._id}</td>
+              <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+              <td>${order.totalPrice}</td>
+              <td>${order.isPaid ? new Date(order.paidAt).toLocaleDateString() : '<i class="fas fa-times" style="color: red;"></i>'}</td>
+              <td>${order.isDelivered ? new Date(order.deliveredAt).toLocaleDateString() : '<i class="fas fa-times" style="color: red;"></i>'}</td>
+              <td><a href="/order/5f74c8d823d9100004671c1b" class="btn-sm btn btn-light">Details</a></td>
+            </tr>
+          `).join('')
+        }                   
         </tbody>
       </table>
     `;

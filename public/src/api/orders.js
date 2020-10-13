@@ -60,3 +60,23 @@ export const payOrder = async (token, payInfo) => {
     };
   }
 };
+
+export const fetchMyOrders = async (token) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/orders/myorders`, 
+      'GET', 
+      null,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};

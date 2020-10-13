@@ -15,12 +15,10 @@ class OrderDetail extends Component {
         orderItems,
         paymentMethod,
         isPaid,
-        paymentResult,
+        paidAt,
         isDelivered,
       } 
-    } = this.props;    
-
-    console.log(this.props.order);
+    } = this.props;        
 
     this.container.innerHTML = `
       <div class="list-group-item">
@@ -41,7 +39,7 @@ class OrderDetail extends Component {
         <p><strong>Method: </strong>${paymentMethod}</p>
         ${
           isPaid ? `
-          <div role="alert" class="fade alert alert-success show">Paid on ${new Date(paymentResult.update_time).toLocaleString()}</div>
+          <div role="alert" class="fade alert alert-success show">Paid on ${new Date(paidAt).toLocaleString()}</div>
           ` : `
           <div role="alert" class="fade alert alert-danger show">Not Paid</div>
           `
