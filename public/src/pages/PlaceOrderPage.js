@@ -13,6 +13,7 @@ class PlaceOrderPage extends Component {
     const { 
       history, 
       user,
+      cart,
       onSubmit,
     } = this.props;
 
@@ -25,6 +26,7 @@ class PlaceOrderPage extends Component {
       PlaceOrderContainer,
       { 
         history,
+        cart,
         onSubmit,
       },
       this.container

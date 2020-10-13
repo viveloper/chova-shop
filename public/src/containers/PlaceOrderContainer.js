@@ -10,13 +10,14 @@ class PlaceOrderContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const {history, onSubmit} = this.props;
+    const {history, cart, onSubmit} = this.props;
 
     renderComponent(
       PlaceOrder, 
       {        
         history,
         step: 4,
+        cart,
         onSubmit,
       }, 
       this.container

@@ -16,7 +16,30 @@ class OrderSummary extends Component {
     }
   }
 
-  render() {     
+  getSummary = () => {
+    const {cart} = this.props;
+
+    const itemsPrice = cart.items.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const shippingPrice = itemsPrice > 100 ? 0 : 100;
+    const taxPrice = Number((itemsPrice * 0.15).toFixed(2));
+    const totalPrice = itemsPrice + shippingPrice + taxPrice;
+
+    return {
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
+    }
+  }
+
+  render() {
+    const {
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
+    } = this.getSummary();
+
     this.container.innerHTML = `
       <div class="list-group list-group-flush">
         <div class="list-group-item">
@@ -25,25 +48,25 @@ class OrderSummary extends Component {
         <div class="list-group-item">
           <div class="row">
             <div class="col">Items</div>
-            <div class="col">$599.99</div>
+            <div class="col">$${itemsPrice}</div>
           </div>
         </div>
         <div class="list-group-item">
           <div class="row">
             <div class="col">Shipping</div>
-            <div class="col">$0.00</div>
+            <div class="col">$${shippingPrice}</div>
           </div>
         </div>
         <div class="list-group-item">
           <div class="row">
             <div class="col">Tax</div>
-            <div class="col">$90.00</div>
+            <div class="col">$${taxPrice}</div>
           </div>
         </div>
         <div class="list-group-item">
           <div class="row">
             <div class="col">Total</div>
-            <div class="col">$689.99</div>
+            <div class="col">$${totalPrice}</div>
           </div>
         </div>
         <div class="list-group-item">

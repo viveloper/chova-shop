@@ -8,29 +8,46 @@ class OrderDetail extends Component {
   }
 
   render() {     
+    const {
+      cart: {
+        items,
+        shippingAddress: {
+          address,
+          city,
+          postalCode,
+          country
+        },
+        paymentMethod,
+      }
+    } = this.props;
+
     this.container.innerHTML = `
       <div class="list-group-item">
         <h2>Shipping</h2>
-        <p><strong>Address:</strong>Address, City 1235, Country</p>
+        <p><strong>Address:</strong>${address}, ${city} ${postalCode}, ${country}</p>
       </div>
       <div class="list-group-item">
         <h2>Payment Method</h2>
-        <strong>Method: </strong>PayPal
+        <strong>Method: </strong>${paymentMethod}
       </div>
       <div class="list-group-item">
         <h2>Order Items</h2>
         <div class="list-group list-group-flush">
-          <div class="list-group-item">
-            <div class="row">
-              <div class="col-md-1">
-                <img src="/images/phone.jpg" alt="iPhone 11 Pro 256GB Memory" class="img-fluid rounded">
-              </div>
-              <div class="col">
-                <a href="/product/5f74868bf49a7ae4f3a49273">iPhone 11 Pro 256GB Memory</a>
-              </div>
-              <div class="col-md-4">1 x $599.99 = $599.99</div>
-            </div>
-          </div>
+            ${
+              items.map((item) => `
+                <div class="list-group-item">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
+                    </div>
+                    <div class="col">
+                      <a href="/product/${item._id}">${item.name}</a>
+                    </div>
+                    <div class="col-md-4">${item.qty} x $${item.price} = $${item.qty * item.price}</div>
+                  </div>
+                </div>
+              `).join('')
+            }
         </div>
       </div>
     `;

@@ -31,11 +31,14 @@ class App extends Component {
     const localShippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
     const initShippingAddress = localShippingAddress ? localShippingAddress : {address: '', city: '', postalCode: '', country: ''};
 
+    const localPaymentMethod = JSON.parse(localStorage.getItem('paymentMethod'));
+    const initPaymentMethod = localPaymentMethod ? localPaymentMethod : '';
+
     this.state = {      
       cart: { 
         items: initCartItems,
         shippingAddress: initShippingAddress,
-        paymentMethod: '',
+        paymentMethod: initPaymentMethod,
       },
       user: initUser,
       loginInputs: {
@@ -265,10 +268,12 @@ class App extends Component {
         paymentMethod,
       }
     });
+
+    localStorage.setItem('paymentMethod', JSON.stringify(this.state.cart.paymentMethod));
   }
 
   handlePlaceOrderSubmit = () => {
-    
+
   }
 
   render() {
@@ -364,6 +369,7 @@ class App extends Component {
             Component: PlaceOrderPage,
             props: {
               user,
+              cart,
               onSubmit: this.handlePlaceOrderSubmit,
             }            
           },
