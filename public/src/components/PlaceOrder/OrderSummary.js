@@ -81,8 +81,8 @@ class OrderSummary extends Component {
               ${renderComponent(
                 Loader,
                 {
-                  width: '100px',
-                  height: '100px',
+                  width: '30px',
+                  height: '30px',
                   margin: 'auto',
                   display: 'block',
                 },
@@ -95,7 +95,9 @@ class OrderSummary extends Component {
         ${
           orderCreationInfo.error ? `
             <div class="list-group-item">
-              <span style="color:red">${orderCreationInfo.error.message}</span>
+              <div class="alert alert-danger" role="alert">
+                ${orderCreationInfo.error.message}
+              </div>
             </div>
           ` : ''
         }
