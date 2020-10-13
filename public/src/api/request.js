@@ -7,7 +7,7 @@ export const request = async (url, method = 'GET', data, token) => {
         'Content-Type': method === 'POST' || method === 'PUT' ? 'application/json' : undefined,
         Authorization: token ? `Bearer ${token}` : undefined,
       },
-      body: JSON.stringify(data),
+      body: data ? JSON.stringify(data) : undefined,
     });
     if (response.ok) {
       const data = await response.json();

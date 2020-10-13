@@ -10,6 +10,7 @@ import RegisterPage from './pages/RegisterPage.js';
 import ShippingPage from './pages/ShippingPage.js';
 import PaymentPage from './pages/PaymentPage.js';
 import PlaceOrderPage from './pages/PlaceOrderPage.js';
+import OrderPage from './pages/OrderPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as userApi from './api/user.js';
 import * as ordersApi from './api/orders.js';
@@ -401,6 +402,13 @@ class App extends Component {
               orderCreationInfo, 
               onSubmit: this.createOrder,
             }            
+          },
+          {
+            path: '/orders/:id',
+            Component: OrderPage,
+            props: {
+              user,
+            }
           },
           {
             path: '*',
