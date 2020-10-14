@@ -38,7 +38,7 @@ export const register = async ({ name, email, password }) => {
   }
 };
 
-export const updateUser = async (token, { name, email, password }) => {
+export const updateUserProfile = async (token, { name, email, password }) => {
   try {
     const result = await request(
       `${API_ENDPOINT}/users/profile`, 
@@ -66,6 +66,66 @@ export const fetchUsers = async (token) => {
   try {
     const result = await request(
       `${API_ENDPOINT}/users`, 
+      'GET', 
+      null,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};
+
+export const deleteUser = async (token, { id }) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/users/${id}`,
+      'DELETE', 
+      null,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};
+
+export const updateUser = async (token, { id, name, email, isAdmin }) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/users/${id}`,
+      'PUT', 
+      { id, name, email, isAdmin },
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};
+
+export const fetchUser = async (token, { id }) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/users/${id}`, 
       'GET', 
       null,
       token

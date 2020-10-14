@@ -19,6 +19,7 @@ class UsersTable extends Component {
     }
     if(e.target.dataset.name === 'delete-user') {
       const userId = e.target.dataset.id;
+      if(!window.confirm('are you sure?')) return;
       this.props.onUserDelete(userId);
       return;
     }
@@ -28,8 +29,6 @@ class UsersTable extends Component {
     this.container.innerHTML = '';
 
     const { data } = this.props;
-
-    console.log(data);
 
     this.container.innerHTML = `
       <table class="table-sm table table-striped table-bordered table-hover">

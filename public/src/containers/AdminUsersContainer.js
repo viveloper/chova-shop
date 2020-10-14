@@ -17,6 +17,16 @@ class AdminUsersContainer extends Component {
   }
 
   async initState() {
+    this.fetchUsers();
+  }
+
+  deleteUser = async (userId) => {
+    const token = this.props.user.data.token;
+    await usersApi.deleteUser(token, { id: userId });
+    this.fetchUsers();
+  }
+
+  fetchUsers = async () => {
     const token = this.props.user.data.token;
 
     asyncHandler.setLoading.call(this, 'users');
@@ -26,10 +36,6 @@ class AdminUsersContainer extends Component {
     } else {
       asyncHandler.setError.call(this, 'users', data);
     }
-  }
-
-  deleteUser = (userId) => {
-    console.log(userId);
   }
 
   render() {

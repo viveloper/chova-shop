@@ -12,6 +12,7 @@ import PaymentPage from './pages/PaymentPage.js';
 import PlaceOrderPage from './pages/PlaceOrderPage.js';
 import OrderPage from './pages/OrderPage.js';
 import AdminUsersPage from './pages/AdminUsersPage.js';
+import AdminEditUserPage from './pages/AdminEditUserPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as usersApi from './api/users.js';
 import * as ordersApi from './api/orders.js';
@@ -232,7 +233,7 @@ class App extends Component {
         error: null,
       }
     })
-    const { isError, data } = await usersApi.updateUser(token, { name, email, password });
+    const { isError, data } = await usersApi.updateUserProfile(token, { name, email, password });
     if (!isError) {
       this.setState({
         ...this.state,
@@ -414,6 +415,13 @@ class App extends Component {
           {
             path: '/admin/users',
             Component: AdminUsersPage,
+            props: {
+              user,
+            }
+          },
+          {
+            path: '/admin/user/:id/edit',
+            Component: AdminEditUserPage,
             props: {
               user,
             }
