@@ -20,10 +20,10 @@ class OrderSummary extends Component {
   getSummary = () => {
     const { order: { orderItems } } = this.props;
 
-    const itemsPrice = orderItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const itemsPrice = Number(orderItems.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2));
     const shippingPrice = itemsPrice > 100 ? 0 : 100;
     const taxPrice = Number((itemsPrice * 0.15).toFixed(2));
-    const totalPrice = itemsPrice + shippingPrice + taxPrice;
+    const totalPrice = Number((itemsPrice + shippingPrice + taxPrice).toFixed(2));
 
     return {
       itemsPrice,

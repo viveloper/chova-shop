@@ -13,7 +13,7 @@ class Profile extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { user, orders, onProfileSubmit, setError } = this.props;
+    const { history, user, orders, onProfileSubmit, setError } = this.props;
 
     const container = document.createElement('div');
     container.className = 'container';
@@ -41,7 +41,7 @@ class Profile extends Component {
     ordersTitle.innerText = 'My Orders';
     ordersCol.appendChild(ordersTitle);
 
-    renderComponent(OrdersTable, { orders }, ordersCol);
+    renderComponent(OrdersTable, { history, orders }, ordersCol);
 
     return this.container;
   }

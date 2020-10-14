@@ -17,7 +17,7 @@ class ProfilePage extends Component {
       return this.container;
     }
 
-    renderComponent(ProfileContainer, { user, onProfileSubmit, setError }, this.container);
+    renderComponent(ProfileContainer, { history, user, onProfileSubmit, setError }, this.container);
 
     return this.container;
   }

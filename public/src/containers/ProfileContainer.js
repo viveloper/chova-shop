@@ -33,10 +33,10 @@ class ProfileContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { user, onProfileSubmit, setError } = this.props;
+    const { history, user, onProfileSubmit, setError } = this.props;
     const { orders } = this.state
 
-    renderComponent(Profile, { user, orders, onProfileSubmit, setError }, this.container);
+    renderComponent(Profile, { history, user, orders, onProfileSubmit, setError }, this.container);
 
     return this.container;
   }

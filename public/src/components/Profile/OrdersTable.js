@@ -6,14 +6,21 @@ class OrdersTable extends Component {
     super(props);
     this.container = document.createElement('div');
     this.container.className = 'table-responsive';
+    this.container.addEventListener('click', this.handleClick);
+  }
+
+  handleClick = (e) => {
+    e.preventDefault();
+    if(e.target.tagName.toLowerCase() === 'a') {
+      const path = e.target.getAttribute('href');
+      this.props.history.push(path);
+    }
   }
 
   render() {
     this.container.innerHTML = '';
 
     const { orders: { loading, data, error } } = this.props;
-
-    console.log(data);
 
     if (loading) {
       renderComponent(
@@ -41,7 +48,7 @@ class OrdersTable extends Component {
     this.container.innerHTML = `
       <table class="table-sm table table-striped table-bordered table-hover">
         <thead>
-          <tr>
+          <tr class="text-center">
             <th>ID</th>
             <th>DATE</th>
             <th>TOTAL</th>
@@ -53,13 +60,13 @@ class OrdersTable extends Component {
         <tbody>
         ${
           data.map((order) => `
-            <tr>
+            <tr class="text-center">
               <td>${order._id}</td>
               <td>${new Date(order.createdAt).toLocaleDateString()}</td>
               <td>${order.totalPrice}</td>
               <td>${order.isPaid ? new Date(order.paidAt).toLocaleDateString() : '<i class="fas fa-times" style="color: red;"></i>'}</td>
               <td>${order.isDelivered ? new Date(order.deliveredAt).toLocaleDateString() : '<i class="fas fa-times" style="color: red;"></i>'}</td>
-              <td><a href="/order/5f74c8d823d9100004671c1b" class="btn-sm btn btn-light">Details</a></td>
+              <td><a href="/orders/${order._id}" class="btn-sm btn btn-light">Details</a></td>
             </tr>
           `).join('')
         }                   

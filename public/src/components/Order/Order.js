@@ -17,7 +17,7 @@ class Order extends Component {
     container.className = 'container';
     this.container.appendChild(container);
 
-    const { orderId, order: { loading, data, error }, onPayPalClick } = this.props;    
+    const { history, orderId, order: { loading, data, error }, onPayPalClick } = this.props;    
 
     const title = document.createElement('h1');
     title.innerText = `Order ${orderId}`;
@@ -53,7 +53,7 @@ class Order extends Component {
     orderDetailCol.className = 'col-md-8';
     row.appendChild(orderDetailCol);
 
-    renderComponent(OrderDetail, { order: data }, orderDetailCol);
+    renderComponent(OrderDetail, { history, order: data }, orderDetailCol);
 
     const orderSummaryCol = document.createElement('div');
     orderSummaryCol.className = 'col-md-4';

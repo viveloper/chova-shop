@@ -5,6 +5,15 @@ class OrderDetail extends Component {
     super(props);
     this.container = document.createElement('div');
     this.container.className = 'list-group list-group-flush';
+    this.container.addEventListener('click', this.handleClick);
+  }
+
+  handleClick = (e) => {
+    e.preventDefault();
+    if(e.target.tagName.toLowerCase() === 'a') {
+      const path = e.target.getAttribute('href');
+      this.props.history.push(path);
+    }
   }
 
   render() {    
