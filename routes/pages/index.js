@@ -51,4 +51,24 @@ router.get('/orders/:id', function (req, res, next) {
   res.sendFile(filepath);
 });
 
+router.get('/admin/users', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
+router.get('/admin/products', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
+router.get('/admin/orders', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
+router.get('/admin/user/:id/edit', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
 module.exports = router;

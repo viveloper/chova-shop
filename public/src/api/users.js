@@ -61,3 +61,23 @@ export const updateUser = async (token, { name, email, password }) => {
     };
   }
 };
+
+export const fetchUsers = async (token) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/users`, 
+      'GET', 
+      null,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};

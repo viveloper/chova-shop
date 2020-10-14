@@ -11,8 +11,9 @@ import ShippingPage from './pages/ShippingPage.js';
 import PaymentPage from './pages/PaymentPage.js';
 import PlaceOrderPage from './pages/PlaceOrderPage.js';
 import OrderPage from './pages/OrderPage.js';
+import AdminUsersPage from './pages/AdminUsersPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
-import * as userApi from './api/user.js';
+import * as usersApi from './api/users.js';
 import * as ordersApi from './api/orders.js';
 import { asyncHandler, asyncInitState } from './modules/asyncHandler.js';
 import ProfilePage from './pages/ProfilePage.js';
@@ -73,7 +74,7 @@ class App extends Component {
 
   login = async ({ email, password }) => {
     asyncHandler.setLoading.call(this, 'user');
-    const { isError, data } = await userApi.login({ email, password });
+    const { isError, data } = await usersApi.login({ email, password });
     if (!isError) {
       asyncHandler.setData.call(this, 'user', data);
       this.setState({
@@ -103,7 +104,7 @@ class App extends Component {
 
   register = async ({ name, email, password }) => {
     asyncHandler.setLoading.call(this, 'user');
-    const { isError, data } = await userApi.register({ name, email, password });
+    const { isError, data } = await usersApi.register({ name, email, password });
     if (!isError) {
       asyncHandler.setData.call(this, 'user', data);
       this.setState({
@@ -231,7 +232,7 @@ class App extends Component {
         error: null,
       }
     })
-    const { isError, data } = await userApi.updateUser(token, { name, email, password });
+    const { isError, data } = await usersApi.updateUser(token, { name, email, password });
     if (!isError) {
       this.setState({
         ...this.state,
@@ -406,6 +407,13 @@ class App extends Component {
           {
             path: '/orders/:id',
             Component: OrderPage,
+            props: {
+              user,
+            }
+          },
+          {
+            path: '/admin/users',
+            Component: AdminUsersPage,
             props: {
               user,
             }

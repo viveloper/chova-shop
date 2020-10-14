@@ -4,15 +4,13 @@ class NotFoundPage extends Component {
   constructor(props) {
     super(props);
 
-    this.handleLinkClick = this.handleLinkClick.bind(this);
-
     this.container = document.createElement('div');
     this.container.className = 'container';
   }
 
-  handleLinkClick(e, path) {
+  goBack = (e) => {
     e.preventDefault();
-    this.props.history.push(path);
+    this.props.history.goBack();
   }
 
   render() {
@@ -22,7 +20,7 @@ class NotFoundPage extends Component {
     goBackBtn.className = 'btn btn-light my-3';
     goBackBtn.setAttribute('href', '/');
     goBackBtn.innerText = 'Go Back';
-    goBackBtn.addEventListener('click', (e) => this.handleLinkClick(e, `/`));
+    goBackBtn.addEventListener('click', this.goBack);
     this.container.appendChild(goBackBtn);
 
     const message = document.createElement('h1');

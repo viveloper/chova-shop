@@ -12,6 +12,7 @@ class Header extends Component {
   handleClick = (e) => {
     e.preventDefault();
     if (e.target.id === 'username') return;
+    if (e.target.id === 'adminmenu') return;
     if (e.target.id === 'btnLogout') {
       this.props.logout();
       return;
@@ -168,6 +169,54 @@ class Header extends Component {
       logoutLink.setAttribute('href', '#');
       logoutLink.innerText = 'Logout';
       dropdownMenu.appendChild(logoutLink);
+
+      if(user.isAdmin) {
+        const dropdwonNavItem = document.createElement('div');
+        dropdwonNavItem.className = 'dropdown nav-item';
+        navigation.appendChild(dropdwonNavItem);
+
+        const dropdownToggler = document.createElement('a');
+        dropdownToggler.className = 'dropdown-toggle nav-link';
+        dropdownToggler.id = 'adminmenu';
+        dropdownToggler.setAttribute('href', '#');
+        dropdownToggler.setAttribute('role', 'button');
+        dropdownToggler.setAttribute('aria-haspopup', 'true');
+        dropdownToggler.setAttribute('aria-expanded', 'false');
+        dropdownToggler.innerText = 'Admin';
+        dropdownToggler.addEventListener('click', (e) =>
+          this.handleDropdownToggleClick(
+            e,
+            dropdwonNavItem,
+            dropdownToggler,
+            dropdownMenu
+          )
+        );
+        dropdwonNavItem.appendChild(dropdownToggler);
+
+        const dropdownMenu = document.createElement('div');
+        dropdownMenu.className = 'dropdown-menu';
+        dropdownMenu.style.margin = '0px';
+        dropdownMenu.setAttribute('aria-labelledby', 'adminmenu');
+        dropdwonNavItem.appendChild(dropdownMenu);
+
+        const usersLink = document.createElement('a');
+        usersLink.className = 'dropdown-item';
+        usersLink.setAttribute('href', '/admin/users');
+        usersLink.innerText = 'Users';
+        dropdownMenu.appendChild(usersLink);
+
+        const productsLink = document.createElement('a');
+        productsLink.className = 'dropdown-item';
+        productsLink.setAttribute('href', '/admin/products');
+        productsLink.innerText = 'Products';
+        dropdownMenu.appendChild(productsLink);
+
+        const ordersLink = document.createElement('a');
+        ordersLink.className = 'dropdown-item';
+        ordersLink.setAttribute('href', '/admin/orders');
+        ordersLink.innerText = 'Orders';
+        dropdownMenu.appendChild(ordersLink);
+      }
     }
 
     return this.container;
