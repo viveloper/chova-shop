@@ -10,22 +10,30 @@ class ProductForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const name = e.target.querySelector('input[id=name]').value;
-    const price = e.target.querySelector('input[id=price]').value;
-    const image = e.target.querySelector('input[id=image]').value;
-    const brand = e.target.querySelector('input[id=brand]').value;
-    const countInStock = e.target.querySelector('input[id=countInStock]').value;
-    const category = e.target.querySelector('input[id=category]').value;
-    const description = e.target.querySelector('input[id=description]').value;
-    this.props.onSubmit({ name, price, image, brand, countInStock, category, description });
+    const product = this.getInputs();
+    this.props.onSubmit(product);
   }
 
   handleInput = (e) => {
     e.preventDefault();
     if(e.target.id === 'image-file') {
-      this.props.onImageSelect(e);
+      const product = this.getInputs();
+      const file = e.target.files[0];
+      this.props.onImageSelect(file, product);
       return;
     }
+  }
+
+  getInputs = () => {
+    const name = this.container.querySelector('input[id=name]').value;
+    const price = this.container.querySelector('input[id=price]').value;
+    const image = this.container.querySelector('input[id=image]').value;
+    const brand = this.container.querySelector('input[id=brand]').value;
+    const countInStock = this.container.querySelector('input[id=countInStock]').value;
+    const category = this.container.querySelector('input[id=category]').value;
+    const description = this.container.querySelector('input[id=description]').value;
+
+    return { name, price, image, brand, countInStock, category, description };
   }
 
   render() {

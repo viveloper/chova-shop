@@ -1,34 +1,30 @@
 import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
-import OrderDetail from './OrderDetail.js';
-import OrderSummary from './OrderSummary.js';
+import OrdersTable from './OrdersTable.js';
 
-class Order extends Component {
+class AdminOrders extends Component {
   constructor(props) {
     super(props);
+
     this.container = document.createElement('main');
     this.container.className = 'py-3';
   }
 
   render() {
-    this.container.innerHTML = ''
+    this.container.innerHTML = '';
 
     const container = document.createElement('div');
     container.className = 'container';
     this.container.appendChild(container);
 
-    const { 
-      history, 
-      user, 
-      orderId, 
-      order: { loading, data, error }, 
-      onPayPalClick, 
-      onMarkDeliveredClick 
-    } = this.props;    
-
     const title = document.createElement('h1');
-    title.innerText = `Order ${orderId}`;
+    title.innerText = 'Orders';
     container.appendChild(title);
+
+    const {
+      orders: { loading, data, error },
+      history,
+    } = this.props;
 
     if (loading) {
       renderComponent(
@@ -51,25 +47,11 @@ class Order extends Component {
       return this.container;
     }
     if (!data) return this.container;
-    
-    const row = document.createElement('div');
-    row.className = 'row';
-    container.appendChild(row);
 
-    const orderDetailCol = document.createElement('div');
-    orderDetailCol.className = 'col-md-8';
-    row.appendChild(orderDetailCol);
-
-    renderComponent(OrderDetail, { history, order: data }, orderDetailCol);
-
-    const orderSummaryCol = document.createElement('div');
-    orderSummaryCol.className = 'col-md-4';
-    row.appendChild(orderSummaryCol);
-
-    renderComponent(OrderSummary, { user, order: data, onPayPalClick, onMarkDeliveredClick }, orderSummaryCol);
+    renderComponent(OrdersTable, { history, data }, container);
 
     return this.container;
   }
 }
 
-export default Order;
+export default AdminOrders;

@@ -51,13 +51,37 @@ class OrderContainer extends Component {
     }
   }
 
+  markDelivered = async () => {
+    const {user, orderId} = this.props;    
+    const token = user.data.token;
+
+    asyncHandler.setLoading.call(this, 'order');
+    const { isError, data } = await ordersApi.markDeliveredOrder(token, orderId);
+    if (!isError) {
+      asyncHandler.setData.call(this, 'order', data);
+    } else {
+      asyncHandler.setError.call(this, 'order', data);
+    }
+  }
+
   render() {
     this.container.innerHTML = '';
 
     const { order } = this.state;
-    const { history, orderId } = this.props;
+    const { history, user, orderId } = this.props;
 
-    renderComponent(Order, { history, orderId, order, onPayPalClick: this.pay }, this.container);
+    renderComponent(
+      Order, 
+      { 
+        history, 
+        user, 
+        orderId, 
+        order, 
+        onPayPalClick: this.pay,
+        onMarkDeliveredClick: this.markDelivered,
+      }, 
+      this.container
+    );
 
     return this.container;
   }

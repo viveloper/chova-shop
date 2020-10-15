@@ -70,3 +70,23 @@ export const updateProduct = async (token, product) => {
     };
   }
 };
+
+export const createProduct = async (token, product) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/products`,
+      'POST', 
+      product,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};

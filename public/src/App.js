@@ -15,6 +15,8 @@ import AdminUsersPage from './pages/AdminUsersPage.js';
 import AdminEditUserPage from './pages/AdminEditUserPage.js';
 import AdminProductsPage from './pages/AdminProductsPage.js';
 import AdminEditProductPage from './pages/AdminEditProductPage.js';
+import AdminCreateProductPage from './pages/AdminCreateProductPage.js';
+import AdminOrdersPage from './pages/AdminOrdersPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as usersApi from './api/users.js';
 import * as ordersApi from './api/orders.js';
@@ -438,6 +440,20 @@ class App extends Component {
           {
             path: '/admin/product/:id/edit',
             Component: AdminEditProductPage,
+            props: {
+              user,
+            }
+          },
+          {
+            path: '/admin/product/create',
+            Component: AdminCreateProductPage,
+            props: {
+              user,
+            }
+          },
+          {
+            path: '/admin/orders',
+            Component: AdminOrdersPage,
             props: {
               user,
             }

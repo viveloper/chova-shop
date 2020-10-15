@@ -12,8 +12,15 @@ class OrderSummary extends Component {
   handleClick = (e) => {
     e.preventDefault();
     
-    if(e.target.tagName.toLowerCase() === 'button') {      
-      this.props.onPayPalClick();
+    if(e.target.dataset.name === 'btn-paypal') {      
+      if(window.confirm('Are you sure?')) {
+        this.props.onPayPalClick();
+      }
+      return;
+    }
+    if(e.target.dataset.name === 'btn-mark-delivered') {  
+      this.props.onMarkDeliveredClick();
+      return;
     }
   }
 
@@ -34,7 +41,7 @@ class OrderSummary extends Component {
   }
 
   render() {        
-    const { order: { isPaid } } = this.props;
+    const { user, order: { isPaid, isDelivered } } = this.props;
     const prices = this.getSummary();
 
     this.container.innerHTML = `
@@ -69,7 +76,11 @@ class OrderSummary extends Component {
       ${
         !isPaid ? `
           <div class="list-group-item">
-            <button type="button" class="btn-block btn btn-primary">PayPal</button>
+            <button type="button" class="btn-block btn btn-primary" data-name="btn-paypal">PayPal</button>
+          </div>
+        ` : !user.data.isAdmin ? '' : !isDelivered ? `
+          <div class="list-group-item">
+            <button type="button" class="btn-block btn btn-primary" data-name="btn-mark-delivered">Mark As Delivered</button>
           </div>
         ` : ''
       }      

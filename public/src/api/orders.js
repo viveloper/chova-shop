@@ -61,10 +61,50 @@ export const payOrder = async (token, payInfo) => {
   }
 };
 
+export const markDeliveredOrder = async (token, id) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/orders/${id}/deliver`, 
+      'PUT', 
+      null,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};
+
 export const fetchMyOrders = async (token) => {
   try {
     const result = await request(
       `${API_ENDPOINT}/orders/myorders`, 
+      'GET', 
+      null,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+};
+
+export const fetchOrders = async (token) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/orders`, 
       'GET', 
       null,
       token

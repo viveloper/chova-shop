@@ -1,42 +1,36 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import AdminEditProduct from '../components/AdminEditProduct/AdminEditProduct.js';
+import AdminCreateProduct from '../components/AdminCreateProduct/AdminCreateProduct.js';
 import * as productsApi from '../api/products.js';
 import * as uploadApi from '../api/upload.js';
 import { asyncHandler, asyncInitState } from '../modules/asyncHandler.js';
 
-class AdminEditProductContainer extends Component {
+class AdminCreateProductContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      product: asyncInitState,
+      product: {
+        loading: false,
+        data: {
+          name: '', 
+          price: '', 
+          image: '/images/sample.jpg', 
+          brand: '', 
+          countInStock: '', 
+          category: '', 
+          description: '',
+        },
+        error: null,
+      },
     };
 
     this.container = document.createElement('div');
-
-    this.initState();
   }
 
-  async initState() {
-    const { productId } = this.props;
-    this.fetchProduct(productId);
-  }
-
-  fetchProduct = async (id) => {
-    asyncHandler.setLoading.call(this, 'product');
-    const { isError, data } = await productsApi.fetchProduct(id);
-    if (!isError) {
-      asyncHandler.setData.call(this, 'product', data);
-    } else {
-      asyncHandler.setError.call(this, 'product', data);
-    }
-  }
-
-  updateProduct = async (product) => {
+  createProduct = async (product) => {
     const token = this.props.user.data.token;
-    const { productId } = this.props;
     asyncHandler.setLoading.call(this, 'product');
-    const { isError, data } = await productsApi.updateProduct(token, { id: productId, ...product });
+    const { isError, data } = await productsApi.createProduct(token, product);
     if (!isError) {
       asyncHandler.setData.call(this, 'product', data);
       this.props.history.push('/admin/products');
@@ -88,11 +82,11 @@ class AdminEditProductContainer extends Component {
     const { history } = this.props;
 
     renderComponent(
-      AdminEditProduct, 
+      AdminCreateProduct, 
       { 
         history, 
         product,
-        onSubmit: this.updateProduct,
+        onSubmit: this.createProduct,
         onImageSelect: this.uploadImage,
       }, 
       this.container
@@ -102,4 +96,4 @@ class AdminEditProductContainer extends Component {
   }
 }
 
-export default AdminEditProductContainer;
+export default AdminCreateProductContainer;
