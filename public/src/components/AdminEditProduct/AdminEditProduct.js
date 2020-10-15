@@ -1,6 +1,6 @@
 import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
-import ProductForm from './ProductForm.js';
+import ProductForm from '../ProductForm.js';
 
 class AdminEditProduct extends Component {
   constructor(props) {

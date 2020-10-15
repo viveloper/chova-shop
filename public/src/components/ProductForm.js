@@ -1,4 +1,4 @@
-import { Component } from '../../modules/MyReact.js';
+import { Component } from '../modules/MyReact.js';
 
 class ProductForm extends Component {
   constructor(props) {
