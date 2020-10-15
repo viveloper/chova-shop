@@ -21,9 +21,27 @@ class AdminUsersContainer extends Component {
   }
 
   deleteUser = async (userId) => {
+    const originUsers = [...this.state.users.data];
+
+    this.setState({
+      users: {
+        loading: false,
+        data: this.state.users.data.filter((user) => user._id !== userId),
+        error: null,
+      } 
+    });
+
     const token = this.props.user.data.token;
-    await usersApi.deleteUser(token, { id: userId });
-    this.fetchUsers();
+    const { isError } = await usersApi.deleteUser(token, { id: userId });
+    if(isError) {
+      this.setState({
+        users: {
+          loading: false,
+          data: originUsers,
+          error: null,
+        }
+      })
+    }
   }
 
   fetchUsers = async () => {

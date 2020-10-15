@@ -13,6 +13,7 @@ import PlaceOrderPage from './pages/PlaceOrderPage.js';
 import OrderPage from './pages/OrderPage.js';
 import AdminUsersPage from './pages/AdminUsersPage.js';
 import AdminEditUserPage from './pages/AdminEditUserPage.js';
+import AdminProductsPage from './pages/AdminProductsPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as usersApi from './api/users.js';
 import * as ordersApi from './api/orders.js';
@@ -422,6 +423,13 @@ class App extends Component {
           {
             path: '/admin/user/:id/edit',
             Component: AdminEditUserPage,
+            props: {
+              user,
+            }
+          },
+          {
+            path: '/admin/products',
+            Component: AdminProductsPage,
             props: {
               user,
             }
