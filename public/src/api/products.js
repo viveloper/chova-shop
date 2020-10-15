@@ -54,7 +54,7 @@ export const deleteProduct = async (token, { id }) => {
 export const updateProduct = async (token, product) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/products/${id}`,
+      `${API_ENDPOINT}/products/${product.id}`,
       'PUT', 
       product,
       token
