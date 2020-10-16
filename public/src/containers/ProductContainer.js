@@ -10,6 +10,10 @@ class ProductContainer extends Component {
 
     this.state = {
       product: asyncInitState,
+      reviewInputs: {
+        rating: 0,
+        comment: '',
+      }
     };
 
     this.container = document.createElement('div');
@@ -28,13 +32,33 @@ class ProductContainer extends Component {
     }
   }
 
+  submitReview = async (review) => {
+    this.setState({
+      reviewInputs: review,
+    });
+    console.log(review);
+    // [ToDo]
+    // : call createReview api
+    // : fetch product and setState
+  }
+
   render() {
     this.container.innerHTML = '';
 
-    const { product } = this.state;
+    const { product, reviewInputs } = this.state;
     const { history, addCartItem } = this.props;
 
-    renderComponent(Product, { product, addCartItem, history }, this.container);
+    renderComponent(
+      Product, 
+      { 
+        product, 
+        addCartItem, 
+        reviewInputs, 
+        onReviewSubmit : this.submitReview, 
+        history 
+      }, 
+      this.container
+    );
 
     return this.container;
   }

@@ -2,6 +2,8 @@ import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
 import ProductInfo from './ProductInfo.js';
 import CartButtonCard from './CartButtonCard.js';
+import ProductReview from './ProductReview.js';
+import ProductReviewForm from './ProductReviewForm.js';
 
 class Product extends Component {
   constructor(props) {
@@ -26,6 +28,8 @@ class Product extends Component {
     const {
       product: { loading, data, error },
       addCartItem,
+      reviewInputs,
+      onReviewSubmit,
       history,
     } = this.props;
 
@@ -91,6 +95,31 @@ class Product extends Component {
     const reviewsRow = document.createElement('div');
     reviewsRow.className = 'row';
     container.appendChild(reviewsRow);
+
+    const reviewsCol = document.createElement('div');
+    reviewsCol.className = 'col-md-6';
+    reviewsRow.appendChild(reviewsCol);
+
+    const reviewsTitle = document.createElement('h2');
+    reviewsTitle.innerText = 'Reviews';
+    reviewsCol.appendChild(reviewsTitle);
+
+    const reviewsContainer = document.createElement('div');
+    reviewsContainer.className = 'list-group list-group-flush';
+    reviewsCol.appendChild(reviewsContainer);
+
+    data.reviews.forEach((review) => {
+      renderComponent(ProductReview, { review }, reviewsContainer);
+    });    
+
+    renderComponent(
+      ProductReviewForm, 
+      { 
+        inputs: reviewInputs,        
+        onSubmit: onReviewSubmit,
+      }, 
+      reviewsContainer
+    );
 
     return this.container;
   }
