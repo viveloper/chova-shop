@@ -66,6 +66,13 @@ class Home extends Component {
       renderComponent(ProductCard, { product, history }, col);
     });
 
+    if(products.length === 0) {
+      const noResultAlert = document.createElement('div');
+      noResultAlert.className = 'alert alert-light';
+      noResultAlert.innerText = 'No Results';
+      row.appendChild(noResultAlert);
+    }
+
     if(pages > 1) {
       renderComponent(
         Pagination, 

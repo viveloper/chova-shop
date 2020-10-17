@@ -11,7 +11,7 @@ class SearchResultPage extends Component {
     this.container.innerHTML = '';
 
     const { history, match } = this.props;
-    const { keyword, pageNumber } = match.params;    
+    const { keyword, pageNumber } = match.params;
     
     renderComponent(
       SearchResultContainer,

@@ -71,6 +71,11 @@ router.get('/admin/products', function (req, res, next) {
   res.sendFile(filepath);
 });
 
+router.get('/admin/products/page/:pageNumber', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
 router.get('/admin/product/:id/edit', function (req, res, next) {
   const filepath = require('app-root-path').resolve('/public/index.html');
   res.sendFile(filepath);

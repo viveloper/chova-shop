@@ -8,7 +8,7 @@ class AdminProductsContainer extends Component {
     super(props);
 
     this.state = {
-      products: asyncInitState,
+      productsInfo: asyncInitState,
     };
 
     this.container = document.createElement('div');
@@ -16,56 +16,77 @@ class AdminProductsContainer extends Component {
     this.initState();
   }
 
-  async initState() {
-    this.fetchProducts();
+  initState() {    
+    const { pageNumber } = this.props;
+    this.fetchProductsInfo(pageNumber);
   }
 
-  fetchProducts = async () => {
-    asyncHandler.setLoading.call(this, 'products');
-    const { isError, data } = await productsApi.fetchProducts();
+  fetchProductsInfo = async (pageNumber) => {
+    asyncHandler.setLoading.call(this, 'productsInfo');
+    const { isError, data } = await productsApi.fetchProducts('', pageNumber);
     if (!isError) {
-      asyncHandler.setData.call(this, 'products', data.products);
+      asyncHandler.setData.call(this, 'productsInfo', data);
     } else {
-      asyncHandler.setError.call(this, 'products', data);
+      asyncHandler.setError.call(this, 'productsInfo', data);
     }
   }
 
   deleteProduct = async (productId) => {
-    const originProducts = [...this.state.products.data];
+    const { pageNumber } = this.props;
+    const token = this.props.user.data.token;
 
     this.setState({
-      products: {
-        loading: false,
-        data: this.state.products.data.filter((product) => product._id !== productId),
-        error: null,
-      } 
+      productsInfo: {
+        ...this.state.productsInfo,
+        loading: true,
+      }
     });
-
-    const token = this.props.user.data.token;
-    const { isError } = await productsApi.deleteProduct(token, { id: productId });
-    if(isError) {
+    const { isError, data } = await productsApi.deleteProduct(token, { id: productId });
+    if(!isError) {      
+      this.fetchProductsInfo(pageNumber);
+    } else {
       this.setState({
-        products: {
+        productsInfo: {
+          ...this.state.productsInfo,
           loading: false,
-          data: originProducts,
-          error: null,
+          error: data
         }
-      })
+      });
     }
+  }
+
+  handleProductPageClick = async (pageNumber) => {       
+    this.props.history.push(`/admin/products/page/${pageNumber}`);
+  }
+
+  handleProductPrevPageClick = async () => {    
+    const currentPage = this.state.productsInfo.data.page;
+    const prevPage = currentPage - 1 > 0 ? currentPage - 1 : 1;    
+    this.props.history.push(`/admin/products/page/${prevPage}`);
+  }
+
+  handleProductNextPageClick = async () => {    
+    const currentPage = this.state.productsInfo.data.page;
+    const lastPage = this.state.productsInfo.data.pages;
+    const nextPage = currentPage + 1 <= lastPage ? currentPage + 1 : lastPage;        
+    this.props.history.push(`/admin/products/page/${nextPage}`);
   }
 
   render() {
     this.container.innerHTML = '';
 
-    const { products } = this.state;
+    const { productsInfo } = this.state;
     const { history } = this.props;
 
     renderComponent(
       AdminProducts,
       { 
         history, 
-        products, 
-        onDelete: this.deleteProduct 
+        productsInfo, 
+        onDelete: this.deleteProduct,
+        onProductPageClick: this.handleProductPageClick,
+        onProductPrevPageClick: this.handleProductPrevPageClick,
+        onProductNextPageClick: this.handleProductNextPageClick,
       }, 
       this.container
     );

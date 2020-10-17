@@ -10,14 +10,15 @@ class AdminProductsPage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history, user } = this.props;
+    const { history, match, user } = this.props;
+    const { pageNumber } = match.params;    
 
     if (!user.data || !user.data.isAdmin) {
       history.push('/login');
       return this.container;
     }
     
-    renderComponent(AdminProductsContainer, { history, user }, this.container);
+    renderComponent(AdminProductsContainer, { history, pageNumber, user }, this.container);
 
     return this.container;
   }

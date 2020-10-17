@@ -2,6 +2,7 @@ import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
 import ProductsTitle from './ProductsTitle.js';
 import ProductsTable from './ProductsTable.js';
+import Pagination from '../Pagination.js';
 
 class AdminProducts extends Component {
   constructor(props) {
@@ -19,9 +20,12 @@ class AdminProducts extends Component {
     this.container.appendChild(container);
 
     const {
-      products: { loading, data, error },
+      productsInfo: { loading, data, error },
       history,
       onDelete,
+      onProductPageClick,
+      onProductPrevPageClick,
+      onProductNextPageClick,
     } = this.props;
 
     renderComponent(ProductsTitle, { history }, container);
@@ -48,7 +52,32 @@ class AdminProducts extends Component {
     }
     if (!data) return this.container;
 
-    renderComponent(ProductsTable, { history, data, onDelete }, container);
+    const { products, page, pages } = data;    
+
+    if(products.length === 0) {
+      const noResultAlert = document.createElement('div');
+      noResultAlert.className = 'alert alert-light';
+      noResultAlert.innerText = 'No Results';
+      container.appendChild(noResultAlert);
+    } else {
+      renderComponent(ProductsTable, { history, products, onDelete }, container);
+    }
+
+    if(pages > 1) {
+      renderComponent(
+        Pagination, 
+        { 
+          page, 
+          pages, 
+          pagesMargin: 3,          
+          onPageClick: onProductPageClick, 
+          onPrevClick: onProductPrevPageClick, 
+          onNextClick: onProductNextPageClick,
+          history,
+        }, 
+        container
+      );
+    }    
 
     return this.container;
   }

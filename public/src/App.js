@@ -446,6 +446,13 @@ class App extends Component {
             }
           },
           {
+            path: '/admin/products/page/:pageNumber',
+            Component: AdminProductsPage,
+            props: {
+              user,
+            }
+          },
+          {
             path: '/admin/product/:id/edit',
             Component: AdminEditProductPage,
             props: {

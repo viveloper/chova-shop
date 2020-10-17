@@ -75,7 +75,7 @@ class SearchResult extends Component {
     if(data.length === 0) {
       const noResultAlert = document.createElement('div');
       noResultAlert.className = 'alert alert-light';
-      noResultAlert.innerText = 'No Result';
+      noResultAlert.innerText = 'No Results';
       row.appendChild(noResultAlert);
     }
 
@@ -85,7 +85,7 @@ class SearchResult extends Component {
         { 
           page, 
           pages, 
-          pagesMargin: 0,          
+          pagesMargin: 3,          
           onPageClick: onProductPageClick, 
           onPrevClick: onProductPrevPageClick, 
           onNextClick: onProductNextPageClick,

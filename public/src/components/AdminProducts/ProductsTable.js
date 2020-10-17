@@ -26,7 +26,7 @@ class ProductsTable extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { data } = this.props;
+    const { products } = this.props;
 
     this.container.innerHTML = `
       <table class="table-sm table table-striped table-bordered table-hover">
@@ -42,7 +42,7 @@ class ProductsTable extends Component {
         </thead>
         <tbody>
         ${
-          data.map((product) => `
+          products.map((product) => `
             <tr>
               <td>${product._id}</td>
               <td>${product.name}</td>
