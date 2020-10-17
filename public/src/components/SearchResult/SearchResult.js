@@ -66,6 +66,13 @@ class SearchResult extends Component {
       renderComponent(ProductCard, { product, history }, col);
     });
 
+    if(data.length === 0) {
+      const noResultAlert = document.createElement('div');
+      noResultAlert.className = 'alert alert-light';
+      noResultAlert.innerText = 'No Result';
+      row.appendChild(noResultAlert);
+    }
+
     return this.container;
   }
 }

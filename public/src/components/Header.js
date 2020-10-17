@@ -13,6 +13,7 @@ class Header extends Component {
     this.container = document.createElement('header');
     this.container.className = 'header';
     this.container.addEventListener('click', this.handleClick);
+    this.container.addEventListener('submit', this.handleSubmit);
   }
 
   handleClick = (e) => {
@@ -40,6 +41,15 @@ class Header extends Component {
       e.preventDefault();
       this.props.logout();
       return;
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    if(e.target.dataset.onsubmit === 'search') {
+      const keyword = e.target.querySelector('input[name=q]').value;
+      if(!keyword) return;
+      this.props.history.push(`/search/${keyword}`);
     }
   }
 
@@ -72,7 +82,7 @@ class Header extends Component {
             <span class="navbar-toggler-icon" data-onclick="toggle-navbar"></span>
           </button>
           <div class="navbar-collapse collapse${isCollapsed ? '' : ' show'}" id="basic-navbar-nav">
-            <form class="form-inline">
+            <form class="form-inline" data-onsubmit="search">
               <input class="mr-sm-2 ml-sm-5 form-control" type="text" placeholder="Search Products..." name="q">
               <button class="p-2 btn btn-outline-success" type="submit">Search</button>
             </form>
@@ -95,7 +105,7 @@ class Header extends Component {
                 </div>
                 ${user.data.isAdmin ? `
                 <div class="dropdown nav-item${isDropdownAdminMenu ? ' show' : ''}">
-                  <a class="dropdown-toggle nav-link" id="adminmenu" href="#" role="button" aria-haspopup="true" aria-expanded="${isDropdownAdminMenu}" data-onclick="dropdown-adminmenu">${user.data.name}</a>
+                  <a class="dropdown-toggle nav-link" id="adminmenu" href="#" role="button" aria-haspopup="true" aria-expanded="${isDropdownAdminMenu}" data-onclick="dropdown-adminmenu">Admin</a>
                   <div class="dropdown-menu${isDropdownAdminMenu ? ' show' : ''}" aria-labelledby="adminmenu" style="margin: 0px;">
                     <a class="dropdown-item" href="/admin/users" data-onclick="link" data-href="/admin/users">Users</a>
                     <a class="dropdown-item" href="/admin/products" data-onclick="link" data-href="/admin/products">Products</a>
