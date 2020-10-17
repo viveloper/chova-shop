@@ -1,5 +1,5 @@
-import { Component, renderComponent } from '../../modules/MyReact.js';
-import Rating from '../Rating.js';
+import { Component, renderComponent } from '../modules/MyReact.js';
+import Rating from './Rating.js';
 
 class ProductCard extends Component {
   constructor(props) {

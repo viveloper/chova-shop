@@ -17,6 +17,7 @@ import AdminProductsPage from './pages/AdminProductsPage.js';
 import AdminEditProductPage from './pages/AdminEditProductPage.js';
 import AdminCreateProductPage from './pages/AdminCreateProductPage.js';
 import AdminOrdersPage from './pages/AdminOrdersPage.js';
+import SearchResultPage from './pages/SearchResultPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import * as usersApi from './api/users.js';
 import * as ordersApi from './api/orders.js';
@@ -460,6 +461,10 @@ class App extends Component {
             props: {
               user,
             }
+          },
+          {
+            path: '/search/:keyword',
+            Component: SearchResultPage,
           },
           {
             path: '*',

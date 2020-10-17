@@ -1,9 +1,9 @@
 import { API_ENDPOINT } from '../config.js';
 import { request } from './request.js';
 
-export const fetchProducts = async () => {
+export const fetchProducts = async (keyword = '', pageNumber = '1') => {
   try {
-    const result = await request(`${API_ENDPOINT}/products`);
+    const result = await request(`${API_ENDPOINT}/products?keyword=${keyword}&pageNumber=${pageNumber}`);
     return {
       isError: false,
       data: result,

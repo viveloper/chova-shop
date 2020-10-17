@@ -2,7 +2,7 @@ import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
 import ProductCard from '../ProductCard.js';
 
-class Home extends Component {
+class SearchResult extends Component {
   constructor(props) {
     super(props);
 
@@ -13,18 +13,24 @@ class Home extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const container = document.createElement('div');
-    container.className = 'container';
-    this.container.appendChild(container);
-
-    const title = document.createElement('h1');
-    title.innerText = 'Latest Products';
-    container.appendChild(title);
-
     const {
       products: { loading, data, error },
       history,
     } = this.props;
+
+    const container = document.createElement('div');
+    container.className = 'container';
+    this.container.appendChild(container);
+
+    const btnGoBack = document.createElement('span');
+    btnGoBack.className = 'btn btn-light my-3';
+    btnGoBack.innerText = 'Go Back';
+    btnGoBack.addEventListener('click', () => history.goBack());
+    container.appendChild(btnGoBack);
+
+    const title = document.createElement('h1');
+    title.innerText = 'Products';
+    container.appendChild(title);
 
     if (loading) {
       renderComponent(
@@ -64,4 +70,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default SearchResult;
