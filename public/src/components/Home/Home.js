@@ -1,6 +1,7 @@
 import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
 import ProductCard from '../ProductCard.js';
+import Pagination from '../Pagination.js';
 
 class Home extends Component {
   constructor(props) {
@@ -59,6 +60,8 @@ class Home extends Component {
 
       renderComponent(ProductCard, { product, history }, col);
     });
+
+    renderComponent(Pagination, { page: 7, pages: 22 }, container);
 
     return this.container;
   }
