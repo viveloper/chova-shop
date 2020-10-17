@@ -7,8 +7,8 @@ class ProductReviewForm extends Component {
       inputs: {
         rating: props.inputs.rating,
         comment: props.inputs.comment,
+        error: props.inputs.error,
       },
-      error: '',
     }
     this.container = document.createElement('div');
     this.container.className = 'list-group-item'
@@ -23,15 +23,21 @@ class ProductReviewForm extends Component {
 
     if (!rating) {
       this.setState({
-        inputs: { rating, comment },
-        error: 'Rating is requried',
+        inputs: { 
+          rating, 
+          comment,
+          error: 'Rating is requried',
+        }
       });
       return;
     }
     if (!comment) {      
       this.setState({
-        inputs: { rating, comment },
-        error: 'Comment is requried',
+        inputs: { 
+          rating, 
+          comment,
+          error: 'Comment is requried',
+        },
       });
       return;
     }
@@ -40,7 +46,7 @@ class ProductReviewForm extends Component {
   }
 
   render() {    
-    const { inputs: { rating, comment }, error } = this.state;
+    const { inputs: { rating, comment, error } } = this.state;
 
     this.container.innerHTML = `
       <h2>Write a Customer Review</h2>

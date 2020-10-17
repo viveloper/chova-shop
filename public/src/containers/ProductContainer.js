@@ -1,7 +1,6 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import Loader from '../components/Loader.js';
 import Product from '../components/Product/Product.js';
-import { fetchProduct } from '../api/products.js';
+import * as productsApi from '../api/products.js';
 import { asyncHandler, asyncInitState } from '../modules/asyncHandler.js';
 
 class ProductContainer extends Component {
@@ -13,6 +12,7 @@ class ProductContainer extends Component {
       reviewInputs: {
         rating: 0,
         comment: '',
+        error: '',
       }
     };
 
@@ -21,10 +21,14 @@ class ProductContainer extends Component {
     this.initState();
   }
 
-  async initState() {
+  initState() {
     const { productId } = this.props;
+    this.fetchProduct(productId);
+  }
+
+  fetchProduct = async (id) => {
     asyncHandler.setLoading.call(this, 'product');
-    const { isError, data } = await fetchProduct(productId);
+    const { isError, data } = await productsApi.fetchProduct(id);
     if (!isError) {
       asyncHandler.setData.call(this, 'product', data);
     } else {
@@ -33,13 +37,41 @@ class ProductContainer extends Component {
   }
 
   submitReview = async (review) => {
+    const { productId, user } = this.props;
+    const token = user.data.token;
     this.setState({
       reviewInputs: review,
+      product: {
+        ...this.state.product,
+        loading: true,
+      }
     });
-    console.log(review);
-    // [ToDo]
-    // : call createReview api
-    // : fetch product and setState
+    const { isError, data } = await productsApi.createProductReview(token, { productId, review });
+    if (!isError) {
+      this.setState({
+        reviewInputs: {
+          rating: 0,
+          comment: '',
+          error: '',
+        },
+        product: {
+          ...this.state.product,
+          loading: false,
+        }
+      });
+      this.fetchProduct(productId);
+    } else {
+      this.setState({
+        reviewInputs: {
+          ...review,
+          error: data.message,
+        },
+        product: {
+          ...this.state.product,
+          loading: false,
+        }
+      });
+    }
   }
 
   render() {

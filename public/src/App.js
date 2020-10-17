@@ -340,7 +340,10 @@ class App extends Component {
           {
             path: '/products/:id',
             Component: ProductPage,
-            props: { addCartItem: this.addCartItem },
+            props: { 
+              user,
+              addCartItem: this.addCartItem,
+            },
           },
           {
             path: '/cart',

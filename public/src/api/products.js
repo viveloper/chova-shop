@@ -90,3 +90,23 @@ export const createProduct = async (token, product) => {
     };
   }
 };
+
+export const createProductReview = async (token, { productId, review }) => {
+  try {
+    const result = await request(
+      `${API_ENDPOINT}/products/${productId}/reviews`,
+      'POST', 
+      review,
+      token
+    );
+    return {
+      isError: false,
+      data: result,
+    };
+  } catch (e) {
+    return {
+      isError: true,
+      data: e,
+    };
+  }
+}
