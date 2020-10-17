@@ -110,7 +110,14 @@ class Product extends Component {
 
     data.reviews.forEach((review) => {
       renderComponent(ProductReview, { review }, reviewsContainer);
-    });    
+    });
+
+    if(data.reviews.length === 0) {
+      const noReviewAlert = document.createElement('div');
+      noReviewAlert.className = 'alert alert-light';
+      noReviewAlert.innerText = 'No Reviews';
+      reviewsContainer.appendChild(noReviewAlert);
+    }
 
     renderComponent(
       ProductReviewForm, 
