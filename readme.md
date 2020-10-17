@@ -1,1 +1,1 @@
-# Chova Shop
+# ChovaShop eCommerce Platform
