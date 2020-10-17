@@ -4,7 +4,6 @@ import SearchResultContainer from '../containers/SearchResultContainer.js';
 class SearchResultPage extends Component {
   constructor(props) {
     super(props);
-
     this.container = document.createElement('div');
   }
 
@@ -12,13 +11,14 @@ class SearchResultPage extends Component {
     this.container.innerHTML = '';
 
     const { history, match } = this.props;
-    const keyword = match.params.keyword;
+    const { keyword, pageNumber } = match.params;    
     
     renderComponent(
       SearchResultContainer,
       {
         history,
         keyword,
+        pageNumber
       },
       this.container
     );    

@@ -471,6 +471,10 @@ class App extends Component {
             Component: SearchResultPage,
           },
           {
+            path: '/search/:keyword/page/:pageNumber',
+            Component: SearchResultPage,
+          },
+          {
             path: '*',
             Component: NotFoundPage,            
           },

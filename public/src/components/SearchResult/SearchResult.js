@@ -1,6 +1,7 @@
 import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
 import ProductCard from '../ProductCard.js';
+import Pagination from '../Pagination.js';
 
 class SearchResult extends Component {
   constructor(props) {
@@ -11,10 +12,13 @@ class SearchResult extends Component {
   }
 
   render() {
-    this.container.innerHTML = '';
+    this.container.innerHTML = '';    
 
     const {
-      products: { loading, data, error },
+      productsInfo: { loading, data, error },
+      onProductPageClick,
+      onProductPrevPageClick,
+      onProductNextPageClick,
       history,
     } = this.props;
 
@@ -54,11 +58,13 @@ class SearchResult extends Component {
     }
     if (!data) return this.container;
 
+    const { products, page, pages } = data;
+
     const row = document.createElement('div');
     row.className = 'row';
     container.appendChild(row);
 
-    data.forEach((product) => {
+    products.forEach((product) => {
       const col = document.createElement('div');
       col.className = 'col-xl-3 col-lg-4 col-md-6 col-sm-12';
       row.appendChild(col);
@@ -72,6 +78,22 @@ class SearchResult extends Component {
       noResultAlert.innerText = 'No Result';
       row.appendChild(noResultAlert);
     }
+
+    if(pages > 1) {
+      renderComponent(
+        Pagination, 
+        { 
+          page, 
+          pages, 
+          pagesMargin: 0,          
+          onPageClick: onProductPageClick, 
+          onPrevClick: onProductPrevPageClick, 
+          onNextClick: onProductNextPageClick,
+          history,
+        }, 
+        container
+      );
+    }    
 
     return this.container;
   }

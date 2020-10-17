@@ -26,8 +26,7 @@ class HomeContainer extends Component {
     const { isError, data } = await productsApi.fetchProducts('', pageNumber);
     if (!isError) {
       asyncHandler.setData.call(this, 'productsInfo', data);
-    } else {
-      this.setError('productsInfo', data);
+    } else {      
       asyncHandler.setError.call(this, 'productsInfo', data);
     }
   }

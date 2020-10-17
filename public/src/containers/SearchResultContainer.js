@@ -8,7 +8,7 @@ class SearchResultContainer extends Component {
     super(props);
 
     this.state = {
-      products: asyncInitState,
+      productsInfo: asyncInitState,
     };
 
     this.container = document.createElement('div');
@@ -17,30 +17,53 @@ class SearchResultContainer extends Component {
   }
 
   initState() {
-    const { keyword } = this.props;
-    this.fetchProducts(keyword);
+    const { keyword, pageNumber } = this.props;
+    this.fetchProductsInfo(keyword, pageNumber);
   }
 
-  fetchProducts = async (keyword) => {
-    asyncHandler.setLoading.call(this, 'products');
-    const { isError, data } = await productsApi.fetchProducts(keyword);
+  fetchProductsInfo = async (keyword, pageNumber) => {
+    asyncHandler.setLoading.call(this, 'productsInfo');
+    const { isError, data } = await productsApi.fetchProducts(keyword, pageNumber);
     if (!isError) {
-      asyncHandler.setData.call(this, 'products', data.products);
+      asyncHandler.setData.call(this, 'productsInfo', data);
     } else {
-      asyncHandler.setError.call(this, 'products', data);
+      asyncHandler.setError.call(this, 'productsInfo', data);
     }
+  }
+
+  handleProductPageClick = async (pageNumber) => {   
+    const { keyword } = this.props;
+    this.props.history.push(`/search/${keyword}/page/${pageNumber}`);
+  }
+
+  handleProductPrevPageClick = async () => {
+    const { keyword } = this.props;
+    const currentPage = this.state.productsInfo.data.page;
+    const prevPage = currentPage - 1 > 0 ? currentPage - 1 : 1;    
+    this.props.history.push(`/search/${keyword}/page/${prevPage}`);
+  }
+
+  handleProductNextPageClick = async () => {
+    const { keyword } = this.props;
+    const currentPage = this.state.productsInfo.data.page;
+    const lastPage = this.state.productsInfo.data.pages;
+    const nextPage = currentPage + 1 <= lastPage ? currentPage + 1 : lastPage;        
+    this.props.history.push(`/search/${keyword}/page/${nextPage}`);
   }
 
   render() {
     this.container.innerHTML = '';
 
-    const { products } = this.state;
+    const { productsInfo } = this.state;
     const { history } = this.props;
 
     renderComponent(
       SearchResult, 
       { 
-        products, 
+        productsInfo,
+        onProductPageClick: this.handleProductPageClick,
+        onProductPrevPageClick: this.handleProductPrevPageClick,
+        onProductNextPageClick: this.handleProductNextPageClick,
         history,
       }, 
       this.container
