@@ -1,6 +1,6 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Home from '../components/Home/Home.js';
-import { fetchProducts } from '../api/products.js';
+import * as productsApi from '../api/products.js';
 import { asyncHandler, asyncInitState } from '../modules/asyncHandler.js';
 
 class HomeContainer extends Component {
@@ -8,7 +8,7 @@ class HomeContainer extends Component {
     super(props);
 
     this.state = {
-      products: asyncInitState,
+      productsInfo: asyncInitState,     
     };
 
     this.container = document.createElement('div');
@@ -16,24 +16,56 @@ class HomeContainer extends Component {
     this.initState();
   }
 
-  async initState() {
-    asyncHandler.setLoading.call(this, 'products');
-    const { isError, data } = await fetchProducts();
+  initState() {
+    const { pageNumber } = this.props;
+    this.fetchProductsInfo(pageNumber);  
+  }
+
+  fetchProductsInfo = async (pageNumber) => {
+    asyncHandler.setLoading.call(this, 'productsInfo');
+    const { isError, data } = await productsApi.fetchProducts('', pageNumber);
     if (!isError) {
-      asyncHandler.setData.call(this, 'products', data.products);
+      asyncHandler.setData.call(this, 'productsInfo', data);
     } else {
-      this.setError('products', data);
-      asyncHandler.setError.call(this, 'products', data);
+      this.setError('productsInfo', data);
+      asyncHandler.setError.call(this, 'productsInfo', data);
     }
+  }
+
+  handleProductPageClick = async (pageNumber) => {        
+    this.props.history.push(`/page/${pageNumber}`);
+  }
+
+  handleProductPrevPageClick = async () => {
+    const currentPage = this.state.productsInfo.data.page;
+    const prevPage = currentPage - 1 > 0 ? currentPage - 1 : 1;    
+    this.props.history.push(`/page/${prevPage}`);
+  }
+
+  handleProductNextPageClick = async () => {
+    const currentPage = this.state.productsInfo.data.page;
+    const lastPage = this.state.productsInfo.data.pages;
+    const nextPage = currentPage + 1 <= lastPage ? currentPage + 1 : lastPage;        
+    this.props.history.push(`/page/${nextPage}`);
   }
 
   render() {
     this.container.innerHTML = '';
 
-    const { products } = this.state;
+    const { productsInfo } = this.state;
     const { history } = this.props;
 
-    renderComponent(Home, { products, history }, this.container);
+    renderComponent(
+      Home, 
+      { 
+        productsInfo,
+        onProductPageClick: this.handleProductPageClick,
+        onProductPrevPageClick: this.handleProductPrevPageClick,
+        onProductNextPageClick: this.handleProductNextPageClick,
+        history 
+      }, 
+      this.container
+    );
 
     return this.container;
   }

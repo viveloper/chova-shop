@@ -23,7 +23,10 @@ class Home extends Component {
     container.appendChild(title);
 
     const {
-      products: { loading, data, error },
+      productsInfo: { loading, data, error },
+      onProductPageClick,
+      onProductPrevPageClick,
+      onProductNextPageClick,
       history,
     } = this.props;
 
@@ -49,11 +52,13 @@ class Home extends Component {
     }
     if (!data) return this.container;
 
+    const { products, page, pages } = data;
+
     const row = document.createElement('div');
     row.className = 'row';
     container.appendChild(row);
 
-    data.forEach((product) => {
+    products.forEach((product) => {
       const col = document.createElement('div');
       col.className = 'col-xl-3 col-lg-4 col-md-6 col-sm-12';
       row.appendChild(col);
@@ -61,7 +66,21 @@ class Home extends Component {
       renderComponent(ProductCard, { product, history }, col);
     });
 
-    renderComponent(Pagination, { page: 7, pages: 22 }, container);
+    if(pages > 1) {
+      renderComponent(
+        Pagination, 
+        { 
+          page, 
+          pages, 
+          pagesMargin: 3,          
+          onPageClick: onProductPageClick, 
+          onPrevClick: onProductPrevPageClick, 
+          onNextClick: onProductNextPageClick,
+          history,
+        }, 
+        container
+      );
+    }    
 
     return this.container;
   }

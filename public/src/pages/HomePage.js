@@ -10,9 +10,10 @@ class HomePage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history } = this.props;
+    const { history, match } = this.props;
+    const pageNumber = match.params.pageNumber;
     
-    renderComponent(HomeContainer, { history }, this.container);    
+    renderComponent(HomeContainer, { history, pageNumber }, this.container);
 
     return this.container;
   }

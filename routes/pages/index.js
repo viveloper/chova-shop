@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
+router.get('/page/:pageNumber', function (req, res, next) {
+  const filepath = require('app-root-path').resolve('/public/index.html');
+  res.sendFile(filepath);
+});
+
 router.get('/products', function (req, res, next) {
   const filepath = require('app-root-path').resolve('/public/index.html');
   res.sendFile(filepath);

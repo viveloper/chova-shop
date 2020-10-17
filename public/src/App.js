@@ -339,6 +339,10 @@ class App extends Component {
             Component: HomePage,            
           },
           {
+            path: '/page/:pageNumber',
+            Component: HomePage,
+          },
+          {
             path: '/products/:id',
             Component: ProductPage,
             props: { 
