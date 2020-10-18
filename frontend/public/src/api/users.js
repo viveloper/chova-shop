@@ -1,9 +1,8 @@
-import { API_ENDPOINT } from '../config.js';
 import { request } from './request.js';
 
 export const login = async ({ email, password }) => {
   try {
-    const result = await request(`${API_ENDPOINT}/users/login`, 'POST', {
+    const result = await request(`/api/users/login`, 'POST', {
       email,
       password,
     });
@@ -21,7 +20,7 @@ export const login = async ({ email, password }) => {
 
 export const register = async ({ name, email, password }) => {
   try {
-    const result = await request(`${API_ENDPOINT}/users`, 'POST', {
+    const result = await request(`/api/users`, 'POST', {
       name,
       email,
       password,
@@ -41,7 +40,7 @@ export const register = async ({ name, email, password }) => {
 export const updateUserProfile = async (token, { name, email, password }) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/users/profile`, 
+      `/api/users/profile`, 
       'PUT', 
       {
         name,
@@ -65,7 +64,7 @@ export const updateUserProfile = async (token, { name, email, password }) => {
 export const fetchUsers = async (token) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/users`, 
+      `/api/users`, 
       'GET', 
       null,
       token
@@ -85,7 +84,7 @@ export const fetchUsers = async (token) => {
 export const deleteUser = async (token, { id }) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/users/${id}`,
+      `/api/users/${id}`,
       'DELETE', 
       null,
       token
@@ -105,7 +104,7 @@ export const deleteUser = async (token, { id }) => {
 export const updateUser = async (token, { id, name, email, isAdmin }) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/users/${id}`,
+      `/api/users/${id}`,
       'PUT', 
       { id, name, email, isAdmin },
       token
@@ -125,7 +124,7 @@ export const updateUser = async (token, { id, name, email, isAdmin }) => {
 export const fetchUser = async (token, { id }) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/users/${id}`, 
+      `/api/users/${id}`, 
       'GET', 
       null,
       token

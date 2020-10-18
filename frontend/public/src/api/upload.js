@@ -1,11 +1,9 @@
-import { API_ENDPOINT } from '../config.js';
-
 export const uploadImage = async (file, token) => {
   const formData = new FormData();
   formData.append('image', file);
 
   try {
-    const response = await fetch(`${API_ENDPOINT}/upload`, {
+    const response = await fetch(`/api/upload`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`

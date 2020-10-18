@@ -1,9 +1,8 @@
-import { API_ENDPOINT } from '../config.js';
 import { request } from './request.js';
 
 export const fetchProducts = async (keyword = '', pageNumber = '') => {
   try {
-    const result = await request(`${API_ENDPOINT}/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+    const result = await request(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
     return {
       isError: false,
       data: result,
@@ -18,7 +17,7 @@ export const fetchProducts = async (keyword = '', pageNumber = '') => {
 
 export const fetchProduct = async (id) => {
   try {
-    const result = await request(`${API_ENDPOINT}/products/${id}`);
+    const result = await request(`/api/products/${id}`);
     return {
       isError: false,
       data: result,
@@ -34,7 +33,7 @@ export const fetchProduct = async (id) => {
 export const deleteProduct = async (token, { id }) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/products/${id}`,
+      `/api/products/${id}`,
       'DELETE', 
       null,
       token
@@ -54,7 +53,7 @@ export const deleteProduct = async (token, { id }) => {
 export const updateProduct = async (token, product) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/products/${product.id}`,
+      `/api/products/${product.id}`,
       'PUT', 
       product,
       token
@@ -74,7 +73,7 @@ export const updateProduct = async (token, product) => {
 export const createProduct = async (token, product) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/products`,
+      `/api/products`,
       'POST', 
       product,
       token
@@ -94,7 +93,7 @@ export const createProduct = async (token, product) => {
 export const createProductReview = async (token, { productId, review }) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/products/${productId}/reviews`,
+      `/api/products/${productId}/reviews`,
       'POST', 
       review,
       token

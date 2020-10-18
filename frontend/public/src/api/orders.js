@@ -1,10 +1,9 @@
-import { API_ENDPOINT } from '../config.js';
 import { request } from './request.js';
 
 export const createOrder = async (token, order) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/orders`, 
+      `/api/orders`, 
       'POST', 
       order,
       token
@@ -24,7 +23,7 @@ export const createOrder = async (token, order) => {
 export const fetchOrder = async (token, id) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/orders/${id}`, 
+      `/api/orders/${id}`, 
       'GET', 
       null,
       token
@@ -44,7 +43,7 @@ export const fetchOrder = async (token, id) => {
 export const payOrder = async (token, payInfo) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/orders/${payInfo.id}/pay`, 
+      `/api/orders/${payInfo.id}/pay`, 
       'PUT', 
       payInfo,
       token
@@ -64,7 +63,7 @@ export const payOrder = async (token, payInfo) => {
 export const markDeliveredOrder = async (token, id) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/orders/${id}/deliver`, 
+      `/api/orders/${id}/deliver`, 
       'PUT', 
       null,
       token
@@ -84,7 +83,7 @@ export const markDeliveredOrder = async (token, id) => {
 export const fetchMyOrders = async (token) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/orders/myorders`, 
+      `/api/orders/myorders`, 
       'GET', 
       null,
       token
@@ -104,7 +103,7 @@ export const fetchMyOrders = async (token) => {
 export const fetchOrders = async (token) => {
   try {
     const result = await request(
-      `${API_ENDPOINT}/orders`, 
+      `/api/orders`, 
       'GET', 
       null,
       token
