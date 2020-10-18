@@ -44,6 +44,7 @@ class App extends Component {
     const initPaymentMethod = localPaymentMethod ? localPaymentMethod : '';
 
     this.state = {      
+      path: location.pathname,
       cart: { 
         items: initCartItems,
         shippingAddress: initShippingAddress,
@@ -63,19 +64,25 @@ class App extends Component {
       orderCreationInfo: asyncInitState,
     };
 
-    this.container = document.createElement('div');
-
     window.addEventListener('popstate', this.handlePopState);
+
+    this.container = document.createElement('div');        
   }
 
   push = (path) => {    
-    if (path === location.pathname) return;    
+    if (path === this.state.path) return;
     history.pushState({ path }, '', path);
-    this.render();
+    this.setState({ path });
   }
 
   goBack = () => {
     history.back();
+  }
+
+  handlePopState = (e) => {   
+    this.setState({
+      path: location.pathname,
+    });
   }
 
   login = async ({ email, password }) => {
@@ -90,7 +97,7 @@ class App extends Component {
           password: '',
         },
       });
-      history.back();
+      this.goBack();
     } else {
       asyncHandler.setError.call(this, 'user', data);
     }
@@ -98,9 +105,8 @@ class App extends Component {
     localStorage.setItem('user', JSON.stringify(this.state.user.data));
   };
 
-  logout = () => {
-    history.pushState({ path: '/' }, '', '/');
-
+  logout = () => {    
+    this.push('/');
     this.setState({
       ...this.state,
       user: asyncInitState,
@@ -122,7 +128,7 @@ class App extends Component {
           confirmPassword: '',
         },
       });
-      history.back();
+      this.goBack();
     } else {
       asyncHandler.setError.call(this, 'user', data);
     }
@@ -164,8 +170,8 @@ class App extends Component {
     });
   };
 
-  addCartItem = (product, qty) => {
-    history.pushState({ path: '/cart' }, '', '/cart');
+  addCartItem = (product, qty) => {    
+    this.push('/cart');
 
     const existItem = this.state.cart.items.find(
       (item) => item._id === product._id
@@ -262,8 +268,8 @@ class App extends Component {
     localStorage.setItem('user', JSON.stringify(this.state.user.data));
   }
 
-  handleShippingAddressSubmit = ({address, city, postalCode, country}) => {   
-    history.pushState({ path: '/payment' }, '', '/payment');
+  handleShippingAddressSubmit = ({address, city, postalCode, country}) => {       
+    this.push('/payment');
     
     this.setState({
       cart: {
@@ -280,8 +286,8 @@ class App extends Component {
     localStorage.setItem('shippingAddress', JSON.stringify(this.state.cart.shippingAddress));
   }
 
-  handlePaymentSubmit = ({paymentMethod}) => {
-    history.pushState({ path: '/placeorder' }, '', '/placeorder');
+  handlePaymentSubmit = ({paymentMethod}) => {    
+    this.push('/placeorder');
 
     this.setState({
       cart: {
@@ -299,7 +305,7 @@ class App extends Component {
     const { isError, data } = await ordersApi.createOrder(token, order);
     if (!isError) {
       asyncHandler.setData.call(this, 'orderCreationInfo', data);
-      this.clearCartItems();
+      this.clearCartItems();      
       this.push(`/orders/${data._id}`);
     } else {
       asyncHandler.setError.call(this, 'orderCreationInfo', data);
@@ -310,6 +316,7 @@ class App extends Component {
     this.container.innerHTML = '';
 
     const { 
+      path,
       cart, 
       user, 
       loginInputs, 
@@ -323,7 +330,7 @@ class App extends Component {
         history: {
           push: this.push,
           goBack: this.goBack,
-        }, 
+        },
         user, 
         logout: this.logout
       }, 
@@ -333,6 +340,11 @@ class App extends Component {
     renderComponent(
       BrowserRouter,
       {
+        path,
+        history: {
+          push: this.push,
+          goBack: this.goBack,
+        },
         routes: [
           {
             path: '/',

@@ -18,51 +18,16 @@ class DefaultNotFoundComponent extends Component {
 
 class BrowserRouter extends Component {
   constructor(props) {
-    super(props);
+    super(props);    
+    this.container = document.createElement('div');    
+  }  
 
-    this.state = {
-      currentPath: location.pathname,
-    };
-
-    this.push = this.push.bind(this);
-    this.goBack = this.goBack.bind(this);
-    this.handlePopState = this.handlePopState.bind(this);
-
-    this.container = document.createElement('div');
-
-    window.addEventListener('popstate', this.handlePopState);
-  }
-
-  push(path) {
-    if (path === this.state.currentPath) return;
-    history.pushState({ path }, '', path);
-    this.setState({
-      currentPath: path,
-    });
-  }
-
-  goBack() {
-    history.back();
-  }
-
-  handlePopState(e) {
-    // const path = e.state ? e.state.path : location.pathname;
-    // this.setState({
-    //   currentPath: path,
-    // });
-    
-    this.setState({
-      currentPath: location.pathname,
-    });
-  }
-
-  parseCurrentPath() {
-    const { currentPath } = this.state;
-    const { routes } = this.props;
+  parseCurrentPath() {    
+    const { path, routes } = this.props;
 
     let pathKey;
     let params = {};
-    let currentPathTokens = currentPath.split('/');
+    let currentPathTokens = path.split('/');
     currentPathTokens = currentPathTokens.filter((token) => !!token);
 
     const pathKeys = routes.map((route) => route.path);
@@ -101,7 +66,7 @@ class BrowserRouter extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { routes } = this.props;
+    const { routes, history } = this.props;    
     const { pathKey, params } = this.parseCurrentPath();
 
     const targetRoute = routes.find((route) => route.path === pathKey);
@@ -117,7 +82,7 @@ class BrowserRouter extends Component {
     renderComponent(
       Component,
       {
-        history: { push: this.push, goBack: this.goBack },
+        history,
         match: { params },
         location: { search: location.search },
         ...props,
