@@ -32,11 +32,14 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
+
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-app.get('/', (req, res) => {
-  res.send('API is running....');
-});
+app.use(express.static(path.join(__dirname, '/frontend/public')));
+
+app.get('*', (req, res) =>
+  res.sendFile(path.resolve(__dirname, 'frontend', 'public', 'index.html'))
+);
 
 app.use(notFound);
 app.use(errorHandler);
