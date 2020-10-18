@@ -1,58 +1,63 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import Login from '../components/Login/Login.js';
-import { validateEmail } from '../modules/inputValidator.js';
+import * as usersApi from '../api/users.js';
 
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.container = document.createElement('div');
-    this.container.addEventListener('submit', this.handleSubmit);
-    this.container.addEventListener('click', this.handleClick);
+    this.state = {
+      inputs: {
+        email: '',
+        password: '',
+      },
+      loading: false,
+      error: null,
+    }
+
+    this.container = document.createElement('div');    
   }
 
-  handleClick = (e) => {
-    if (e.target.tagName.toLowerCase() === 'a') {
-      e.preventDefault();
-      this.props.history.push(e.target.getAttribute('href'));
-    }
-  };
+  login = async ({ email, password }) => {
+    this.setState({
+      loading: true,
+      error: null,
+    });
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { login, setError, setInputs } = this.props;
+    const { isError, data } = await usersApi.login({ email, password });
 
-    const email = e.target.querySelector('#email').value;
-    const password = e.target.querySelector('#password').value;
-
-    setInputs({ email, password });
-
-    if (!email) {
-      setError('Email is requried');
-      return;
-    }
-    if (!password) {
-      setError('Password is required');
-      return;
-    }
-    if (!validateEmail(email)) {
-      setError('Email is not valid');
-      return;
-    }
-
-    login({ email, password });
+    if (!isError) {            
+      this.props.setUser(data);
+      this.props.history.goBack();
+    } else {
+      this.setState({      
+        inputs: {
+          email,
+          password,
+        },
+        loading: false,
+        error: data,
+      });
+    }    
   };
 
   render() {
     this.container.innerHTML = '';
 
-    const {
-      history,
-      user,
-      inputs: { email, password },
-    } = this.props;
+    const { history } = this.props;
+    const { inputs, loading, error } = this.state;
 
-    renderComponent(Login, { history, email, password, user }, this.container);
+    renderComponent(
+      Login, 
+      { 
+        history, 
+        inputs,
+        onSubmit: this.login,
+        loading,
+        error,
+      }, 
+      this.container
+    );
 
     return this.container;
   }

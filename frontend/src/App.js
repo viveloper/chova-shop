@@ -51,10 +51,6 @@ class App extends Component {
         paymentMethod: initPaymentMethod,
       },
       user: initUser,
-      loginInputs: {
-        email: '',
-        password: '',
-      },
       registerInputs: {
         name: '',
         email: '',
@@ -85,25 +81,10 @@ class App extends Component {
     });
   }
 
-  login = async ({ email, password }) => {
-    asyncHandler.setLoading.call(this, 'user');
-    const { isError, data } = await usersApi.login({ email, password });
-    if (!isError) {
-      asyncHandler.setData.call(this, 'user', data);
-      this.setState({
-        ...this.state,
-        loginInputs: {
-          email: '',
-          password: '',
-        },
-      });
-      this.goBack();
-    } else {
-      asyncHandler.setError.call(this, 'user', data);
-    }
-
+  setUser = (user) => {
+    this.setState({ user });
     localStorage.setItem('user', JSON.stringify(this.state.user.data));
-  };
+  }  
 
   logout = () => {    
     this.push('/');
@@ -375,11 +356,8 @@ class App extends Component {
             path: '/login',
             Component: LoginPage,
             props: {
-              user,
-              inputs: loginInputs,
-              login: this.login,
-              setError: this.setUserError,
-              setInputs: this.setLoginInputs,              
+              user,                            
+              setUser: this.setUser,
             },
           },
           {

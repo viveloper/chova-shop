@@ -13,10 +13,7 @@ class LoginPage extends Component {
     const {
       history,
       user,
-      inputs,
-      login,      
-      setError,
-      setInputs,
+      setUser,     
     } = this.props;
 
     if (user.data) {
@@ -26,7 +23,10 @@ class LoginPage extends Component {
     
     renderComponent(
       LoginContainer,
-      { history, user, inputs, login, setError, setInputs },
+      { 
+        history,
+        setUser,
+      },
       this.container
     );
 
