@@ -33,33 +33,21 @@ Create a .env file in then root and add the following
 
 ```
 NODE_ENV = development
-BASE_URL = http://localhost:5000
 PORT = 5000
 MONGO_URI = your mongodb uri
 JWT_SECRET = 'abc123'
 ```
 
-### Install Dependencies (frontend & backend)
+### Install Dependencies
 
 ```
-# root
-npm install
-
-# frontend
-npm install
-
-# backend
 npm install
 ```
 
 ### Run
 
 ```
-# Run frontend (:3000) & backend (:5000)
 npm run dev
-
-# Run backend only
-npm run server
 ```
 
 ### Seed Database

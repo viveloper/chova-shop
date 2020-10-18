@@ -33,12 +33,12 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use(express.static(path.join(__dirname, '/frontend/public')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 app.get('*', (req, res) =>
-  res.sendFile(path.resolve(__dirname, 'frontend', 'public', 'index.html'))
+  res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'))
 );
 
 app.use(notFound);
