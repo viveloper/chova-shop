@@ -21,7 +21,7 @@ class AdminOrdersContainer extends Component {
   }
 
   fetchOrders = async () => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     asyncHandler.setLoading.call(this, 'orders');
     const { isError, data } = await ordersApi.fetchOrders(token);
     if (!isError) {

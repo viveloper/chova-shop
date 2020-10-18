@@ -18,7 +18,7 @@ class OrderContainer extends Component {
 
   async initState() {
     const {user, orderId} = this.props;    
-    const token = user.data.token;
+    const token = user.token;
 
     asyncHandler.setLoading.call(this, 'order');
     const { isError, data } = await ordersApi.fetchOrder(token, orderId);
@@ -31,14 +31,14 @@ class OrderContainer extends Component {
 
   pay = async () => {
     const {user, orderId} = this.props;    
-    const token = user.data.token;
+    const token = user.token;
 
     const payInfo = {
       id: orderId,
       status: 'COMPLETED',
       update_time: new Date().toISOString(),
       payer: {
-          email_address: user.data.email
+          email_address: user.email
       }
     };
 
@@ -53,7 +53,7 @@ class OrderContainer extends Component {
 
   markDelivered = async () => {
     const {user, orderId} = this.props;    
-    const token = user.data.token;
+    const token = user.token;
 
     asyncHandler.setLoading.call(this, 'order');
     const { isError, data } = await ordersApi.markDeliveredOrder(token, orderId);

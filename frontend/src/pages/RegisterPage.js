@@ -13,20 +13,20 @@ class RegisterPage extends Component {
     const {
       history,
       user,
-      inputs,
-      register,      
-      setError,
-      setInputs,
+      setUser,
     } = this.props;
 
-    if (user.data) {
+    if (user) {
       history.push('/');
       return this.container;
     }
     
     renderComponent(
       RegisterContainer,
-      { history, user, inputs, register, setError, setInputs },
+      { 
+        history,
+        setUser,
+      },
       this.container
     );    
 

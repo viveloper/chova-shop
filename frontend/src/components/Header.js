@@ -73,7 +73,7 @@ class Header extends Component {
 
   render() {
     const { user } = this.props;
-    const { isCollapsed, isDropdownUserMenu, isDropdownAdminMenu } = this.state;
+    const { isCollapsed, isDropdownUserMenu, isDropdownAdminMenu } = this.state;    
     this.container.innerHTML = `
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -91,19 +91,19 @@ class Header extends Component {
                 <i class="fas fa-shopping-cart" data-onclick="link" data-href="/cart"></i> Cart
               </a>
               ${
-                !user.data ? `
+                !user ? `
                 <a class="nav-link" href="/login" data-rb-event-key="/login" data-onclick="link" data-href="/login">
                   <i class="fas fa-user" data-onclick="link" data-href="/login"></i> Sign In
                 </a>
                 ` : `
                 <div class="dropdown nav-item${isDropdownUserMenu ? ' show' : ''}">
-                  <a class="dropdown-toggle nav-link" id="username" href="#" role="button" aria-haspopup="true" aria-expanded="${isDropdownUserMenu}" data-onclick="dropdown-usermenu">${user.data.name}</a>
+                  <a class="dropdown-toggle nav-link" id="username" href="#" role="button" aria-haspopup="true" aria-expanded="${isDropdownUserMenu}" data-onclick="dropdown-usermenu">${user.name}</a>
                   <div class="dropdown-menu${isDropdownUserMenu ? ' show' : ''}" aria-labelledby="username" style="margin: 0px;">
                     <a class="dropdown-item" href="/profile" data-onclick="link" data-href="/profile">Profile</a>
                     <a class="dropdown-item" id="btnLogout" role="button" href="#" data-onclick="logout">Logout</a>
                   </div>
                 </div>
-                ${user.data.isAdmin ? `
+                ${user.isAdmin ? `
                 <div class="dropdown nav-item${isDropdownAdminMenu ? ' show' : ''}">
                   <a class="dropdown-toggle nav-link" id="adminmenu" href="#" role="button" aria-haspopup="true" aria-expanded="${isDropdownAdminMenu}" data-onclick="dropdown-adminmenu">Admin</a>
                   <div class="dropdown-menu${isDropdownAdminMenu ? ' show' : ''}" aria-labelledby="adminmenu" style="margin: 0px;">

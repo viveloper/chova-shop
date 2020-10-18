@@ -17,7 +17,7 @@ class ShippingPage extends Component {
       onSubmit,
     } = this.props;
 
-    if(!user.data) {
+    if(!user) {
       history.push('/login');
       return this.container;
     }

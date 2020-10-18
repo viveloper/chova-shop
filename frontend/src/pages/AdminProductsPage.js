@@ -13,7 +13,7 @@ class AdminProductsPage extends Component {
     const { history, match, user } = this.props;
     const { pageNumber } = match.params;    
 
-    if (!user.data || !user.data.isAdmin) {
+    if (!user || !user.isAdmin) {
       history.push('/login');
       return this.container;
     }

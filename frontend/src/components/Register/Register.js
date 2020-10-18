@@ -8,7 +8,15 @@ class Register extends Component {
 
     this.container = document.createElement('main');
     this.container.className = 'py-3';
+    this.container.addEventListener('click', this.handleClick);
   }
+
+  handleClick = (e) => {
+    if (e.target.dataset.onclick === 'move-login') {
+      e.preventDefault();
+      this.props.history.push(e.target.getAttribute('href'));
+    }
+  };
 
   render() {
     this.container.innerHTML = '';
@@ -18,11 +26,10 @@ class Register extends Component {
     this.container.appendChild(container);
 
     const {
-      name,
-      email,
-      password,
-      confirmPassword,
-      user: { loading, error },
+      inputs,      
+      onSubmit,
+      loading,
+      error,     
     } = this.props;
 
     if (loading) {
@@ -39,23 +46,38 @@ class Register extends Component {
       return this.container;
     }
 
-    container.innerHTML = `
-      <div class="justify-content-md-center row">
-        <div class="col-md-6 col-12">
-          <h1>Sign Up</h1>
-          ${renderComponent(
-            RegisterForm,
-            { name, email, password, confirmPassword, error },
-            null,
-            'HTML'
-          )}          
-          <div class="py-3 row">
-            <div class="col">Have an Account? <a href="/login">Login</a></div>
-          </div>
-        </div>
-      </div>
-    `;
+    const row = document.createElement('div');
+    row.className = 'justify-content-md-center row';
+    container.appendChild(row);
 
+    const col = document.createElement('div');
+    col.className = 'col-md-6 col-12';
+    row.appendChild(col);
+
+    const title = document.createElement('h1');
+    title.innerText = 'Sign Up';
+    col.appendChild(title);
+
+    renderComponent(
+      RegisterForm,
+      {
+        inputs, 
+        error,
+        onSubmit,
+      },
+      col
+    );
+
+    const linkRow = document.createElement('div');
+    linkRow.className = 'py-3 row';
+    col.appendChild(linkRow);
+
+    const linkCol = document.createElement('div');
+    linkCol.className = 'col';
+    linkRow.appendChild(linkCol);
+
+    linkCol.innerHTML = 'Have an Account? <a href="/login" data-onclick="move-login">Login</a>';    
+    
     return this.container;
   }
 }

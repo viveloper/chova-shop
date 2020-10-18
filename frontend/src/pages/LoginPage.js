@@ -16,7 +16,7 @@ class LoginPage extends Component {
       setUser,     
     } = this.props;
 
-    if (user.data) {
+    if (user) {
       history.push('/');
       return this.container;
     }

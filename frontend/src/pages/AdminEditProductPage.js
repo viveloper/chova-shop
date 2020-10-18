@@ -13,7 +13,7 @@ class AdminEditProductPage extends Component {
     const { history, match, user } = this.props;
     const productId = match.params.id;
 
-    if (!user.data || !user.data.isAdmin) {
+    if (!user || !user.isAdmin) {
       history.push('/login');
       return this.container;
     }

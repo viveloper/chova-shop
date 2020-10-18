@@ -38,7 +38,7 @@ class ProductContainer extends Component {
 
   submitReview = async (review) => {
     const { productId, user } = this.props;
-    const token = user.data.token;
+    const token = user.token;
     this.setState({
       reviewInputs: review,
       product: {

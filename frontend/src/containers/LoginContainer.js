@@ -28,7 +28,7 @@ class LoginContainer extends Component {
 
     if (!isError) {            
       this.props.setUser(data);
-      this.props.history.goBack();
+      this.props.history.push('/');
     } else {
       this.setState({      
         inputs: {

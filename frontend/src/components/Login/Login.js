@@ -16,7 +16,7 @@ class Login extends Component {
       e.preventDefault();
       this.props.history.push(e.target.getAttribute('href'));
     }
-  };  
+  };
 
   render() {
     this.container.innerHTML = '';

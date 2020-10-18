@@ -33,7 +33,7 @@ class AdminProductsContainer extends Component {
 
   deleteProduct = async (productId) => {
     const { pageNumber } = this.props;
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
 
     this.setState({
       productsInfo: {

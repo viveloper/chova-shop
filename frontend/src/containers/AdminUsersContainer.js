@@ -31,7 +31,7 @@ class AdminUsersContainer extends Component {
       } 
     });
 
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     const { isError } = await usersApi.deleteUser(token, { id: userId });
     if(isError) {
       this.setState({
@@ -45,7 +45,7 @@ class AdminUsersContainer extends Component {
   }
 
   fetchUsers = async () => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
 
     asyncHandler.setLoading.call(this, 'users');
     const { isError, data } = await usersApi.fetchUsers(token);

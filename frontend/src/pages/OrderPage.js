@@ -13,7 +13,7 @@ class OrderPage extends Component {
     const { history, user } = this.props;
     const orderId = this.props.match.params.id;
 
-    if(!user.data) {
+    if(!user) {
       history.push('/login');
       return this.container;
     }

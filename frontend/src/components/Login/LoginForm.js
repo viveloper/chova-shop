@@ -23,12 +23,11 @@ class LoginForm extends Component {
     const email = e.target.querySelector('#email').value;
     const password = e.target.querySelector('#password').value;
 
+    const inputs = { email, password }
+
     if (!email) {
       this.setState({
-        inputs: { 
-          email, 
-          password,          
-        },
+        inputs,
         error: {
           message: 'Email is required',
         },
@@ -37,10 +36,7 @@ class LoginForm extends Component {
     }
     if (!password) {      
       this.setState({
-        inputs: { 
-          email, 
-          password,          
-        },
+        inputs,
         error: {
           message: 'Password is required',
         },
@@ -49,10 +45,7 @@ class LoginForm extends Component {
     }
     if (!validateEmail(email)) {
       this.setState({
-        inputs: { 
-          email, 
-          password,          
-        },
+        inputs,
         error: {
           message: 'Email is not valid',
         },
@@ -60,7 +53,7 @@ class LoginForm extends Component {
       return;
     }
 
-    this.props.onSubmit({ email, password });
+    this.props.onSubmit(inputs);
   };
 
   render() {

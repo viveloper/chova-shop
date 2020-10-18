@@ -33,7 +33,7 @@ class AdminEditProductContainer extends Component {
   }
 
   updateProduct = async (product) => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     const { productId } = this.props;
     asyncHandler.setLoading.call(this, 'product');
     const { isError, data } = await productsApi.updateProduct(token, { id: productId, ...product });
@@ -46,7 +46,7 @@ class AdminEditProductContainer extends Component {
   }
 
   uploadImage = async (file, product) => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     this.setState({
       product: {
         loading: true,

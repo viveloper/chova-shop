@@ -5,6 +5,20 @@ import { validateEmail } from '../../modules/inputValidator.js';
 class ProfileForm extends Component {
   constructor(props) {
     super(props);
+
+    const { name, email, password, confirmPassword } = props.profileFormData.inputs;
+
+    this.state = {
+      inputs: {
+        name,
+        email,
+        password,
+        confirmPassword,
+      },
+      loading: props.profileFormData.loading,
+      error: props.profileFormData.error,
+    }
+
     this.container = document.createElement('form');
     this.container.addEventListener('submit', this.handleSubmit);
   }
@@ -16,34 +30,63 @@ class ProfileForm extends Component {
     const password = this.container.querySelector('input[id=password]').value;
     const confirmPassword = this.container.querySelector('input[id=confirmPassword]').value;
 
-    const {setError} = this.props;
+    const inputs = { name, email, password, confirmPassword };    
+
     if (!name) {
-      setError('Name is requried');
+      this.setState({
+        inputs,
+        error: {
+          message: 'Name is required',
+        },
+      });
       return;
     }
     if (!email) {
-      setError('Email is requried');
+      this.setState({
+        inputs,
+        error: {
+          message: 'Email is required',
+        },
+      });
+      return;
+    }
+    if (!password) {
+      this.setState({
+        inputs,
+        error: {
+          message: 'Password is required',
+        },
+      });
       return;
     }
     if (!validateEmail(email)) {
-      setError('Email is not valid');
+      this.setState({
+        inputs,
+        error: {
+          message: 'Email is not valid',
+        },
+      });
       return;
     }
-    if (password !== confirmPassword) {
-      setError('Password do not match');
+    if (password !== confirmPassword) {      
+      this.setState({
+        inputs,
+        error: {
+          message: 'Password do not match',
+        },
+      });
       return;
     }
-
-    this.props.onSubmit({
-      name,
-      email,
-      password,
-      confirmPassword
-    });
+    
+    this.props.onSubmit(inputs);
   }
 
   render() {
-    const {loading, data, error} = this.props.user;
+    const { 
+      inputs,
+      loading,
+      error,
+    } = this.state;
 
     if (loading) {
       renderComponent(
@@ -57,32 +100,29 @@ class ProfileForm extends Component {
         this.container
       );
       return this.container;
-    }
-    if(!data) return this.container;
+    }    
 
     const errorMessage = error?.message ? error.message : '';
 
     this.container.innerHTML = `
       <div class="form-group">
         <label class="form-label" for="name">Name</label>
-        <input placeholder="Enter name" type="name" id="name" class="form-control" value="${data.name}">
+        <input placeholder="Enter name" type="name" id="name" class="form-control" value="${inputs.name}">
       </div>
       <div class="form-group">
         <label class="form-label" for="email">Email Address</label>
-        <input placeholder="Enter email" type="email" id="email" class="form-control" value="${data.email}">
+        <input placeholder="Enter email" type="email" id="email" class="form-control" value="${inputs.email}">
       </div>
       <div class="form-group">
         <label class="form-label" for="password">Password</label>
-        <input placeholder="Enter password" type="password" id="password" class="form-control">
+        <input placeholder="Enter password" type="password" id="password" class="form-control" value="${inputs.password}">
       </div>
       <div class="form-group">
         <label class="form-label" for="confirmPassword">Confirm Password</label>
-        <input placeholder="Confirm password" type="password" id="confirmPassword" class="form-control">
+        <input placeholder="Confirm password" type="password" id="confirmPassword" class="form-control" value="${inputs.confrimPassword}">
       </div>
-      <div class="text-danger my-3 px-2" style="display:${
-        errorMessage ? 'block' : 'none'
-      }">
-        ${error?.message ? error.message : ''}
+      <div class="text-danger my-3 px-2" style="display:${errorMessage ? 'block' : 'none'}">
+        ${errorMessage}
       </div>
       <button type="submit" class="btn btn-primary">Update</button>
     `;

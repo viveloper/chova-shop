@@ -22,7 +22,7 @@ class AdminEditUserContainer extends Component {
   }
 
   fetchUser = async (id) => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     asyncHandler.setLoading.call(this, 'user');
     const { isError, data } = await usersApi.fetchUser(token, { id });
     if (!isError) {
@@ -33,7 +33,7 @@ class AdminEditUserContainer extends Component {
   }
 
   updateUser = async ({ name, email, isAdmin }) => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     const { userId } = this.props;
     asyncHandler.setLoading.call(this, 'user');
     const { isError, data } = await usersApi.updateUser(token, { id: userId, name, email, isAdmin });

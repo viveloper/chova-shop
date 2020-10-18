@@ -78,7 +78,7 @@ class OrderSummary extends Component {
           <div class="list-group-item">
             <button type="button" class="btn-block btn btn-primary" data-name="btn-paypal">PayPal</button>
           </div>
-        ` : !user.data.isAdmin ? '' : !isDelivered ? `
+        ` : !user.isAdmin ? '' : !isDelivered ? `
           <div class="list-group-item">
             <button type="button" class="btn-block btn btn-primary" data-name="btn-mark-delivered">Mark As Delivered</button>
           </div>

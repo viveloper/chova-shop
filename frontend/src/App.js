@@ -32,10 +32,7 @@ class App extends Component {
     const initCartItems = localCartItems ? localCartItems : [];
 
     const localUser = JSON.parse(localStorage.getItem('user'));
-    const initUser = {
-      ...asyncInitState,
-      data: localUser,
-    };
+    const initUser = localUser;
 
     const localShippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
     const initShippingAddress = localShippingAddress ? localShippingAddress : {address: '', city: '', postalCode: '', country: ''};
@@ -50,13 +47,7 @@ class App extends Component {
         shippingAddress: initShippingAddress,
         paymentMethod: initPaymentMethod,
       },
-      user: initUser,
-      registerInputs: {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      },
+      user: initUser,      
       orderCreationInfo: asyncInitState,
     };
 
@@ -83,7 +74,7 @@ class App extends Component {
 
   setUser = (user) => {
     this.setState({ user });
-    localStorage.setItem('user', JSON.stringify(this.state.user.data));
+    localStorage.setItem('user', JSON.stringify(user));
   }  
 
   logout = () => {    
@@ -93,51 +84,7 @@ class App extends Component {
       user: asyncInitState,
     });
     localStorage.removeItem('user');
-  };
-
-  register = async ({ name, email, password }) => {
-    asyncHandler.setLoading.call(this, 'user');
-    const { isError, data } = await usersApi.register({ name, email, password });
-    if (!isError) {
-      asyncHandler.setData.call(this, 'user', data);
-      this.setState({
-        ...this.state,
-        registerInputs: {
-          name: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-        },
-      });
-      this.goBack();
-    } else {
-      asyncHandler.setError.call(this, 'user', data);
-    }
-
-    localStorage.setItem('user', JSON.stringify(this.state.user.data));
-  };
-
-  setLoginInputs = ({ email, password }) => {
-    this.setState({
-      ...this.state,
-      loginInputs: {
-        email,
-        password,
-      },
-    });
-  };
-
-  setRegisterInputs = ({ name, email, password, confirmPassword }) => {
-    this.setState({
-      ...this.state,
-      registerInputs: {
-        name,
-        email,
-        password,
-        confirmPassword,
-      },
-    });
-  };
+  };  
 
   setUserError = (message) => {
     this.setState({
@@ -212,42 +159,7 @@ class App extends Component {
     });
 
     localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
-  }
-
-  updateUserProfile = async ({name, email, password}) => {
-    const { token } = this.state.user.data;
-
-    this.setState({
-      ...this.state,
-      user: {
-        ...this.state.user,
-        loading: true,
-        error: null,
-      }
-    })
-    const { isError, data } = await usersApi.updateUserProfile(token, { name, email, password });
-    if (!isError) {
-      this.setState({
-        ...this.state,
-        user: {
-          ...this.state.user,
-          loading: false,
-          data,
-        }
-      })
-    } else {
-      this.setState({
-        ...this.state,
-        user: {
-          ...this.state.user,
-          loading: false,
-          error: data,
-        }
-      })
-    }
-
-    localStorage.setItem('user', JSON.stringify(this.state.user.data));
-  }
+  }  
 
   handleShippingAddressSubmit = ({address, city, postalCode, country}) => {       
     this.push('/payment');
@@ -281,7 +193,7 @@ class App extends Component {
   }
 
   createOrder = async (order) => {
-    const { token } = this.state.user.data;
+    const { token } = this.state.user;
     asyncHandler.setLoading.call(this, 'orderCreationInfo');
     const { isError, data } = await ordersApi.createOrder(token, order);
     if (!isError) {
@@ -298,10 +210,8 @@ class App extends Component {
 
     const { 
       path,
-      cart, 
-      user, 
-      loginInputs, 
-      registerInputs, 
+      cart,
+      user,
       orderCreationInfo,
     } = this.state;
     
@@ -356,7 +266,7 @@ class App extends Component {
             path: '/login',
             Component: LoginPage,
             props: {
-              user,                            
+              user,
               setUser: this.setUser,
             },
           },
@@ -365,18 +275,14 @@ class App extends Component {
             Component: RegisterPage,
             props: {
               user,
-              inputs: registerInputs,
-              register: this.register,
-              setError: this.setUserError,
-              setInputs: this.setRegisterInputs,              
+              setUser: this.setUser,
             },
           },
           {
             path: '/profile',
             Component: ProfilePage,
             props: {
-              user,
-              onProfileSubmit: this.updateUserProfile,
+              user,              
               setError: this.setUserError,
             }
           },

@@ -10,14 +10,14 @@ class ProfilePage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history, user, onProfileSubmit, setError } = this.props;
+    const { history, user } = this.props;
 
-    if (!user.data) {
+    if (!user) {
       history.push('/login');
       return this.container;
     }
 
-    renderComponent(ProfileContainer, { history, user, onProfileSubmit, setError }, this.container);
+    renderComponent(ProfileContainer, { history, user }, this.container);
 
     return this.container;
   }

@@ -10,6 +10,16 @@ class ProfileContainer extends Component {
 
     this.state = {
       orders: asyncInitState,
+      profileFormData: {
+        inputs: {
+          name: props.user.name,
+          email: props.user.email,
+          password: '',
+          confrimPassword: '',
+        },
+        loading: false,
+        error: null,
+      }      
     }
 
     this.container = document.createElement('div');
@@ -18,7 +28,7 @@ class ProfileContainer extends Component {
   }
 
   async initState() {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
 
     asyncHandler.setLoading.call(this, 'orders');
     const { isError, data } = await ordersApi.fetchMyOrders(token);
@@ -30,13 +40,50 @@ class ProfileContainer extends Component {
     }
   }
 
+  updateUserProfile = async ({ name, email, password, confrimPassword }) => {
+    const { token } = this.state.user;
+    const inputs = { name, email, password, confrimPassword };    
+
+    this.setState({
+      profileFormData: {
+        ...this.state.profileFormData,
+        loading: true,
+        error: null,
+      }      
+    });
+
+    const { isError, data } = await usersApi.updateUserProfile(token, { name, email, password });
+
+    if (!isError) {            
+      this.props.setUser(data);      
+    } else {
+      this.setState({      
+        profileFormData: {
+          inputs,
+          loading: false,
+          error: data,
+        }      
+      });
+    }
+  }
+
   render() {
     this.container.innerHTML = '';
 
-    const { history, user, onProfileSubmit, setError } = this.props;
-    const { orders } = this.state
+    const { history, user } = this.props;
+    const { orders, profileFormData } = this.state
 
-    renderComponent(Profile, { history, user, orders, onProfileSubmit, setError }, this.container);
+    renderComponent(
+      Profile, 
+      { 
+        history, 
+        user, 
+        orders, 
+        profileFormData, 
+        onProfileSubmit: this.updateUserProfile,
+      }, 
+      this.container
+    );
 
     return this.container;
   }

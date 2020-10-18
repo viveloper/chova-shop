@@ -13,7 +13,7 @@ class Profile extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { history, user, orders, onProfileSubmit, setError } = this.props;
+    const { history, user, orders, profileFormData, onProfileSubmit } = this.props;
 
     const container = document.createElement('div');
     container.className = 'container';
@@ -31,7 +31,7 @@ class Profile extends Component {
     profileTitle.innerText = 'User Profile';
     profileCol.appendChild(profileTitle);
 
-    renderComponent(ProfileForm, { user, onSubmit: onProfileSubmit, setError }, profileCol);
+    renderComponent(ProfileForm, { user, profileFormData, onSubmit: onProfileSubmit }, profileCol);
 
     const ordersCol = document.createElement('div');
     ordersCol.className = 'col-md-9';

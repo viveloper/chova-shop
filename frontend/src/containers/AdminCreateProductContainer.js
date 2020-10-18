@@ -28,7 +28,7 @@ class AdminCreateProductContainer extends Component {
   }
 
   createProduct = async (product) => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     asyncHandler.setLoading.call(this, 'product');
     const { isError, data } = await productsApi.createProduct(token, product);
     if (!isError) {
@@ -40,7 +40,7 @@ class AdminCreateProductContainer extends Component {
   }
 
   uploadImage = async (file, product) => {
-    const token = this.props.user.data.token;
+    const token = this.props.user.token;
     this.setState({
       product: {
         loading: true,
