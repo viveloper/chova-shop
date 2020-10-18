@@ -64,7 +64,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { 
+    const {
       inputs: { 
         email, 
         password 
