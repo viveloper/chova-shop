@@ -6,11 +6,11 @@ class UserForm extends Component {
     super(props);
     this.state = {
       inputs: {
-        name: props.data.name,
-        email: props.data.email,
-        isAdmin: props.data.isAdmin,
+        name: props.inputs.name,
+        email: props.inputs.email,
+        isAdmin: props.inputs.isAdmin,
       },
-      error: '',
+      error: props.error,
     }
     this.container = document.createElement('form');
     this.container.addEventListener('submit', this.handleSubmit);
@@ -22,33 +22,37 @@ class UserForm extends Component {
     const email = e.target.querySelector('input[id=email]').value;
     const isAdmin = e.target.querySelector('input[id=isadmin]').checked;
 
+    const inputs = { name, email, isAdmin };
+
     if (!name) {
       this.setState({
-        inputs: { name, email, isAdmin},
-        error: 'Name is requried',
+        inputs,
+        error: { message: 'Name is requried' },
       });
       return;
     }
     if (!email) {      
       this.setState({
-        inputs: { name, email, isAdmin},
-        error: 'Email is requried',
+        inputs,
+        error: { message: 'Email is requried' },
       });
       return;
     }
     if (!validateEmail(email)) {      
       this.setState({
-        inputs: { name, email, isAdmin},
-        error: 'Email is not valid',
+        inputs,
+        error: { message: 'Email is not valid' },
       });
       return;
     }
 
-    this.props.onSubmit({ name, email, isAdmin });
+    this.props.onSubmit(inputs);
   }
 
   render() {    
     const { inputs, error } = this.state;
+
+    const errorMessage = error?.message ? error.message : '';
 
     this.container.innerHTML = `
       <div class="form-group">
@@ -65,10 +69,8 @@ class UserForm extends Component {
           <label title="" for="isadmin" class="form-check-label">Is Admin</label>
         </div>
       </div>
-      <div class="text-danger my-3 px-2" style="display:${
-        error ? 'block' : 'none'
-      }">
-        ${error ? error : ''}
+      <div class="text-danger my-3 px-2" style="display:${errorMessage ? 'block' : 'none'}">
+        ${errorMessage}
       </div>
       <button type="submit" class="btn btn-primary">Update</button>
     `;

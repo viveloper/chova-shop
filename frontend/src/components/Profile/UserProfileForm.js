@@ -6,7 +6,11 @@ class ProfileForm extends Component {
   constructor(props) {
     super(props);
 
-    const { name, email, password, confirmPassword } = props.profileFormData.inputs;
+    const { 
+      inputs: { name, email, password, confirmPassword }, 
+      loading, 
+      error 
+    } = props;
 
     this.state = {
       inputs: {
@@ -15,8 +19,8 @@ class ProfileForm extends Component {
         password,
         confirmPassword,
       },
-      loading: props.profileFormData.loading,
-      error: props.profileFormData.error,
+      loading,
+      error,
     }
 
     this.container = document.createElement('form');
@@ -46,15 +50,6 @@ class ProfileForm extends Component {
         inputs,
         error: {
           message: 'Email is required',
-        },
-      });
-      return;
-    }
-    if (!password) {
-      this.setState({
-        inputs,
-        error: {
-          message: 'Password is required',
         },
       });
       return;
@@ -119,7 +114,7 @@ class ProfileForm extends Component {
       </div>
       <div class="form-group">
         <label class="form-label" for="confirmPassword">Confirm Password</label>
-        <input placeholder="Confirm password" type="password" id="confirmPassword" class="form-control" value="${inputs.confrimPassword}">
+        <input placeholder="Confirm password" type="password" id="confirmPassword" class="form-control" value="${inputs.confirmPassword}">
       </div>
       <div class="text-danger my-3 px-2" style="display:${errorMessage ? 'block' : 'none'}">
         ${errorMessage}

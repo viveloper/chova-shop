@@ -80,8 +80,7 @@ class App extends Component {
   logout = () => {    
     this.push('/');
     this.setState({
-      ...this.state,
-      user: asyncInitState,
+      user: null,
     });
     localStorage.removeItem('user');
   };  
@@ -283,7 +282,7 @@ class App extends Component {
             Component: ProfilePage,
             props: {
               user,              
-              setError: this.setUserError,
+              setUser: this.setUser,
             }
           },
           {

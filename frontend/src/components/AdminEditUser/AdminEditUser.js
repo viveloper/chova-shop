@@ -14,8 +14,11 @@ class AdminEditUser extends Component {
     this.container.innerHTML = '';
 
     const {
-      user: { loading, data, error },
       history,
+      inputs,
+      loading,
+      formError,
+      error,
       onSubmit,
     } = this.props;
 
@@ -61,9 +64,8 @@ class AdminEditUser extends Component {
 
       return this.container;
     }
-    if (!data) return this.container;
 
-    renderComponent(UserForm, { history, data, onSubmit }, col);
+    renderComponent(UserForm, { inputs, error: formError, onSubmit }, col);
 
     return this.container;
   }
