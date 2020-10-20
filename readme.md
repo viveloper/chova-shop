@@ -1,13 +1,13 @@
-# 바닐라 자바스크립트 프로젝트
+# 바닐라 자바스크립트 프로젝트 (Chova Shop)
 
-> ChovaShop eCommerce Platform
+> 이 프로젝트는 Brad Traversy의 MERN 스택 프로젝트 [ProShop eCommerce Platform](https://github.com/bradtraversy/proshop_mern)을 기반으로 구현.
 
 ## 프로젝트 설명
 
-> 순수 자바스크립트만을 사용하여 온라인 쇼핑몰 서비스의 프론트엔드를 구현한다.
-> 프레임워크와 라이브러리를 사용하지 않는다. (React, Vue, Angular, jQuery, Axios 등)
-> 하지만 모던 자바스크립트 프레임워크가 지향하는 디자인 패턴을 따라 구현한다.
-> React, React-Router 등의 기술 스택을 직접 구현하여 사용한다.
+순수 자바스크립트만을 사용하여 리액트로 구현된 온라인 쇼핑몰 서비스의 프론트엔드를 재구현한다.
+따라서 프레임워크와 라이브러리를 사용하지 않는다. (React, Vue, jQuery, Axios, lodash 등)
+하지만 모던 자바스크립트 프레임워크가 지향하는 디자인 패턴을 따라 구현한다.
+React, React-Router 등의 기술 스택을 직접 구현하여 사용한다.
 
 ## 기술 요구사항
 
@@ -17,14 +17,14 @@
 - 단일 페이지 어플리케이션 (SPA)
 - 컴포넌트 기반 구조 (Component)
 - 데이터에 의존한 뷰의 렌더링 (Reactivity)
-- 브라우저 라우팅 / 서버 라우팅 (Routing)
-- 상품 목록 페이지네이션 (Pagination)
-- 이미지 지연 로딩 (Lazy Loading, Intersection Observer)
+- URL에 의한 브라우저 라우팅 / 서버 라우팅 (Routing)
+- 이미지 지연 로딩 (Lazy Loading)
+- 페이지네이션 (Pagination)
 - 로딩 / 에러 / 데이터 없음에 대한 UI 구현
 - [ToDo] 글로벌 상태 관리 / FLUX Architecture (eg. Redux)
 - [ToDo] 불필요한 API 요청은 중단 (Fetch Request Abort)
-- [ToDo] 무한 스크롤 (Scroll Data Fetch)
-- [ToDo] 디바운스 / 쓰로틀링 적용
+- [ToDo] 스크롤 데이터 요청 (Scroll Data Fetch)
+- [ToDo] 디바운스 / 쓰로틀 (Debounce / Throttle)
 
 ### 백엔드
 
@@ -33,11 +33,14 @@
 - REST API
 - JWT Authentication
 
-## 기능 요구사항
+## Demo
+
+데모 서비스 [바로가기](https://chovashop.herokuapp.com/)
+
+## Features
 
 - Full featured shopping cart
 - Product reviews and ratings
-- Top products carousel
 - Product pagination
 - Product search feature
 - User profile with orders
