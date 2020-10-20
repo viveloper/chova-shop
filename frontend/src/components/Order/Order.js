@@ -11,20 +11,20 @@ class Order extends Component {
   }
 
   render() {
-    this.container.innerHTML = ''
+    this.container.innerHTML = '';
 
     const container = document.createElement('div');
     container.className = 'container';
     this.container.appendChild(container);
 
-    const { 
-      history, 
-      user, 
-      orderId, 
-      order: { loading, data, error }, 
-      onPayPalClick, 
-      onMarkDeliveredClick 
-    } = this.props;    
+    const {
+      history,
+      user,
+      orderId,
+      order: { loading, data, error },
+      onPayPalClick,
+      onMarkDeliveredClick,
+    } = this.props;
 
     const title = document.createElement('h1');
     title.innerText = `Order ${orderId}`;
@@ -51,7 +51,7 @@ class Order extends Component {
       return this.container;
     }
     if (!data) return this.container;
-    
+
     const row = document.createElement('div');
     row.className = 'row';
     container.appendChild(row);
@@ -66,7 +66,11 @@ class Order extends Component {
     orderSummaryCol.className = 'col-md-4';
     row.appendChild(orderSummaryCol);
 
-    renderComponent(OrderSummary, { user, order: data, onPayPalClick, onMarkDeliveredClick }, orderSummaryCol);
+    renderComponent(
+      OrderSummary,
+      { user, order: data, onPayPalClick, onMarkDeliveredClick },
+      orderSummaryCol
+    );
 
     return this.container;
   }
