@@ -1,8 +1,39 @@
-# ChovaShop eCommerce Platform
+# 바닐라 자바스크립트 프로젝트
 
-> eCommerce platform built with the VanillaJS Frontend & ExpressJS Backend.
+> ChovaShop eCommerce Platform
 
-## Features
+## 프로젝트 설명
+
+> 순수 자바스크립트만을 사용하여 온라인 쇼핑몰 서비스의 프론트엔드를 구현한다.
+> 프레임워크와 라이브러리를 사용하지 않는다. (React, Vue, Angular, jQuery, Axios 등)
+> 하지만 모던 자바스크립트 프레임워크가 지향하는 디자인 패턴을 따라 구현한다.
+> React, React-Router 등의 기술 스택을 직접 구현하여 사용한다.
+
+## 기술 요구사항
+
+### 프론트엔드
+
+- 순수 자바스크립트만 사용 (Vanilla JS)
+- 단일 페이지 어플리케이션 (SPA)
+- 컴포넌트 기반 구조 (Component)
+- 데이터에 의존한 뷰의 렌더링 (Reactivity)
+- 브라우저 라우팅 / 서버 라우팅 (Routing)
+- 상품 목록 페이지네이션 (Pagination)
+- 이미지 지연 로딩 (Lazy Loading, Intersection Observer)
+- 로딩 / 에러 / 데이터 없음에 대한 UI 구현
+- [ToDo] 글로벌 상태 관리 / FLUX Architecture (eg. Redux)
+- [ToDo] 불필요한 API 요청은 중단 (Fetch Request Abort)
+- [ToDo] 무한 스크롤 (Scroll Data Fetch)
+- [ToDo] 디바운스 / 쓰로틀링 적용
+
+### 백엔드
+
+- Node.js (Express)
+- MongoDB (Mongoose)
+- REST API
+- JWT Authentication
+
+## 기능 요구사항
 
 - Full featured shopping cart
 - Product reviews and ratings
@@ -18,14 +49,6 @@
 - Database seeder (products & users)
 
 ## Usage
-
-### ES Modules in Node
-
-We us ECMAScript Modules in the backend in this project. Be sure to have at least Node v14.6+ or you will need to add the "--experimental-modules" flag.
-
-Also, when importing a file (not a package), be sure to add .js at the end or you will get a "module not found" error
-
-You can also install and setup Babel if you would like
 
 ### Env Variables
 
