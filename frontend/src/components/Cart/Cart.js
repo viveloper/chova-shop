@@ -11,26 +11,33 @@ class Cart extends Component {
   }
 
   render() {
+    this.container.innerHTML = '';
+
     const { cartItems, totalItems, totalPrice } = this.props;
 
-    this.container.innerHTML = `
-      <div class="container">
-        <h1>Shopping Cart</h1>
-        <div class="row">          
-          <div class="col-md-8">            
-            ${renderComponent(CartItems, { items: cartItems }, null, 'HTML')}
-          </div>
-          <div class="col-md-4">
-            ${renderComponent(
-              CheckoutCard,
-              { totalItems, totalPrice },
-              null,
-              'HTML'
-            )}
-          </div>
-        </div>
-      </div>
-    `;
+    const container = document.createElement('div');
+    container.className = 'container';
+    this.container.appendChild(container);
+
+    const title = document.createElement('h1');
+    title.innerText = 'Shopping Cart';
+    container.appendChild(title);
+
+    const row = document.createElement('div');
+    row.className = 'row';
+    container.appendChild(row);
+
+    const cartItemsCol = document.createElement('div');
+    cartItemsCol.className = 'col-md-8';
+    row.appendChild(cartItemsCol);
+
+    renderComponent(CartItems, { items: cartItems }, cartItemsCol);
+
+    const checkoutCol = document.createElement('div');
+    checkoutCol.className = 'col-md-4';
+    row.appendChild(checkoutCol);
+
+    renderComponent(CheckoutCard, { totalItems, totalPrice }, checkoutCol);
 
     return this.container;
   }

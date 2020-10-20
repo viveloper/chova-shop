@@ -83,18 +83,6 @@ class App extends Component {
       user: null,
     });
     localStorage.removeItem('user');
-  };  
-
-  setUserError = (message) => {
-    this.setState({
-      ...this.state,
-      user: {
-        ...this.state.user,
-        error: {
-          message,
-        },
-      },
-    });
   };
 
   addCartItem = (product, qty) => {    

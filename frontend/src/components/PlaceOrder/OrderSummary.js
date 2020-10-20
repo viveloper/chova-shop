@@ -43,68 +43,93 @@ class OrderSummary extends Component {
   }
 
   render() {
+    this.container.innerHTML = '';
+
     const {orderCreationInfo} = this.props;
     const prices = this.getSummary();
 
-    this.container.innerHTML = `
-      <div class="list-group list-group-flush">
-        <div class="list-group-item">
-          <h2>Order Summary</h2>
-        </div>
-        <div class="list-group-item">
-          <div class="row">
-            <div class="col">Items</div>
-            <div class="col">$${prices.itemsPrice}</div>
-          </div>
-        </div>
-        <div class="list-group-item">
-          <div class="row">
-            <div class="col">Shipping</div>
-            <div class="col">$${prices.shippingPrice}</div>
-          </div>
-        </div>
-        <div class="list-group-item">
-          <div class="row">
-            <div class="col">Tax</div>
-            <div class="col">$${prices.taxPrice}</div>
-          </div>
-        </div>
-        <div class="list-group-item">
-          <div class="row">
-            <div class="col">Total</div>
-            <div class="col">$${prices.totalPrice}</div>
-          </div>
-        </div>
-        ${
-          orderCreationInfo.loading ? `
-            <div class="list-group-item">
-              ${renderComponent(
-                Loader,
-                {
-                  width: '30px',
-                  height: '30px',
-                  margin: 'auto',
-                  display: 'block',
-                },
-                null,
-                'HTML'
-              )}
-            </div>
-          ` : ''
-        }
-        ${
-          orderCreationInfo.error ? `
-            <div class="list-group-item">
-              <div class="alert alert-danger" role="alert">
-                ${orderCreationInfo.error.message}
-              </div>
-            </div>
-          ` : ''
-        }
-        <div class="list-group-item">
-          <button type="button" class="btn-block btn btn-primary">Place Order</button>
-        </div>
+    const listGroup = document.createElement(div);
+    listGroup.className = 'list-group list-group-flush';
+    this.container.appendChild(listGroup);
+
+    const listGroupItem01 = document.createElement('div');
+    listGroupItem01.className = 'list-group-item';
+    listGroupItem01.innerHTML = '<h2>Order Summary</h2>';
+    listGroup.appendChild(listGroupItem01);
+
+    const listGroupItem02 = document.createElement('div');
+    listGroupItem02.className = 'list-group-item';
+    listGroup.appendChild(listGroupItem02);
+    listGroupItem02.innerHTML = `
+      <div class="row">
+        <div class="col">Items</div>
+        <div class="col">$${prices.itemsPrice}</div>
       </div>
+    `;
+    
+
+    const listGroupItem03 = document.createElement('div');
+    listGroupItem03.className = 'list-group-item';
+    listGroup.appendChild(listGroupItem03);
+    listGroupItem03.innerHTML = `
+      <div class="row">
+        <div class="col">Shipping</div>
+        <div class="col">$${prices.shippingPrice}</div>
+      </div>
+    `;
+
+    const listGroupItem04 = document.createElement('div');
+    listGroupItem04.className = 'list-group-item';
+    listGroup.appendChild(listGroupItem04);
+    listGroupItem04.innerHTML = `
+      <div class="row">
+        <div class="col">Tax</div>
+        <div class="col">$${prices.taxPrice}</div>
+      </div>
+    `;
+
+    const listGroupItem05 = document.createElement('div');
+    listGroupItem05.className = 'list-group-item';
+    listGroup.appendChild(listGroupItem05);
+    listGroupItem05.innerHTML = `
+      <div class="row">
+        <div class="col">Total</div>
+        <div class="col">$${prices.totalPrice}</div>
+      </div>
+    `;
+
+    if(orderCreationInfo.loading) {
+      const loadingItem = document.createElement('div');
+      loadingItem.className = 'list-group-item';
+      listGroup.appendChild(loadingItem);
+      renderComponent(
+        Loader,
+        {
+          width: '30px',
+          height: '30px',
+          margin: 'auto',
+          display: 'block',
+        },
+        loadingItem
+      )
+    }
+
+    if(orderCreationInfo.error) {
+      const errorItem = document.createElement('div');
+      errorItem.className = 'list-group-item';
+      listGroup.appendChild(errorItem);
+      errorItem.innerHTML = `
+        <div class="alert alert-danger" role="alert">
+          ${orderCreationInfo.error.message}
+        </div>
+      `;
+    }
+
+    const listGroupItem06 = document.createElement('div');
+    listGroupItem06.className = 'list-group-item';
+    listGroup.appendChild(listGroupItem06);
+    listGroupItem06.innerHTML = `
+      <button type="button" class="btn-block btn btn-primary">Place Order</button>
     `;
 
     return this.container;
