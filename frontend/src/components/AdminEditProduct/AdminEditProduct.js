@@ -13,9 +13,11 @@ class AdminEditProduct extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const {
-      product: { loading, data, error },
+    const {      
       history,
+      inputs,
+      loading,
+      error,
       onSubmit,
       onImageSelect,
     } = this.props;
@@ -61,10 +63,9 @@ class AdminEditProduct extends Component {
       col.appendChild(errorEl);
 
       return this.container;
-    }
-    if (!data) return this.container;
+    }    
 
-    renderComponent(ProductForm, { history, data, onSubmit, onImageSelect }, col);
+    renderComponent(ProductForm, { history, inputs, onSubmit, onImageSelect }, col);
 
     return this.container;
   }

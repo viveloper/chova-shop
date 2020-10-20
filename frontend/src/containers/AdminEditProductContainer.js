@@ -9,7 +9,19 @@ class AdminEditProductContainer extends Component {
     super(props);
 
     this.state = {
-      product: asyncInitState,
+      inputs: {
+        name: '', 
+        price: '', 
+        image: '', 
+        brand: '', 
+        countInStock: '', 
+        category: '', 
+        description: '',
+        error: null,
+        uploadLoading: false,
+      },
+      loading: false,
+      error: null,
     };
 
     this.container = document.createElement('div');
@@ -22,59 +34,92 @@ class AdminEditProductContainer extends Component {
     this.fetchProduct(productId);
   }
 
-  fetchProduct = async (id) => {
-    asyncHandler.setLoading.call(this, 'product');
+  fetchProduct = async (id) => {    
+    this.setState({
+      loading: true,
+    });
     const { isError, data } = await productsApi.fetchProduct(id);
     if (!isError) {
-      asyncHandler.setData.call(this, 'product', data);
+      this.setState({
+        loading: false,
+        inputs: {
+          name: data.name, 
+          price: data.price, 
+          image: data.image, 
+          brand: data.brand, 
+          countInStock: data.countInStock, 
+          category: data.category, 
+          description: data.description,
+          error: null,
+          uploadLoading: false,
+        },
+        error: null,
+      });
     } else {
-      asyncHandler.setError.call(this, 'product', data);
+      this.setState({
+        loading: false,
+        error: data,
+      });
     }
   }
 
   updateProduct = async (product) => {
     const token = this.props.user.token;
     const { productId } = this.props;
-    asyncHandler.setLoading.call(this, 'product');
+    this.setState({
+      loading: true,
+    });
     const { isError, data } = await productsApi.updateProduct(token, { id: productId, ...product });
     if (!isError) {
-      asyncHandler.setData.call(this, 'product', data);
+      this.setState({
+        loading: false,
+        inputs: {
+          name: data.name, 
+          price: data.price, 
+          image: data.image, 
+          brand: data.brand, 
+          countInStock: data.countInStock, 
+          category: data.category, 
+          description: data.description,
+          error: null,
+          uploadLoading: false,
+        },
+        error: null,
+      });
       this.props.history.push('/admin/products');
     } else {
-      asyncHandler.setError.call(this, 'product', data);
+      this.setState({
+        loading: false,
+        inputs: {
+          ...product,
+          error: data,
+        },
+      });
     }
   }
 
   uploadImage = async (file, product) => {
     const token = this.props.user.token;
     this.setState({
-      product: {
-        loading: true,
-        data: { 
-          ...product,
-        },
-        error: null,
+      inputs: {
+        ...product,
+        uploadLoading: true,
       }
     });
     const { isError, data } = await uploadApi.uploadImage(file, token);
     if (!isError) {
       this.setState({
-        product: {
-          loading: false,
-          data: {
-            ...product,
-            image: data,
-          },
-          error: null,
+        inputs: {
+          ...product,          
+          uploadLoading: false,
+          image: data,
         }
-      });
+      });      
     } else {
       this.setState({
-        product: {
-          loading: false,
-          data: {
-            ...product,
-          },
+        inputs: {
+          ...product,
+          uploadLoading: false,
           error: data,
         }
       });
@@ -84,14 +129,16 @@ class AdminEditProductContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { product } = this.state;
+    const { inputs, loading, error } = this.state;
     const { history } = this.props;
 
     renderComponent(
       AdminEditProduct, 
       { 
         history, 
-        product,
+        inputs,
+        loading,
+        error,
         onSubmit: this.updateProduct,
         onImageSelect: this.uploadImage,
       }, 

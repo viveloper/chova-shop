@@ -4,11 +4,12 @@ class ProductForm extends Component {
   constructor(props) {
     super(props);
 
-    const { name, price, image, brand, countInStock, category, description } = props.data;
+    const { name, price, image, brand, countInStock, category, description, error, uploadLoading } = props.inputs;
 
     this.state = {
       inputs: { name, price, image, brand, countInStock, category, description },
-      error: '',
+      error,
+      uploadLoading,
     }
 
     this.container = document.createElement('form');
@@ -16,55 +17,69 @@ class ProductForm extends Component {
     this.container.addEventListener('input', this.handleInput);
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = (e) => {    
     e.preventDefault();
     const inputs = this.getInputs();
     if (!inputs.name) {
       this.setState({
         inputs,
-        error: 'Name is requried',
+        error: {
+          message: 'Name is requried',
+        },
       });
       return;
     }
-    if (!inputs.price) {      
+    if (!inputs.price) {   
       this.setState({
         inputs,
-        error: 'Price is requried',
-      });
+        error: {
+          message: 'Price is requried',
+        }
+      });         
       return;
     }
     if (!inputs.image) {
       this.setState({
-        inputs,
-        error: 'Image is requried',
+        inputs,       
+        error: {
+          message: 'Image is requried', 
+        }
       });
       return;
     }
     if (!inputs.brand) {      
       this.setState({
-        inputs,
-        error: 'Brand is requried',
+        inputs,        
+        error: {
+          message: 'Brand is requried',
+        }
       });
       return;
     }
     if (!inputs.countInStock) {      
       this.setState({
-        inputs,
-        error: 'Count In Stock is requried',
+        inputs,       
+        error: {
+          message: 'Count In Stock is requried', 
+        }
       });
       return;
     }
     if (!inputs.category) {      
       this.setState({
-        inputs,
-        error: 'Category is requried',
+        inputs,        
+        error: {
+          message: 'Category is requried',
+        }
       });
       return;
     }
     if (!inputs.description) {      
       this.setState({
-        inputs,
-        error: 'Description is requried',
+        inputs,      
+        error: {
+          message: 'Description is requried',  
+        }
       });
       return;
     }    
@@ -94,7 +109,9 @@ class ProductForm extends Component {
   }
 
   render() {    
-    const { inputs, error } = this.state;
+    const { inputs, error, uploadLoading } = this.state;
+
+    const errorMessage = error?.message ? error.message : '';
 
     this.container.innerHTML = `
       <div class="form-group">
@@ -108,10 +125,17 @@ class ProductForm extends Component {
       <div class="form-group">
         <label class="form-label" for="image">Image</label>
         <input placeholder="Enter image url" type="text" id="image" class="form-control" value="${inputs.image}">
-        <div class="custom custom-file">
-          <input id="image-file" type="file" class="custom-file-input">
-          <label for="image-file" class="custom-file-label">Choose File</label>
+        <div class="spinner-border" style="width:30px;height:30px;margin:auto;display:${uploadLoading ? 'block' : 'none'};">
+          <span class="sr-only">Loading...</span>
         </div>
+        ${
+          !uploadLoading ? `
+          <div class="custom custom-file">
+            <input id="image-file" type="file" class="custom-file-input">
+            <label for="image-file" class="custom-file-label">Choose File</label>
+          </div>
+          ` : ''
+        }        
       </div>
       <div class="form-group">
         <label class="form-label" for="brand">Brand</label>
@@ -129,10 +153,8 @@ class ProductForm extends Component {
         <label class="form-label" for="description">Description</label>
         <input placeholder="Enter description" type="text" id="description" class="form-control" value="${inputs.description}">
       </div>
-      <div class="text-danger my-3 px-2" style="display:${
-        error ? 'block' : 'none'
-      }">
-        ${error ? error : ''}
+      <div class="text-danger my-3 px-2" style="display:${errorMessage ? 'block' : 'none'}">
+        ${errorMessage}
       </div>
       <button type="submit" class="btn btn-primary">Update</button>
     `;
