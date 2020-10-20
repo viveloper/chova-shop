@@ -2,7 +2,7 @@ import { Component, renderComponent } from '../../modules/MyReact.js';
 import Loader from '../Loader.js';
 import ProductForm from '../ProductForm.js';
 
-class AdminEditProduct extends Component {
+class AdminProduct extends Component {
   constructor(props) {
     super(props);
 
@@ -13,7 +13,8 @@ class AdminEditProduct extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const {      
+    const {     
+      type, 
       history,
       product: {
         loading,
@@ -46,7 +47,7 @@ class AdminEditProduct extends Component {
     row.appendChild(col);
 
     const title = document.createElement('h1');
-    title.innerText = 'Edit Product';
+    title.innerText = type === 'edit' ? 'Edit Product' : 'Create Product';
     col.appendChild(title);
 
     if (loading) {
@@ -69,7 +70,6 @@ class AdminEditProduct extends Component {
 
       return this.container;
     }
-    if(!data) return this.container;
 
     renderComponent(
       ProductForm, 
@@ -78,6 +78,7 @@ class AdminEditProduct extends Component {
         inputs, 
         error: inputsError, 
         uploadState, 
+        btnText: type === 'edit' ? 'Update' : 'Create',
         onSubmit, 
         onImageSelect 
       }, 
@@ -88,4 +89,4 @@ class AdminEditProduct extends Component {
   }
 }
 
-export default AdminEditProduct;
+export default AdminProduct;

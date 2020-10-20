@@ -4,12 +4,12 @@ class ProductForm extends Component {
   constructor(props) {
     super(props);
 
-    const { name, price, image, brand, countInStock, category, description, error, uploadLoading } = props.inputs;
+    const { inputs, error, uploadState } = props;
 
     this.state = {
-      inputs: { name, price, image, brand, countInStock, category, description },
+      inputs,
       error,
-      uploadLoading,
+      uploadState,
     }
 
     this.container = document.createElement('form');
@@ -109,7 +109,8 @@ class ProductForm extends Component {
   }
 
   render() {    
-    const { inputs, error, uploadLoading } = this.state;
+    const { inputs, error, uploadState } = this.state;
+    const { btnText } = this.props;
 
     const errorMessage = error?.message ? error.message : '';
 
@@ -125,11 +126,11 @@ class ProductForm extends Component {
       <div class="form-group">
         <label class="form-label" for="image">Image</label>
         <input placeholder="Enter image url" type="text" id="image" class="form-control" value="${inputs.image}">
-        <div class="spinner-border" style="width:30px;height:30px;margin:auto;display:${uploadLoading ? 'block' : 'none'};">
+        <div class="spinner-border" style="width:30px;height:30px;margin:auto;display:${uploadState.loading ? 'block' : 'none'};">
           <span class="sr-only">Loading...</span>
         </div>
         ${
-          !uploadLoading ? `
+          !uploadState.loading ? `
           <div class="custom custom-file">
             <input id="image-file" type="file" class="custom-file-input">
             <label for="image-file" class="custom-file-label">Choose File</label>
@@ -156,7 +157,7 @@ class ProductForm extends Component {
       <div class="text-danger my-3 px-2" style="display:${errorMessage ? 'block' : 'none'}">
         ${errorMessage}
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary">${btnText}</button>
     `;
 
     return this.container;

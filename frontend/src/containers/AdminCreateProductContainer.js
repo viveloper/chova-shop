@@ -1,5 +1,5 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
-import AdminCreateProduct from '../components/AdminCreateProduct/AdminCreateProduct.js';
+import AdminProduct from '../components/AdminProduct/AdminProduct.js';
 import * as productsApi from '../api/products.js';
 import * as uploadApi from '../api/upload.js';
 import { asyncHandler, asyncInitState } from '../modules/asyncHandler.js';
@@ -9,19 +9,18 @@ class AdminCreateProductContainer extends Component {
     super(props);
 
     this.state = {
-      product: {
-        loading: false,
-        data: {
-          name: '', 
-          price: '', 
-          image: '/images/sample.jpg', 
-          brand: '', 
-          countInStock: '', 
-          category: '', 
-          description: '',
-        },
-        error: null,
+      product: asyncInitState,
+      uploadState: asyncInitState,
+      inputs: {
+        name: '', 
+        price: '', 
+        image: '/images/sample.jpg', 
+        brand: '', 
+        countInStock: '', 
+        category: '', 
+        description: '',
       },
+      inputsError: null,
     };
 
     this.container = document.createElement('div');
@@ -35,42 +34,59 @@ class AdminCreateProductContainer extends Component {
       asyncHandler.setData.call(this, 'product', data);
       this.props.history.push('/admin/products');
     } else {
-      asyncHandler.setError.call(this, 'product', data);
+      this.setState({
+        product: {
+          loading: false,
+          error: data,
+        },
+        inputs: {
+          name: product.name, 
+          price: product.price, 
+          image: product.image, 
+          brand: product.brand, 
+          countInStock: product.countInStock, 
+          category: product.category, 
+          description: product.description,
+        },
+        inputsError: data,
+      });
     }
   }
 
   uploadImage = async (file, product) => {
     const token = this.props.user.token;
-    this.setState({
-      product: {
-        loading: true,
-        data: { 
-          ...product,
-        },
-        error: null,
-      }
-    });
+    asyncHandler.setLoading.call(this, 'uploadState');
     const { isError, data } = await uploadApi.uploadImage(file, token);
     if (!isError) {
       this.setState({
-        product: {
+        uploadState: {
           loading: false,
-          data: {
-            ...product,
-            image: data,
-          },
-          error: null,
-        }
-      });
+        },
+        inputs: {
+          name: product.name, 
+          price: product.price, 
+          image: data, 
+          brand: product.brand, 
+          countInStock: product.countInStock, 
+          category: product.category, 
+          description: product.description,
+        },
+      })
     } else {
       this.setState({
-        product: {
+        uploadState: {
           loading: false,
-          data: {
-            ...product,
-          },
-          error: data,
-        }
+        },
+        inputs: {
+          name: product.name, 
+          price: product.price, 
+          image: product.image, 
+          brand: product.brand, 
+          countInStock: product.countInStock, 
+          category: product.category, 
+          description: product.description,
+        },
+        inputsError: data,
       });
     }
   }
@@ -78,14 +94,18 @@ class AdminCreateProductContainer extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { product } = this.state;
+    const { product, uploadState, inputs, inputsError } = this.state;
     const { history } = this.props;
 
     renderComponent(
-      AdminCreateProduct, 
+      AdminProduct, 
       { 
+        type: 'create',
         history, 
         product,
+        uploadState,
+        inputs,
+        inputsError,
         onSubmit: this.createProduct,
         onImageSelect: this.uploadImage,
       }, 
