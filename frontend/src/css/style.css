@@ -44,3 +44,9 @@ h2 {
 .carousel a {
   margin: 0 auto;
 }
+
+.lazy {
+  width: 100%;
+  height: 250px;
+  background-color: #ccc;
+}

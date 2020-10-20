@@ -1,4 +1,5 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
+import { imageLazyLoad } from '../modules/LazyLoad.js';
 import Rating from './Rating.js';
 
 class ProductCard extends Component {
@@ -29,8 +30,9 @@ class ProductCard extends Component {
     this.container.appendChild(imageLink);
 
     const image = document.createElement('img');
-    image.className = 'card-img-top';
-    image.src = product.image;
+    image.className = 'card-img-top lazy';
+    image.dataset.src = product.image;
+    imageLazyLoad(image);
     imageLink.appendChild(image);
 
     const cardBody = document.createElement('div');
