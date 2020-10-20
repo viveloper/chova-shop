@@ -48,7 +48,7 @@ class OrderSummary extends Component {
     const {orderCreationInfo} = this.props;
     const prices = this.getSummary();
 
-    const listGroup = document.createElement(div);
+    const listGroup = document.createElement('div');
     listGroup.className = 'list-group list-group-flush';
     this.container.appendChild(listGroup);
 

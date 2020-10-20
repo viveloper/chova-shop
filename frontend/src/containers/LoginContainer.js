@@ -28,9 +28,10 @@ class LoginContainer extends Component {
 
     if (!isError) {            
       this.props.setUser(data);
-      this.props.history.push('/');
+      const redirect = decodeURI(this.props.redirect ? this.props.redirect : '/');
+      this.props.history.push(redirect);
     } else {
-      this.setState({      
+      this.setState({
         inputs: {
           email,
           password,
@@ -50,7 +51,7 @@ class LoginContainer extends Component {
     renderComponent(
       Login, 
       { 
-        history, 
+        history,
         inputs,
         onSubmit: this.login,
         loading,

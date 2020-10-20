@@ -14,7 +14,7 @@ class AdminProductsPage extends Component {
     const { pageNumber } = match.params;    
 
     if (!user || !user.isAdmin) {
-      history.push('/login');
+      history.push(`/login?redirect=${location.pathname}`);
       return this.container;
     }
     

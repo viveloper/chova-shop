@@ -14,7 +14,7 @@ class AdminEditUserPage extends Component {
     const userId = match.params.id;
 
     if (!user || !user.isAdmin) {
-      history.push('/login');
+      history.push(`/login?redirect=${location.pathname}`);
       return this.container;
     }
     

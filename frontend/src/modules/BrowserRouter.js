@@ -27,7 +27,7 @@ class BrowserRouter extends Component {
 
     let pathKey;
     let params = {};
-    let currentPathTokens = path.split('/');
+    let currentPathTokens = path.split('?')[0].split('/');
     currentPathTokens = currentPathTokens.filter((token) => !!token);
 
     const pathKeys = routes.map((route) => route.path);

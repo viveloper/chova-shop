@@ -1,5 +1,6 @@
 import { Component, renderComponent } from '../modules/MyReact.js';
 import LoginContainer from '../containers/LoginContainer.js';
+import queryString from '../modules/queryString.js';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -16,6 +17,8 @@ class LoginPage extends Component {
       setUser,     
     } = this.props;
 
+    const query = queryString(this.props.location.search);
+
     if (user) {
       history.push('/');
       return this.container;
@@ -26,6 +29,7 @@ class LoginPage extends Component {
       { 
         history,
         setUser,
+        redirect: query.redirect,
       },
       this.container
     );

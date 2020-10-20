@@ -14,7 +14,7 @@ class OrderPage extends Component {
     const orderId = this.props.match.params.id;
 
     if(!user) {
-      history.push('/login');
+      history.push(`/login?redirect=${location.pathname}`);
       return this.container;
     }
     

@@ -51,9 +51,9 @@ class App extends Component {
       orderCreationInfo: asyncInitState,
     };
 
-    window.addEventListener('popstate', this.handlePopState);
-
     this.container = document.createElement('div');        
+
+    window.addEventListener('popstate', this.handlePopState);
   }
 
   push = (path) => {    

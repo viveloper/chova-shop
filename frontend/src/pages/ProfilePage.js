@@ -15,7 +15,7 @@ class ProfilePage extends Component {
     const { history, user, setUser } = this.props;
 
     if (!user) {
-      history.push('/login');
+      history.push(`/login?redirect=${location.pathname}`);
       return this.container;
     }
 

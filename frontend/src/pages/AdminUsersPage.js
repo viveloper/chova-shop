@@ -13,7 +13,7 @@ class AdminUsersPage extends Component {
     const { history, user } = this.props;
 
     if (!user || !user.isAdmin) {
-      history.push('/login');
+      history.push(`/login?redirect=${location.pathname}`);
       return this.container;
     }
     

@@ -19,7 +19,7 @@ class PlaceOrderPage extends Component {
     } = this.props;
 
     if(!user) {
-      history.push('/login');
+      history.push(`/login?redirect=${location.pathname}`);
       return this.container;
     }
     
