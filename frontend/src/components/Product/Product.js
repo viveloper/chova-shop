@@ -27,7 +27,7 @@ class Product extends Component {
 
     const {
       product: { loading, data, error },
-      addCartItem,
+      onAddBtnClick,
       reviewInputs,
       onReviewSubmit,
       history,
@@ -88,7 +88,7 @@ class Product extends Component {
 
     renderComponent(
       CartButtonCard,
-      { product: data, addCartItem, history },
+      { product: data, onAddBtnClick, history },
       cardCol
     );
 

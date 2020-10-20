@@ -13,7 +13,7 @@ class Cart extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { cartItems, totalItems, totalPrice } = this.props;
+    const { history, cartItems, totalItems, totalPrice, onCartItemQtySelect, onCartItemDeleteBtnClick } = this.props;
 
     const container = document.createElement('div');
     container.className = 'container';
@@ -31,13 +31,13 @@ class Cart extends Component {
     cartItemsCol.className = 'col-md-8';
     row.appendChild(cartItemsCol);
 
-    renderComponent(CartItems, { items: cartItems }, cartItemsCol);
+    renderComponent(CartItems, { history, items: cartItems, onCartItemQtySelect, onCartItemDeleteBtnClick }, cartItemsCol);
 
     const checkoutCol = document.createElement('div');
     checkoutCol.className = 'col-md-4';
     row.appendChild(checkoutCol);
 
-    renderComponent(CheckoutCard, { totalItems, totalPrice }, checkoutCol);
+    renderComponent(CheckoutCard, { history, totalItems, totalPrice }, checkoutCol);
 
     return this.container;
   }

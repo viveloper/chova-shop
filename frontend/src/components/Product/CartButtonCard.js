@@ -1,4 +1,4 @@
-import { Component, renderComponent } from '../../modules/MyReact.js';
+import { Component } from '../../modules/MyReact.js';
 
 class CartButtonCard extends Component {
   constructor(props) {
@@ -20,9 +20,9 @@ class CartButtonCard extends Component {
   };
 
   handleAddToCart = () => {
-    const { product, addCartItem, history } = this.props;
+    const { product, onAddBtnClick, history } = this.props;
     const { qty } = this.state;
-    addCartItem(product, qty);
+    onAddBtnClick(product, qty);
   };
 
   render() {

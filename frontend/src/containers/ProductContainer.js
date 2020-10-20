@@ -78,14 +78,14 @@ class ProductContainer extends Component {
     this.container.innerHTML = '';
 
     const { product, reviewInputs } = this.state;
-    const { history, addCartItem } = this.props;
+    const { history, onAddBtnClick } = this.props;
 
     renderComponent(
       Product, 
       { 
         product, 
-        addCartItem, 
         reviewInputs, 
+        onAddBtnClick,
         onReviewSubmit : this.submitReview, 
         history 
       }, 

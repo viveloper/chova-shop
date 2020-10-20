@@ -13,13 +13,13 @@ class CartPage extends Component {
     const {
       history,      
       items,
-      editCartItemQty,
-      removeCartItem,      
+      onCartItemQtySelect,
+      onCartItemDeleteBtnClick,      
     } = this.props;
     
     renderComponent(
       CartContainer,
-      { items, editCartItemQty, removeCartItem, history },
+      { items, onCartItemQtySelect, onCartItemDeleteBtnClick, history },
       this.container
     );    
 

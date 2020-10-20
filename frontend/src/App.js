@@ -113,12 +113,12 @@ class App extends Component {
     localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
   };
 
-  editCartItemQty = (id, qty) => {
+  editCartItemQty = (productId, qty) => {
     this.setState({
       cart: {
         ...this.state.cart,
         items: this.state.cart.items.map((item) =>
-          item._id === id ? { ...item, qty } : item
+          item._id === productId ? { ...item, qty } : item
         ),
       },
     });
@@ -126,11 +126,11 @@ class App extends Component {
     localStorage.setItem('cartItems', JSON.stringify(this.state.cart.items));
   };
 
-  removeCartItem = (id) => {
+  removeCartItem = (productId) => {
     this.setState({
       cart: {
         ...this.state.cart,
-        items: this.state.cart.items.filter((item) => item._id !== id),
+        items: this.state.cart.items.filter((item) => item._id !== productId),
       },
     });
 
@@ -237,7 +237,7 @@ class App extends Component {
             Component: ProductPage,
             props: { 
               user,
-              addCartItem: this.addCartItem,
+              onAddBtnClick: this.addCartItem,
             },
           },
           {
@@ -245,8 +245,8 @@ class App extends Component {
             Component: CartPage,
             props: {
               items: cart.items,
-              editCartItemQty: this.editCartItemQty,
-              removeCartItem: this.removeCartItem,              
+              onCartItemQtySelect: this.editCartItemQty,
+              onCartItemDeleteBtnClick: this.removeCartItem,              
             },
           },
           {

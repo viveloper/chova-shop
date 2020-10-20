@@ -6,7 +6,14 @@ class CheckoutCard extends Component {
 
     this.container = document.createElement('div');
     this.container.className = 'card';    
+    this.container.addEventListener('click', this.handleClick);
   }
+
+  handleClick = (e) => {
+    if (e.target.dataset.onclick === 'link-shipping') {
+      this.props.history.push('/shipping');
+    }
+  };
 
   render() {
     const { totalItems, totalPrice } = this.props;
@@ -18,7 +25,7 @@ class CheckoutCard extends Component {
           $${totalPrice}
         </div>
         <div class="list-group-item">
-          <button ${totalItems === 0 ? 'disabled' : ''} type="button" class="btn-block btn btn-primary btn-checkout">Proceed To Checkout</button>
+          <button ${totalItems === 0 ? 'disabled' : ''} type="button" class="btn-block btn btn-primary" data-onclick="link-shipping">Proceed To Checkout</button>
         </div>
       </div>
     `;

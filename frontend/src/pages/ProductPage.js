@@ -11,7 +11,7 @@ class ProductDetailPage extends Component {
   render() {
     this.container.innerHTML = '';
 
-    const { user, history, addCartItem } = this.props;
+    const { user, history, onAddBtnClick } = this.props;
     const productId = this.props.match.params.id;
     
     renderComponent(
@@ -20,7 +20,7 @@ class ProductDetailPage extends Component {
         user,
         history,
         productId,
-        addCartItem,
+        onAddBtnClick,
       },
       this.container
     );    
