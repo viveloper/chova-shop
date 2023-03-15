@@ -38,7 +38,7 @@
 
 ## Demo
 
-데모 서비스 [바로가기](https://chovashop.herokuapp.com/)
+데모 서비스 [바로가기](http://ec2-3-238-149-181.compute-1.amazonaws.com:5001)
 
 ## Features
 
